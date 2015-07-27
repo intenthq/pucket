@@ -15,8 +15,8 @@ import scalaz.\/
 import scalaz.syntax.either._
 
 case class AvroPucket[T <: IndexedRecord] private (override val path: Path,
-                                                    override val fs: FileSystem,
-                                                    override val descriptor: AvroPucketDescriptor[T]) extends Pucket[T] {
+                                                   override val fs: FileSystem,
+                                                   override val descriptor: AvroPucketDescriptor[T]) extends Pucket[T] {
 
   override def writer: Throwable \/ Writer[T, Throwable] =
     AvroWriter[T](descriptor.schema,
@@ -26,8 +26,8 @@ case class AvroPucket[T <: IndexedRecord] private (override val path: Path,
                   conf)
 
   override def reader(filter: Option[Filter]): ParquetReader[T] = {
-    val readerBuilder = AvroParquetReader.builder[T](path).withConf(conf)
-    filter.fold(readerBuilder)(readerBuilder.withFilter).build()
+    val readerBuilder = AvroParquetReader.builder[T](path).withConf(conf).asInstanceOf[ParquetReader.Builder[T]]
+    filter.fold(readerBuilder)(readerBuilder.withFilter).build().asInstanceOf[AvroParquetReader[T]]
   }
 
   override def newInstance(newPath: Path): Pucket[T] = AvroPucket(newPath, fs, descriptor)

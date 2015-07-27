@@ -1,4 +1,4 @@
-package com.intenthq.pucket
+package com.intenthq.thrift
 
 import com.intenthq.pucket.TestUtils._
 import com.intenthq.pucket.thrift.ThriftPucketDescriptor

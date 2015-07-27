@@ -1,9 +1,10 @@
-package com.intenthq.pucket
+package com.intenthq.thrift
 
 import java.io.{File, FileNotFoundException, IOException}
 
-import com.intenthq.pucket.thrift.{ThriftPucket, ThriftWriter}
+import com.intenthq.pucket.thrift.ThriftPucket
 import com.intenthq.pucket.writer.Writer
+import com.intenthq.pucket.{Pucket, TestUtils}
 import com.intenthq.test.model.Test
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.conf.Configuration
