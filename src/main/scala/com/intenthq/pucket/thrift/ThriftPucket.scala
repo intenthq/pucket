@@ -40,8 +40,8 @@ object ThriftPucket {
     findOrCreate(path, fs, ThriftPucketDescriptor[T](schemaClass, compression, partitioner))
 
   def findOrCreate[T <: Thrift](path: Path,
-                      fs: FileSystem,
-                      descriptor: ThriftPucketDescriptor[T]): Throwable \/ Pucket[T] =
+                               fs: FileSystem,
+                               descriptor: ThriftPucketDescriptor[T]): Throwable \/ Pucket[T] =
     for {
       pucket <- apply[T](path, fs, descriptor.schemaClass).fold(_ => create[T](path, fs, descriptor), _.right)
       _ <- compareDescriptors(pucket.descriptor.json, descriptor.json)
@@ -56,8 +56,8 @@ object ThriftPucket {
     create(path, fs, ThriftPucketDescriptor[T](schemaClass, compression, partitioner))
 
   def create[T <: Thrift](path: Path,
-                fs: FileSystem,
-                descriptor: ThriftPucketDescriptor[T]): Throwable \/ Pucket[T] =
+                          fs: FileSystem,
+                          descriptor: ThriftPucketDescriptor[T]): Throwable \/ Pucket[T] =
     writeMeta(path, fs, descriptor).map(_ => ThriftPucket[T](path, fs, descriptor))
 
   def apply[T <: Thrift](path: Path, fs: FileSystem, expectedSchemaClass: Class[T]): Throwable \/ Pucket[T] =

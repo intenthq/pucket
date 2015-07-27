@@ -1,8 +1,8 @@
 package com.intenthq.thrift
 
-import com.intenthq.pucket.TestUtils._
 import com.intenthq.pucket.thrift.ThriftPucketDescriptor
 import com.intenthq.test.model.Test
+import com.intenthq.thrift.ThriftTestUtils._
 import org.json4s.ParserUtil._
 import org.scalacheck.{Gen, Prop}
 import org.specs2.matcher.DisjunctionMatchers

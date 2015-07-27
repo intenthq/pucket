@@ -12,8 +12,8 @@ import org.json4s.{DefaultFormats, JValue, _}
 import scalaz.\/
 
 case class AvroPucketDescriptor[T <: IndexedRecord](schema: Schema,
-                                                override val compression: CompressionCodecName,
-                                                override val partitioner: Option[Partitioner[T]] = None) extends PucketDescriptor[T] {
+                                                    override val compression: CompressionCodecName,
+                                                    override val partitioner: Option[Partitioner[T]] = None) extends PucketDescriptor[T] {
   import AvroPucketDescriptor._
 
   implicit val formats = DefaultFormats
@@ -30,7 +30,8 @@ object AvroPucketDescriptor {
     for {
       underlying <- parseDescriptor[T](descriptorString)
       schema <- extractValue(underlying._1, avroSchemaKey)
-      _ <- Pucket.compareDescriptors(parse(schema.toString), parse(expectedSchema.toString))
+      expectedSchemaJson <- \/.fromTryCatchNonFatal(parse(expectedSchema.toString))
+      _ <- Pucket.compareDescriptors(parse(schema.toString), expectedSchemaJson)
       avroSchema <- \/.fromTryCatchNonFatal(new Schema.Parser().parse(schema))
     } yield new AvroPucketDescriptor[T](avroSchema, underlying._2, underlying._3)
 }

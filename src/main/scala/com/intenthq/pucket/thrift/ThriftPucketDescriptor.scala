@@ -9,8 +9,8 @@ import scalaz.\/
 import scalaz.syntax.either._
 
 case class ThriftPucketDescriptor[T <: Thrift](schemaClass: Class[T],
-                                                override val compression: CompressionCodecName,
-                                                override val partitioner: Option[Partitioner[T]] = None) extends PucketDescriptor[T] {
+                                               override val compression: CompressionCodecName,
+                                               override val partitioner: Option[Partitioner[T]] = None) extends PucketDescriptor[T] {
   import ThriftPucketDescriptor._
 
   override def json = (schemaClassKey -> schemaClass.getName) ~ commonJson
