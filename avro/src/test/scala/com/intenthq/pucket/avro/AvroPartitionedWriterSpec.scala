@@ -1,0 +1,10 @@
+package com.intenthq.pucket.avro
+
+import com.intenthq.pucket.TestUtils.PucketWrapper
+import com.intenthq.pucket.avro.test.AvroTest
+import com.intenthq.pucket.writer.PartitionedWriterSpec
+
+class AvroPartitionedWriterSpec extends PartitionedWriterSpec[AvroTest] {
+  override val wrapper: PucketWrapper[AvroTest] = AvroTestUtils.createWrapper
+  override def newData(i: Long):AvroTest  = new AvroTest(i)
+}

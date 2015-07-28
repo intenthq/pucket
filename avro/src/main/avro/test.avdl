@@ -1,0 +1,10 @@
+@namespace("com.intenthq.pucket.avro.test")
+protocol PucketAvro {
+  record AvroTest {
+    long Test;
+  }
+
+  record AvroTest2 {
+    string Test;
+  }
+}

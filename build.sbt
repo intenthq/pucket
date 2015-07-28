@@ -1,45 +1,91 @@
 import com.github.bigtoast.sbtthrift.ThriftPlugin
 
-name := "pucket"
- 
-version := "0.1.0"
- 
-scalaVersion := "2.11.7"
 
-resolvers ++= Seq(Resolver.typesafeRepo("releases"), Resolver.sonatypeRepo("public"), Resolver.sonatypeRepo("releases"), Resolver.typesafeIvyRepo("releases"))
+val specs2Ver = "3.6.3"
+val parquetVer = "1.8.1"
+val hadoopVer = "2.7.0"
 
-resolvers += "Twitter" at "http://maven.twttr.com/"
+lazy val commonSettings = Seq(
+  organization := "com.intenthq.pucket",
+  version := "0.1.0",
+  scalaVersion := "2.11.7",
+  libraryDependencies ++= Seq(
+    "org.scalaz" % "scalaz-core_2.11" % "7.1.3",
+    "org.json4s" %% "json4s-native" % "3.2.11",
+    "org.apache.hadoop" % "hadoop-common" % hadoopVer,
+    "org.apache.hadoop" % "hadoop-mapreduce-client-core" % hadoopVer,
+    "org.apache.parquet" % "parquet-column" % parquetVer,
+    "org.apache.parquet" % "parquet-hadoop" % parquetVer
+  ),
+  resolvers ++= Seq(
+    Resolver.typesafeRepo("releases"),
+    Resolver.sonatypeRepo("public"),
+    Resolver.sonatypeRepo("releases"),
+    Resolver.typesafeIvyRepo("releases"),
+    "Twitter" at "http://maven.twttr.com/",
+    "Bintray" at "https://jcenter.bintray.com/"
+  )
+)
 
-resolvers += "Bintray" at "https://jcenter.bintray.com/"
- 
-libraryDependencies += "org.specs2" %% "specs2-core" % "3.6.3" % "test"
 
-libraryDependencies += "org.specs2" %% "specs2-scalacheck" % "3.6.3" % "test"
+lazy val core = (project in file("core")).
+  settings(commonSettings: _*).
+  settings(
+    name := "pucket-core"
+  )
 
-libraryDependencies += "org.typelevel" %% "scalaz-specs2" % "0.4.0" % "test"
+lazy val test = (project in file("test")).
+  settings(commonSettings: _*).
+  settings(
+    name := "pucket-test",
+    libraryDependencies ++= Seq(
+      "org.specs2" %% "specs2-core" % specs2Ver,
+      "org.specs2" %% "specs2-scalacheck" % specs2Ver,
+      "org.typelevel" %% "scalaz-specs2" % "0.4.0",
+      "org.scalaz" %% "scalaz-scalacheck-binding" % "7.1.3"
+    )
+  ).
+  dependsOn(core)
 
-libraryDependencies += "org.scalaz" %% "scalaz-scalacheck-binding" % "7.1.3" % "test"
+lazy val thrift = (project in file("thrift")).
+  settings(ThriftPlugin.thriftSettings: _*).
+  settings(commonSettings: _*).
+  settings(
+    name := "pucket-thrift",
+    libraryDependencies ++= Seq(
+      "org.apache.thrift" % "libthrift" % "0.9.2",
+      "org.apache.parquet" % "parquet-thrift" % parquetVer
+    )
+  ).
+  dependsOn(core, test % "test->compile")
 
-libraryDependencies += "org.apache.avro" % "avro" % "1.7.7"
 
-libraryDependencies += "org.apache.hadoop" % "hadoop-common" % "2.3.0"
+lazy val avro = (project in file("avro")).
+  settings(sbtavro.SbtAvro.avroSettings : _*).
+  settings(commonSettings: _*).
+  settings(
+    name := "pucket-avro",
+    libraryDependencies ++= Seq(
+      "org.apache.avro" % "avro" % "1.7.7",
+      "org.apache.parquet" % "parquet-avro" % "1.8.1"
+    )
+  ).
+  dependsOn(core, test % "test->compile")
 
-libraryDependencies += "org.apache.hadoop" % "hadoop-mapreduce-client-core" % "2.3.0"
 
-libraryDependencies += "org.apache.hadoop" % "hadoop-mapreduce-client-jobclient" % "2.3.0"
-
-libraryDependencies += "org.apache.thrift" % "libthrift" % "0.9.2"
-
-libraryDependencies += "org.apache.parquet" % "parquet-thrift" % "1.8.1"
-
-libraryDependencies += "org.apache.parquet" % "parquet-avro" % "1.8.1"
-
-libraryDependencies += "org.scalaz" % "scalaz-core_2.11" % "7.1.3"
-
-libraryDependencies += "com.github.cb372" %% "scalacache-guava" % "0.6.4"
-
-libraryDependencies += "org.json4s" %% "json4s-native" % "3.2.11"
+lazy val mapreduce = (project in file("mapreduce")).
+  settings(commonSettings: _*).
+  settings(
+    name := "pucket-mapreduce",
+    libraryDependencies ++= Seq(
+      "org.apache.hadoop" % "hadoop-mapreduce-client-jobclient" % hadoopVer
+    )
+  ).
+  dependsOn(core, test % "test->compile")
 
 lazy val pucket = (project in file(".")).
-  settings(sbtavro.SbtAvro.avroSettings : _*).
-  settings(ThriftPlugin.thriftSettings: _*)
+  settings(commonSettings: _*).
+  settings(
+    name := "pucket"
+  ).
+  aggregate(core, test, thrift, avro, mapreduce)
