@@ -8,7 +8,7 @@ import scalaz.syntax.either._
 
 case class IncrementalPartitionedWriter[T] private (pucket: Pucket[T],
                                                     writers: Writers[T, (Long, Throwable)],
-                                                    maxSize: Long) extends Writer[T, (Long, Throwable)] with
+                                                    maxWriter: Long) extends Writer[T, (Long, Throwable)] with
                                                                            PartitionedWriterFunctions[T, (Long, Throwable), IncrementalPartitionedWriter[T]] {
   type Error = (Long, Throwable)
 
@@ -18,10 +18,10 @@ case class IncrementalPartitionedWriter[T] private (pucket: Pucket[T],
     writePartition(data, checkPoint, pucket.partition(data).leftMap((minCheckpoint, _)))
 
   override def newInstance(writers: Writers[T, Error]): IncrementalPartitionedWriter[T] =
-    IncrementalPartitionedWriter(pucket, writers, maxSize)
+    IncrementalPartitionedWriter(pucket, writers, maxWriter)
 
   override def newWriter(partition: Pucket[T], checkPoint: Long): Error \/ Writer[T, Error] =
-    IncrementalWriter(checkPoint, partition, maxSize)
+    IncrementalWriter(checkPoint, partition, maxWriter)
 
   override def close: Error \/ Unit =
     writers.partitions.values.foldLeft[Error \/ Unit](().right)((acc, writer) =>

@@ -1,7 +1,8 @@
 package com.intenthq.pucket.avro
 
-import com.intenthq.pucket.util.Partitioner
-import com.intenthq.pucket.{Pucket, PucketDescriptor}
+import com.intenthq.pucket.javacompat.avro.AvroPucketInstantiator
+import com.intenthq.pucket.util.PucketPartitioner
+import com.intenthq.pucket.{PucketDescriptorCompanion, Pucket, PucketDescriptor}
 import org.apache.avro.Schema
 import org.apache.avro.generic.IndexedRecord
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
@@ -13,26 +14,40 @@ import scalaz.\/
 
 case class AvroPucketDescriptor[T <: IndexedRecord](schema: Schema,
                                                     override val compression: CompressionCodecName,
-                                                    override val partitioner: Option[Partitioner[T]] = None) extends PucketDescriptor[T] {
+                                                    override val partitioner: Option[PucketPartitioner[T]] = None) extends PucketDescriptor[T] {
   import AvroPucketDescriptor._
 
   implicit val formats = DefaultFormats
 
+  override def instantiatorClass: Class[_] = classOf[AvroPucketInstantiator]
+
   override def json: JValue = JField(avroSchemaKey, schema.toString) ~ commonJson
 }
 
-object AvroPucketDescriptor {
+object AvroPucketDescriptor extends PucketDescriptorCompanion {
   import PucketDescriptor._
+
+  type HigherType = IndexedRecord
+  type V = Schema
 
   val avroSchemaKey = "avroSchema"
 
-  def apply[T <: IndexedRecord](expectedSchema: Schema, descriptorString: String): Throwable \/ AvroPucketDescriptor[T] =
+  private def fuck[T <: HigherType](descriptorString: String): Throwable \/ (JValue, Schema, CompressionCodecName, Option[PucketPartitioner[T]]) =
     for {
       underlying <- parseDescriptor[T](descriptorString)
       schema <- extractValue(underlying._1, avroSchemaKey)
-      expectedSchemaJson <- \/.fromTryCatchNonFatal(parse(expectedSchema.toString))
-      _ <- Pucket.compareDescriptors(parse(schema), expectedSchemaJson)
+      parsedSchema <- \/.fromTryCatchNonFatal(parse(schema))
       avroSchema <- \/.fromTryCatchNonFatal(new Schema.Parser().parse(schema))
-    } yield new AvroPucketDescriptor[T](avroSchema, underlying._2, underlying._3)
+    } yield (parsedSchema, avroSchema, underlying._2, underlying._3)
+
+  override def apply[T <: IndexedRecord](expectedSchema: Schema, descriptorString: String): Throwable \/ AvroPucketDescriptor[T] =
+    for {
+      underlying <- fuck[T](descriptorString)
+      expectedSchemaJson <- \/.fromTryCatchNonFatal(parse(expectedSchema.toString))
+    } yield AvroPucketDescriptor[T](underlying._2, underlying._3, underlying._4)
+
+  override def apply[T <: HigherType](descriptorString: String): Throwable \/ AvroPucketDescriptor[T] =
+    fuck[T](descriptorString).map(underlying => AvroPucketDescriptor[T](underlying._2, underlying._3, underlying._4))
 }
+
 

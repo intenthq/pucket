@@ -7,6 +7,7 @@ import org.apache.commons.io.IOUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.parquet.filter2.compat.FilterCompat.Filter
 import org.apache.parquet.hadoop.ParquetReader
+import org.apache.parquet.hadoop.api.ReadSupport
 import org.json4s.JsonAST.JValue
 
 import scalaz.\/
@@ -21,6 +22,7 @@ trait Pucket[T] {
 
   def defaultBlockSize = 50 * 1024 * 1024
   def newInstance(newPath: Path): Pucket[T]
+  def readSupportClass: Class[_ <: ReadSupport[T]]
   
   def writer: Throwable \/ Writer[T, Throwable]
   def reader: ParquetReader[T] = reader(None)

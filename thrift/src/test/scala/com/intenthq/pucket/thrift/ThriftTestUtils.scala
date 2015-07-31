@@ -4,7 +4,7 @@ import java.io.File
 
 import com.intenthq.pucket.{Pucket, TestUtils}
 import com.intenthq.pucket.TestUtils._
-import com.intenthq.pucket.util.Partitioner
+import com.intenthq.pucket.util.PucketPartitioner
 import com.intenthq.pucket.test.model.ThriftTest
 import org.apache.hadoop.fs.Path
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
@@ -15,7 +15,7 @@ import scalaz.syntax.either._
 
 object ThriftTestUtils {
   val descriptor: ThriftPucketDescriptor[ThriftTest] =
-    ThriftPucketDescriptor(classOf[ThriftTest], CompressionCodecName.SNAPPY, Some(ModPartitioner))
+    ThriftPucketDescriptor(classOf[ThriftTest], CompressionCodecName.SNAPPY, Some(ModPucketPartitioner$))
 
   def createWrapper(dir: File): PucketWrapper[ThriftTest] =
     PucketWrapper(dir, path(dir), ThriftPucket.create(path(dir), fs, descriptor))
@@ -27,16 +27,16 @@ object ThriftTestUtils {
 
   def descriptorGen: Gen[ThriftPucketDescriptor[ThriftTest]] = for {
     compression <- Gen.oneOf(CompressionCodecName.values())
-    partitioner <- Gen.oneOf(List(Some(ModPartitioner), Some(PassThroughPartitioner), None))
+    partitioner <- Gen.oneOf(List(Some(ModPucketPartitioner$), Some(PassThroughPucketPartitioner$), None))
   } yield ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], compression, partitioner)
 
 
-  object ModPartitioner extends Partitioner[ThriftTest] {
+  object ModPucketPartitioner$ extends PucketPartitioner[ThriftTest] {
     override def partition(data: ThriftTest, pucket: Pucket[ThriftTest]): Throwable \/ Pucket[ThriftTest] =
       pucket.subPucket(new Path((data.getTest % 20).toString))
   }
 
-  object PassThroughPartitioner extends Partitioner[ThriftTest] {
+  object PassThroughPucketPartitioner$ extends PucketPartitioner[ThriftTest] {
     override def partition(data: ThriftTest, pucket: Pucket[ThriftTest]): \/[Throwable, Pucket[ThriftTest]] = pucket.right
   }
 
