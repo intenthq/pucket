@@ -1,14 +1,12 @@
 package com.intenthq.pucket.thrift
 
 import com.intenthq.pucket._
+import com.intenthq.pucket.reader.Reader
 import com.intenthq.pucket.util.PucketPartitioner
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.parquet.filter2.compat.FilterCompat.Filter
-import org.apache.parquet.hadoop.ParquetReader
-import org.apache.parquet.hadoop.api.ReadSupport
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 import org.apache.parquet.hadoop.thrift.ThriftReadSupport
-import org.apache.parquet.thrift.ThriftParquetReader
 
 import scalaz.\/
 import scalaz.syntax.either._
@@ -23,14 +21,13 @@ case class ThriftPucket[T <: Thrift] private (override val path: Path,
                  defaultBlockSize,
                  conf)
 
-  override def reader(filter: Option[Filter]): ParquetReader[T] = {
-    val readerBuilder = ThriftParquetReader.build[T](path).withConf(conf)
-    filter.fold(readerBuilder)(readerBuilder.withFilter).build()
-  }
+  override def reader(filter: Option[Filter]): Throwable \/ Reader[T] =
+    Reader(fs, path, new ThriftReadSupport[T], filter)
+
 
   override def newInstance(newPath: Path): Pucket[T] = ThriftPucket[T](newPath, fs, descriptor)
 
-  override def readSupportClass: Class[ThriftReadSupport[T]] = classOf[ThriftReadSupport[T]]
+  override val readSupportClass: Class[ThriftReadSupport[T]] = classOf[ThriftReadSupport[T]]
 }
 
 

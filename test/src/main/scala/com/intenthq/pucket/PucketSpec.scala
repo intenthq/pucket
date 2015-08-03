@@ -8,7 +8,7 @@ import org.specs2.matcher.DisjunctionMatchers
 import org.specs2.{ScalaCheck, Specification}
 
 import scalaz.\/
-
+import scalaz.syntax.either._
 
 trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers with ScalaCheck {
   import PucketSpec._
@@ -133,14 +133,10 @@ trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers w
         writeData(data, a).flatMap(_.close) must be_\/-
     }
 
-  def read(pucket: Pucket[T]) = {
-    val reader = pucket.reader
-    val result = \/.fromTryCatchNonFatal(0.to(data.length).map(_ => reader.read())) must be_\/-.like {
+  def read(pucket: Pucket[T]) =
+    readData(data, pucket) must be_\/-.like {
       case a => a must containAllOf(data)
     }
-    reader.close()
-    result
-  }  
 }
 
 object PucketSpec {

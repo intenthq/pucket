@@ -26,7 +26,7 @@ object ThriftTestUtils {
   }
 
   def descriptorGen: Gen[ThriftPucketDescriptor[ThriftTest]] = for {
-    compression <- Gen.oneOf(CompressionCodecName.values())
+    compression <- Gen.oneOf(CompressionCodecName.SNAPPY, CompressionCodecName.UNCOMPRESSED)
     partitioner <- Gen.oneOf(List(Some(ModPucketPartitioner$), Some(PassThroughPucketPartitioner$), None))
   } yield ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], compression, partitioner)
 

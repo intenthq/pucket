@@ -32,7 +32,7 @@ object AvroPucketDescriptor extends PucketDescriptorCompanion {
 
   val avroSchemaKey = "avroSchema"
 
-  private def fuck[T <: HigherType](descriptorString: String): Throwable \/ (JValue, Schema, CompressionCodecName, Option[PucketPartitioner[T]]) =
+  private def validate[T <: HigherType](descriptorString: String): Throwable \/ (JValue, Schema, CompressionCodecName, Option[PucketPartitioner[T]]) =
     for {
       underlying <- parseDescriptor[T](descriptorString)
       schema <- extractValue(underlying._1, avroSchemaKey)
@@ -42,12 +42,12 @@ object AvroPucketDescriptor extends PucketDescriptorCompanion {
 
   override def apply[T <: IndexedRecord](expectedSchema: Schema, descriptorString: String): Throwable \/ AvroPucketDescriptor[T] =
     for {
-      underlying <- fuck[T](descriptorString)
+      underlying <- validate[T](descriptorString)
       expectedSchemaJson <- \/.fromTryCatchNonFatal(parse(expectedSchema.toString))
     } yield AvroPucketDescriptor[T](underlying._2, underlying._3, underlying._4)
 
   override def apply[T <: HigherType](descriptorString: String): Throwable \/ AvroPucketDescriptor[T] =
-    fuck[T](descriptorString).map(underlying => AvroPucketDescriptor[T](underlying._2, underlying._3, underlying._4))
+    validate[T](descriptorString).map(underlying => AvroPucketDescriptor[T](underlying._2, underlying._3, underlying._4))
 }
 
 

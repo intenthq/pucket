@@ -1,12 +1,10 @@
 package com.intenthq.pucket.avro
 
-import com.intenthq.pucket.avro.AvroTestUtils.{PassThroughPucketPartitioner$, ModPucketPartitioner$}
-import com.intenthq.pucket.{TestUtils, Pucket, PucketSpec}
+import com.intenthq.pucket.TestUtils._
 import com.intenthq.pucket.avro.test.AvroTest
+import com.intenthq.pucket.{Pucket, PucketSpec, TestUtils}
 import org.apache.hadoop.fs.Path
-import org.apache.parquet.hadoop.metadata.CompressionCodecName
 import org.scalacheck.Gen
-import TestUtils._
 
 import scalaz.\/
 
@@ -27,8 +25,5 @@ class AvroPucketSpec extends PucketSpec[AvroTest, AvroPucketDescriptor[AvroTest]
                             descriptor: AvroPucketDescriptor[AvroTest]): \/[Throwable, Pucket[AvroTest]] =
     AvroPucket.create(path, fs, descriptor)
 
-  override def descriptorGen: Gen[AvroPucketDescriptor[AvroTest]] = for {
-    compression <- Gen.oneOf(CompressionCodecName.values())
-    partitioner <- Gen.oneOf(List(Some(ModPucketPartitioner$), Some(PassThroughPucketPartitioner$), None))
-  } yield AvroPucketDescriptor(AvroTest.getClassSchema, compression, partitioner)
+  override def descriptorGen: Gen[AvroPucketDescriptor[AvroTest]] = AvroTestUtils.descriptorGen
 }

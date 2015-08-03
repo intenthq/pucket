@@ -1,14 +1,14 @@
 package com.intenthq.pucket.avro
 
+import com.intenthq.pucket.reader.Reader
 import com.intenthq.pucket.util.PucketPartitioner
 import com.intenthq.pucket.writer.Writer
 import com.intenthq.pucket.{Pucket, PucketCompanion}
 import org.apache.avro.Schema
 import org.apache.avro.generic.IndexedRecord
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.parquet.avro.{AvroParquetReader, AvroReadSupport}
+import org.apache.parquet.avro.AvroReadSupport
 import org.apache.parquet.filter2.compat.FilterCompat.Filter
-import org.apache.parquet.hadoop.ParquetReader
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 
 import scalaz.\/
@@ -26,14 +26,12 @@ case class AvroPucket[T <: IndexedRecord] private (override val path: Path,
                   defaultBlockSize,
                   conf)
 
-  override def reader(filter: Option[Filter]): ParquetReader[T] = {
-    val readerBuilder = AvroParquetReader.builder[T](path).withConf(conf).asInstanceOf[ParquetReader.Builder[T]]
-    filter.fold(readerBuilder)(readerBuilder.withFilter).build()
-  }
+  override def reader(filter: Option[Filter]): Throwable \/ Reader[T] =
+    Reader(fs, path, new AvroReadSupport[T], filter)
 
   override def newInstance(newPath: Path): Pucket[T] = AvroPucket(newPath, fs, descriptor)
 
-  override def readSupportClass: Class[AvroReadSupport[T]] = classOf[AvroReadSupport[T]]
+  override val readSupportClass: Class[AvroReadSupport[T]] = classOf[AvroReadSupport[T]]
 }
 
 object AvroPucket extends PucketCompanion {

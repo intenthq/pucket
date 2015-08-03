@@ -14,7 +14,8 @@ import scala.reflect.ClassTag
 object PucketSparkAdapter {
   implicit class ToRdd[T](pucket: Pucket[T])(implicit ev0: ClassTag[T]) {
     def toRDD(subPaths: List[String])(implicit sc: SparkContext): RDD[T] = {
-      val paths = subPaths.map(new Path(pucket.path, _).toString).mkString(",")
+      val paths = if (subPaths.isEmpty) pucket.path.toString
+        else subPaths.map(new Path(pucket.path, _).toString).mkString(",")
       val job = Job.getInstance(sc.hadoopConfiguration)
       ParquetInputFormat.setReadSupportClass(job, pucket.readSupportClass)
       sc.newAPIHadoopFile(paths,
@@ -25,16 +26,8 @@ object PucketSparkAdapter {
       ).map(_._2)
     }
 
-    def toRDD(implicit sc: SparkContext): RDD[T] = {
-      val job = Job.getInstance(sc.hadoopConfiguration)
-      ParquetInputFormat.setReadSupportClass(job, pucket.readSupportClass)
-      sc.newAPIHadoopFile(pucket.path.toString,
-                          classOf[ParquetInputFormat[T]],
-                          classOf[Void],
-                          ev0.runtimeClass.asInstanceOf[Class[T]],
-                          job.getConfiguration
-      ).map(_._2)
-    }
+    def toRDD(implicit sc: SparkContext): RDD[T] =
+      toRDD(List.empty)
   }
 
   implicit class ToPucket[T](rdd: RDD[T])(implicit ev0: ClassTag[T]) extends Serializable {

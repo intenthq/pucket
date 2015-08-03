@@ -2,11 +2,11 @@ package com.intenthq.pucket
 
 import java.util.UUID
 
+import com.intenthq.pucket.reader.Reader
 import com.intenthq.pucket.writer.Writer
 import org.apache.commons.io.IOUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.parquet.filter2.compat.FilterCompat.Filter
-import org.apache.parquet.hadoop.ParquetReader
 import org.apache.parquet.hadoop.api.ReadSupport
 import org.json4s.JsonAST.JValue
 
@@ -25,8 +25,8 @@ trait Pucket[T] {
   def readSupportClass: Class[_ <: ReadSupport[T]]
   
   def writer: Throwable \/ Writer[T, Throwable]
-  def reader: ParquetReader[T] = reader(None)
-  def reader(filter: Option[Filter]): ParquetReader[T]
+  def reader: Throwable \/ Reader[T] = reader(None)
+  def reader(filter: Option[Filter]): Throwable \/ Reader[T]
 
   val conf = fs.getConf
 
