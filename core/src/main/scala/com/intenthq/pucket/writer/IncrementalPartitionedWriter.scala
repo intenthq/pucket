@@ -8,20 +8,19 @@ import scalaz.syntax.either._
 
 case class IncrementalPartitionedWriter[T] private (pucket: Pucket[T],
                                                     writers: Writers[T, (Long, Throwable)],
-                                                    maxWriter: Long) extends Writer[T, (Long, Throwable)] with
-                                                                           PartitionedWriterFunctions[T, (Long, Throwable), IncrementalPartitionedWriter[T]] {
+                                                    maxWrites: Long,
+                                                    override val writerCache: Int) extends Writer[T, (Long, Throwable)] with
+                                                                                           PartitionedWriterFunctions[T, (Long, Throwable), IncrementalPartitionedWriter[T]] {
   type Error = (Long, Throwable)
-
-  override val maxWriters = 100
 
   override def write(data: T, checkPoint: Long): Error \/ IncrementalPartitionedWriter[T] =
     writePartition(data, checkPoint, pucket.partition(data).leftMap((minCheckpoint, _)))
 
   override def newInstance(writers: Writers[T, Error]): IncrementalPartitionedWriter[T] =
-    IncrementalPartitionedWriter(pucket, writers, maxWriter)
+    IncrementalPartitionedWriter(pucket, writers, maxWrites, writerCache)
 
   override def newWriter(partition: Pucket[T], checkPoint: Long): Error \/ Writer[T, Error] =
-    IncrementalWriter(checkPoint, partition, maxWriter)
+    IncrementalWriter(checkPoint, partition, maxWrites)
 
   override def close: Error \/ Unit =
     writers.partitions.values.foldLeft[Error \/ Unit](().right)((acc, writer) =>
@@ -34,6 +33,6 @@ case class IncrementalPartitionedWriter[T] private (pucket: Pucket[T],
 }
 
 object IncrementalPartitionedWriter {
-  def apply[T](pucket: Pucket[T], maxSize: Long): IncrementalPartitionedWriter[T] =
-    IncrementalPartitionedWriter(pucket, Writers(Map[String, IncrementalWriter[T]](), Map[Long, String]()), maxSize)
+  def apply[T](pucket: Pucket[T], maxSize: Long, writerCache: Int = 100): IncrementalPartitionedWriter[T] =
+    IncrementalPartitionedWriter(pucket, Writers(Map[String, IncrementalWriter[T]](), Map[Long, String]()), maxSize, writerCache)
 }

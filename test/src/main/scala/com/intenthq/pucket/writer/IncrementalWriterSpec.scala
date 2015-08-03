@@ -14,7 +14,7 @@ trait IncrementalWriterSpec[T] extends Specification with DisjunctionMatchers {
   def newData(i: Long): T
 
   val data = 1.to(500).map(_ => newData(rng.nextLong()))
-  val expectedFiles = data.length / maxSize
+  val expectedFiles = data.length / maxWrites
 
   def is =
     s2"""
@@ -39,13 +39,13 @@ trait IncrementalWriterSpec[T] extends Specification with DisjunctionMatchers {
       .count(_.getPath.getName.contains(".parquet"))))
 
   def writer: (Long, Throwable) \/ IncrementalWriter[T] = 
-    wrapper.pucket.leftMap((0L, _)).flatMap(IncrementalWriter(0, _, maxSize))
+    wrapper.pucket.leftMap((0L, _)).flatMap(IncrementalWriter(0, _, maxWrites))
 
 }
 
 object IncrementalWriterSpec {
   val rng = scala.util.Random
-  val maxSize = 50
+  val maxWrites = 50
 }
 
 

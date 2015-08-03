@@ -1,9 +1,10 @@
-package com.intenthq.pucket.thrift
+package com.intenthq.pucket.thrift.writer
 
 import com.intenthq.pucket.TestUtils
-import TestUtils.PucketWrapper
-import com.intenthq.pucket.writer.PartitionedWriterSpec
+import com.intenthq.pucket.TestUtils.PucketWrapper
 import com.intenthq.pucket.test.model.ThriftTest
+import com.intenthq.pucket.thrift.ThriftTestUtils
+import com.intenthq.pucket.writer.PartitionedWriterSpec
 
 class ThriftPartitionedWriterSpec extends PartitionedWriterSpec[ThriftTest] {
 

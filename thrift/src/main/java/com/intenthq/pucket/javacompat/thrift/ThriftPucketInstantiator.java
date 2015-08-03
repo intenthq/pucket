@@ -20,10 +20,7 @@ public class ThriftPucketInstantiator implements PucketInstantiator<TBase<? exte
                                                                                                 final String descriptor)
       throws RuntimeException, IOException {
     return ExceptionUtil.doThrow(
-        ThriftPucket.findOrCreate(path,
-                                  fs,
-                                  ExceptionUtil.doThrow(ThriftPucketDescriptor.<T>apply(descriptor))
-        )
+        ThriftPucket.findOrCreate(path, fs, ExceptionUtil.doThrow(ThriftPucketDescriptor.<T>apply(descriptor)))
     );
   }
 }

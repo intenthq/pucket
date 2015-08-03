@@ -15,7 +15,7 @@ import scalaz.syntax.either._
 
 object ThriftTestUtils {
   val descriptor: ThriftPucketDescriptor[ThriftTest] =
-    ThriftPucketDescriptor(classOf[ThriftTest], CompressionCodecName.SNAPPY, Some(ModPucketPartitioner$))
+    ThriftPucketDescriptor(classOf[ThriftTest], CompressionCodecName.SNAPPY, Some(ModPucketPartitioner))
 
   def createWrapper(dir: File): PucketWrapper[ThriftTest] =
     PucketWrapper(dir, path(dir), ThriftPucket.create(path(dir), fs, descriptor))
@@ -27,16 +27,16 @@ object ThriftTestUtils {
 
   def descriptorGen: Gen[ThriftPucketDescriptor[ThriftTest]] = for {
     compression <- Gen.oneOf(CompressionCodecName.SNAPPY, CompressionCodecName.UNCOMPRESSED)
-    partitioner <- Gen.oneOf(List(Some(ModPucketPartitioner$), Some(PassThroughPucketPartitioner$), None))
+    partitioner <- Gen.oneOf(List(Some(ModPucketPartitioner), Some(PassThroughPucketPartitioner), None))
   } yield ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], compression, partitioner)
 
 
-  object ModPucketPartitioner$ extends PucketPartitioner[ThriftTest] {
+  object ModPucketPartitioner extends PucketPartitioner[ThriftTest] {
     override def partition(data: ThriftTest, pucket: Pucket[ThriftTest]): Throwable \/ Pucket[ThriftTest] =
       pucket.subPucket(new Path((data.getTest % 20).toString))
   }
 
-  object PassThroughPucketPartitioner$ extends PucketPartitioner[ThriftTest] {
+  object PassThroughPucketPartitioner extends PucketPartitioner[ThriftTest] {
     override def partition(data: ThriftTest, pucket: Pucket[ThriftTest]): \/[Throwable, Pucket[ThriftTest]] = pucket.right
   }
 

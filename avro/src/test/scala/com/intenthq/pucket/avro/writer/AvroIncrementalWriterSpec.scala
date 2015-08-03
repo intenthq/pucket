@@ -1,6 +1,7 @@
-package com.intenthq.pucket.avro
+package com.intenthq.pucket.avro.writer
 
 import com.intenthq.pucket.TestUtils.PucketWrapper
+import com.intenthq.pucket.avro.AvroTestUtils
 import com.intenthq.pucket.avro.test.AvroTest
 import com.intenthq.pucket.writer.IncrementalWriterSpec
 

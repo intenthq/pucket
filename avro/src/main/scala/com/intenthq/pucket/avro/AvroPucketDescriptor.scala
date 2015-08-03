@@ -11,6 +11,7 @@ import org.json4s.native.JsonMethods._
 import org.json4s.{DefaultFormats, JValue, _}
 
 import scalaz.\/
+import scalaz.syntax.either._
 
 case class AvroPucketDescriptor[T <: IndexedRecord](schema: Schema,
                                                     override val compression: CompressionCodecName,
@@ -44,6 +45,8 @@ object AvroPucketDescriptor extends PucketDescriptorCompanion {
     for {
       underlying <- validate[T](descriptorString)
       expectedSchemaJson <- \/.fromTryCatchNonFatal(parse(expectedSchema.toString))
+      _ <- if (underlying._2 == expectedSchema) ().right
+           else new RuntimeException("Found schema does not match excpected").left
     } yield AvroPucketDescriptor[T](underlying._2, underlying._3, underlying._4)
 
   override def apply[T <: HigherType](descriptorString: String): Throwable \/ AvroPucketDescriptor[T] =

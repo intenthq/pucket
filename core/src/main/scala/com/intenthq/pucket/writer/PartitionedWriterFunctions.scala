@@ -8,7 +8,7 @@ import scalaz.syntax.either._
 trait PartitionedWriterFunctions[T, Ex, WriterType] { self: Writer[T, Ex] =>
   import PartitionedWriterFunctions._
   def writers: Writers[T, Ex]
-  def maxWriters: Int
+  def writerCache: Int
 
   def newInstance(writers: Writers[T, Ex]): WriterType
 
@@ -26,7 +26,7 @@ trait PartitionedWriterFunctions[T, Ex, WriterType] { self: Writer[T, Ex] =>
     )
 
   def writerCache(partitionId: String, writer: Writer[T, Ex]): Ex \/ Writers[T, Ex] =
-    if (writers.partitions.size < maxWriters || writers.partitions.isDefinedAt(partitionId))
+    if (writers.partitions.size < writerCache || writers.partitions.isDefinedAt(partitionId))
       Writers(writers.partitions + (partitionId -> writer),
               writers.lastUsed + (System.currentTimeMillis() -> partitionId)).right
     else {

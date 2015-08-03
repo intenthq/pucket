@@ -1,11 +1,12 @@
-package com.intenthq.pucket.avro
+package com.intenthq.pucket.avro.writer
 
 import com.intenthq.pucket.avro.AvroTestUtils.ModPucketPartitioner
 import com.intenthq.pucket.avro.test.AvroTest
-import com.intenthq.pucket.writer.PartitionedWriterSpec
+import com.intenthq.pucket.avro.{AvroPucket, AvroPucketDescriptor}
+import com.intenthq.pucket.writer.IncrementalPartitionedWriterSpec
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 
-class AvroPartitionedWriterSpec extends PartitionedWriterSpec[AvroTest] {
+class AvroIncrementalPartitionedWriterSpec extends IncrementalPartitionedWriterSpec[AvroTest] {
   import com.intenthq.pucket.TestUtils._
 
   override val wrapper: PucketWrapper[AvroTest] = {
@@ -14,5 +15,6 @@ class AvroPartitionedWriterSpec extends PartitionedWriterSpec[AvroTest] {
                                                                                         CompressionCodecName.SNAPPY,
                                                                                         Some(ModPucketPartitioner))))
   }
-  override def newData(i: Long):AvroTest  = new AvroTest(i)
+
+  override def newData(i: Long): AvroTest = new AvroTest(i)
 }

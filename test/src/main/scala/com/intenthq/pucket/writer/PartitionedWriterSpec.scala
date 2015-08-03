@@ -1,6 +1,6 @@
 package com.intenthq.pucket.writer
 
-import com.intenthq.pucket.{PucketDescriptor, TestUtils}
+import com.intenthq.pucket.PucketDescriptor
 import com.intenthq.pucket.TestUtils._
 import org.specs2.Specification
 import org.specs2.matcher.DisjunctionMatchers
@@ -17,9 +17,8 @@ trait PartitionedWriterSpec[T] extends Specification with DisjunctionMatchers {
 
   def is =
     s2"""
-        sdfsdf $writeAndVerify
+        Creates subdirectories according to partitioning scheme $writeAndVerify
         Removes the temp dir ${step(wrapper.close())}
-
      """
 
   def writeAndVerify = write and verifyDirs
