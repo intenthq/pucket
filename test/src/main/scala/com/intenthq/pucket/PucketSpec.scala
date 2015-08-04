@@ -8,9 +8,8 @@ import org.specs2.matcher.DisjunctionMatchers
 import org.specs2.{ScalaCheck, Specification}
 
 import scalaz.\/
-import scalaz.syntax.either._
 
-trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers with ScalaCheck {
+trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers with ScalaCheck with TestLogging {
   import PucketSpec._
   import TestUtils._
 

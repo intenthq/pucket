@@ -1,15 +1,13 @@
 package com.intenthq.pucket.mapreduce
 
-import java.io.File
 import java.util.UUID
 
-import com.intenthq.pucket.{PucketDescriptor, Pucket}
+import com.intenthq.pucket.{TestLogging, Pucket, PucketDescriptor}
 import org.apache.commons.io.FileUtils
-import org.apache.hadoop.fs.{FileStatus, Path}
+import org.apache.hadoop.fs.Path
 import org.apache.hadoop.mapreduce.Job
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat
-import org.apache.log4j.{ConsoleAppender, Level, Logger, PatternLayout}
 import org.apache.parquet.hadoop.ParquetInputFormat
 import org.scalacheck.{Gen, Prop}
 import org.specs2.matcher.DisjunctionMatchers
@@ -18,8 +16,10 @@ import org.specs2.{ScalaCheck, Specification}
 import scalaz.\/
 import scalaz.syntax.either._
 
-trait PucketOutputFormatSpec[T, Descriptor <: PucketDescriptor[T]] extends Specification with ScalaCheck with DisjunctionMatchers {
-  import PucketOutputFormatSpec._
+trait PucketOutputFormatSpec[T, Descriptor <: PucketDescriptor[T]] extends Specification
+                                                                           with ScalaCheck
+                                                                           with DisjunctionMatchers
+                                                                           with TestLogging {
   import com.intenthq.pucket.TestUtils._
 
   val pucket: Throwable \/ Pucket[T]
@@ -81,14 +81,4 @@ trait PucketOutputFormatSpec[T, Descriptor <: PucketDescriptor[T]] extends Speci
           else new RuntimeException("Job failed!").left
         )
     })
-}
-
-object PucketOutputFormatSpec {
-
-  val console = new ConsoleAppender()
-  val PATTERN = "%d [%p|%c|%C{1}] %m%n"
-  console.setLayout(new PatternLayout(PATTERN))
-  console.setThreshold(Level.DEBUG)
-  console.activateOptions()
-  Logger.getRootLogger.addAppender(console)
 }

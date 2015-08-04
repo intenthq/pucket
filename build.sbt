@@ -6,14 +6,47 @@ val parquetVer = "1.8.1"
 val hadoopVer = "2.7.0"
 val sparkVer = "1.4.1"
 
+val pomInfo = (
+  <url>https://github.com/intenthq/pucket</url>
+  <licenses>
+    <license>
+      <name>The MIT License (MIT)</name>
+      <url>https://github.com/intenthq/pucket/blob/master/LICENSE</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>git@github.com:intenthq/pucket.git</url>
+    <connection>scm:git:git@github.com:intenthq/pucket.git</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>intenthq</id>
+      <name>Intent HQ</name>
+    </developer>
+  </developers>
+)
+
 def excludeServlet(deps: Seq[ModuleID]) = deps.map(_.exclude("javax.servlet", "servlet-api"))
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
   version := "0.1.0",
   scalaVersion := "2.11.7",
+  publishArtifact in Test := false,
+  pomIncludeRepository := { _ => false },
+  publishTo := {
+    val nexus = "https://oss.sonatype.org/"
+    if (isSnapshot.value)
+      Some("snapshots" at nexus + "content/repositories/snapshots")
+    else
+      Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+  },
+  pomExtra := pomInfo,
+  resolvers += Opts.resolver.mavenLocalFile,
+  autoAPIMappings := true,
   libraryDependencies ++= excludeServlet(Seq(
-    "org.scalaz" % "scalaz-core_2.11" % "7.1.3",
+    "org.scalaz" %% "scalaz-core" % "7.1.3",
     "org.json4s" %% "json4s-native" % "3.2.11",
     "org.mortbay.jetty" % "servlet-api" % "3.0.20100224" % "provided",
     "org.apache.hadoop" % "hadoop-common" % hadoopVer % "provided",
@@ -38,9 +71,9 @@ lazy val core = (project in file("core")).
   settings(
     name := "pucket-core",
     libraryDependencies ++= Seq(
-              "org.specs2" %% "specs2-core" % specs2Ver % "test",
-              "org.specs2" %% "specs2-scalacheck" % specs2Ver % "test"
-              )
+      "org.specs2" %% "specs2-core" % specs2Ver % "test",
+      "org.specs2" %% "specs2-scalacheck" % specs2Ver % "test"
+    )
   )
 
 lazy val test = (project in file("test")).
@@ -48,6 +81,7 @@ lazy val test = (project in file("test")).
   settings(
     name := "pucket-test",
     libraryDependencies ++= excludeServlet(Seq(
+      "org.slf4j" % "jul-to-slf4j" % "1.7.12",
       "org.specs2" %% "specs2-core" % specs2Ver,
       "org.specs2" %% "specs2-scalacheck" % specs2Ver,
       "org.typelevel" %% "scalaz-specs2" % "0.4.0",
@@ -84,7 +118,7 @@ lazy val avro = (project in file("avro")).
     libraryDependencies ++= excludeServlet(Seq(
       "org.apache.avro" % "avro" % "1.7.7",
       "org.apache.parquet" % "parquet-avro" % parquetVer,
-      "com.twitter" % "chill-avro" % "0.5.0"% "test"
+      "com.twitter" %% "chill-avro" % "0.7.0" % "test"
       ))
   ).dependsOn(core, test % "test->compile")
 
@@ -115,5 +149,7 @@ lazy val spark = (project in file("spark")).
 lazy val pucket = (project in file(".")).
   settings(commonSettings: _*).
   settings(
-    name := "pucket"
+    name := "pucket",
+    publishArtifact := false,
+    publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo")))
   ).aggregate(core, test, thrift, avro, mapreduce, spark)

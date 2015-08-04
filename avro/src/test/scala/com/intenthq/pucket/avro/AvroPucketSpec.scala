@@ -2,13 +2,14 @@ package com.intenthq.pucket.avro
 
 import com.intenthq.pucket.TestUtils._
 import com.intenthq.pucket.avro.test.AvroTest
-import com.intenthq.pucket.{Pucket, PucketSpec, TestUtils}
+import com.intenthq.pucket.{Pucket, PucketSpec}
 import org.apache.hadoop.fs.Path
 import org.scalacheck.Gen
 
 import scalaz.\/
 
 class AvroPucketSpec extends PucketSpec[AvroTest, AvroPucketDescriptor[AvroTest]]{
+
 
   override def newData(i: Long): AvroTest = new AvroTest(i)
 

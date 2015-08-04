@@ -1,17 +1,21 @@
 package com.intenthq.pucket.reader
 
+import com.intenthq.pucket.Pucket
+import com.intenthq.pucket.util.HadoopUtil
 import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.{FileStatus, FileSystem, Path}
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.parquet.filter2.compat.FilterCompat.Filter
 import org.apache.parquet.filter2.compat.{FilterCompat, RowGroupFilter}
 import org.apache.parquet.hadoop.api.ReadSupport
-import org.apache.parquet.hadoop.util.HiddenFileFilter
 import org.apache.parquet.hadoop.{Footer, InternalParquetRecordReaderWrapper, ParquetFileReader}
 
 import scala.collection.JavaConversions._
 import scalaz.\/
 import scalaz.syntax.either._
 
+/** Functional wrapper around parquet's internal reader
+  * provides the ability to read from a partitioned pucket
+  */
 case class Reader[T] private (footers: List[Footer],
                               readSupport: ReadSupport[T],
                               filter: Filter,
@@ -19,6 +23,12 @@ case class Reader[T] private (footers: List[Footer],
                               reader: InternalParquetRecordReaderWrapper[T]) {
   import Reader._
 
+  /** Read data from the pucket in sequence
+    * Will return a [[None]] if input is exhausted
+    *
+    * @return a tuple of the reader state and optional data
+    *         or an error
+    */
   def read: Throwable \/ (Option[T], Reader[T]) =
     if (reader.nextKeyValue())
       \/.fromTryCatchNonFatal((Some(reader.getCurrentValue), newInstance(footers, reader)))
@@ -32,21 +42,31 @@ case class Reader[T] private (footers: List[Footer],
       } yield ret
     else (None, this).right
 
+  /** Closes the underlying reader */
   def close: Throwable \/ Unit = \/.fromTryCatchNonFatal(reader.close())
 
   def newInstance(f: List[Footer], r: InternalParquetRecordReaderWrapper[T]): Reader[T] =
-   Reader[T](f, readSupport, filter, conf, r)
+    Reader[T](f, readSupport, filter, conf, r)
   
 }
 
+/** Factory object for [[Reader]] */
 object Reader {
-  val pathFilter = HiddenFileFilter.INSTANCE
 
+  /** Create a new instance of the reader
+   *
+   * @param fs Hadoop filessystem instance
+   * @param path path to the pucket
+   * @param readSupport parquet read support path
+   * @param filter parquet read filter
+   * @tparam T type of data to be read
+   * @return a new instance of the reader, or an error
+   */
   def apply[T](fs: FileSystem, path: Path, readSupport: ReadSupport[T], filter: Option[Filter]): Throwable \/ Reader[T] = {
     val conf = fs.getConf
     val f = filter.getOrElse(FilterCompat.NOOP)
     for {
-      statuses <-  \/.fromTryCatchNonFatal(recurse(fs.listStatus(path, pathFilter), fs))
+      statuses <-  HadoopUtil.fileStatuses(path, fs, Pucket.extension)
       footers <- \/.fromTryCatchNonFatal(ParquetFileReader.readAllFootersInParallelUsingSummaryFiles(fs.getConf, statuses, false))
       reader <- initReader(footers.toList, readSupport, f, fs.getConf)
     } yield Reader[T](reader._1, readSupport, f, fs.getConf, reader._2)
@@ -70,11 +90,4 @@ object Reader {
       }
     } else new RuntimeException("No footers left to read from").left
   }
-
-
-  private def recurse(files: Seq[FileStatus], fs: FileSystem): Seq[FileStatus] =
-    files.flatMap( file =>
-      if (file.isDirectory) recurse(fs.listStatus(file.getPath, pathFilter), fs)
-      else Seq(file)
-    )
 }

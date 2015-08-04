@@ -9,8 +9,9 @@ scala:
    - 2.11.7
 script:
   - sbt ++2.11.7 test
+  - sbt ++2.10.5 test
 cache:
   directories:
-  - .thrift-0.9.2
-  - .ivy2
-  - .sbt
+   - ~/.thrift-0.9.2
+   - ~/.ivy2
+   - ~/.sbt

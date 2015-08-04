@@ -1,13 +1,13 @@
 package com.intenthq.pucket.writer
 
-import com.intenthq.pucket.TestUtils
+import com.intenthq.pucket.{TestLogging, TestUtils}
 import TestUtils._
 import org.specs2.Specification
 import org.specs2.matcher.DisjunctionMatchers
 
 import scalaz.\/
 
-trait IncrementalWriterSpec[T] extends Specification with DisjunctionMatchers {
+trait IncrementalWriterSpec[T] extends Specification with DisjunctionMatchers with TestLogging {
   import IncrementalWriterSpec._
 
   val wrapper: PucketWrapper[T]

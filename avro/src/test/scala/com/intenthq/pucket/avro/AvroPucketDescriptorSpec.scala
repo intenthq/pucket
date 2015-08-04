@@ -26,7 +26,7 @@ class AvroPucketDescriptorSpec extends Specification with DisjunctionMatchers wi
         case a =>
           (a.schema === d.schema) and
           (a.compression === d.compression) and
-          (a.partitioner === d.partitioner)
+          (a.partitioner.map(_.getClass) === d.partitioner.map(_.getClass))
       }
     }
   

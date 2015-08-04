@@ -5,3 +5,5 @@ addSbtPlugin("com.cavorite" % "sbt-avro" % "0.3.2")
 resolvers += "bigtoast-github" at "http://bigtoast.github.com/repo/"
 
 addSbtPlugin("com.github.bigtoast" % "sbt-thrift" % "0.7")
+
+addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.0")

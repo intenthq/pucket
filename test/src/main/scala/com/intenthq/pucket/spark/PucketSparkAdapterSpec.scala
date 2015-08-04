@@ -1,6 +1,6 @@
 package com.intenthq.pucket.spark
 
-import com.intenthq.pucket.Pucket
+import com.intenthq.pucket.{TestLogging, Pucket}
 import com.intenthq.pucket.spark.PucketSparkAdapter._
 import org.apache.commons.io.FileUtils
 import org.specs2.matcher.DisjunctionMatchers
@@ -10,7 +10,9 @@ import scalaz.\/
 
 abstract class PucketSparkAdapterSpec[T, Descriptor](registrator: Option[String] = None)
                                                     (implicit ct: ClassTag[T]) extends LocalSparkSpec("PucketSparkAdapter",
-                                                                                                      registrator) with DisjunctionMatchers {
+                                                                                                      registrator)
+                                                                                       with DisjunctionMatchers
+                                                                                       with TestLogging {
   import PucketSparkAdapterSpec._
   import com.intenthq.pucket.TestUtils._
 

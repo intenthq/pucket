@@ -15,7 +15,7 @@ class ThriftPucketOutputFormatSpec extends PucketOutputFormatSpec[ThriftTest, Th
 
   override val pucket: \/[Throwable, Pucket[ThriftTest]] = ThriftPucket.create(path(dir), fs, descriptor)
 
-  override def readSupport: \/[Throwable, Class[_]] = pucket.map(_.readSupportClass)
+  override def readSupport: \/[Throwable, Class[_]] = pucket.map(_.descriptor.readSupportClass)
 
   override def findPucket(path: Path): \/[Throwable, Pucket[ThriftTest]] = ThriftPucket(path, fs, classOf[ThriftTest])
 

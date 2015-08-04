@@ -23,7 +23,7 @@ class AvroPucketOutputFormatSpec extends PucketOutputFormatSpec[AvroTest, AvroPu
 
   override def newData(i: Long): AvroTest = new AvroTest(i)
 
-  override def readSupport: Throwable \/ Class[_] = pucket.map(_.readSupportClass)
+  override def readSupport: Throwable \/ Class[_] = pucket.map(_.descriptor.readSupportClass)
 
   override def writeClass: Class[AvroTest] = classOf[AvroTest]
 }

@@ -25,7 +25,7 @@ class ThriftPucketDescriptorSpec extends Specification with DisjunctionMatchers 
         case a =>
           (a.schemaClass === d.schemaClass) and
           (a.compression === d.compression) and
-          (a.partitioner === d.partitioner)
+          (a.partitioner.map(_.getClass) === d.partitioner.map(_.getClass))
       }
     }
 

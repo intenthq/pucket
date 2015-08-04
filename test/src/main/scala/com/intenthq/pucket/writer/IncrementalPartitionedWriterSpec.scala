@@ -1,6 +1,6 @@
 package com.intenthq.pucket.writer
 
-import com.intenthq.pucket.PucketDescriptor
+import com.intenthq.pucket.{TestLogging, PucketDescriptor}
 import com.intenthq.pucket.TestUtils.PucketWrapper
 import org.apache.hadoop.fs.Path
 import org.specs2.Specification
@@ -9,7 +9,7 @@ import org.specs2.matcher.DisjunctionMatchers
 
 import scalaz.\/
 
-trait IncrementalPartitionedWriterSpec[T] extends Specification with DisjunctionMatchers {
+trait IncrementalPartitionedWriterSpec[T] extends Specification with DisjunctionMatchers with TestLogging {
   import IncrementalPartitionedWriterSpec._
 
   val wrapper: PucketWrapper[T]
@@ -42,7 +42,7 @@ trait IncrementalPartitionedWriterSpec[T] extends Specification with Disjunction
   def dirs: Throwable \/ Seq[Path] =
     wrapper.pucket.flatMap(p => wrapper.pucket.map(x => p.fs.listStatus(x.path).
       map(_.getPath).
-      filterNot(_.getName == PucketDescriptor.metadataFilename)))
+      filterNot(_.getName == PucketDescriptor.descriptorFilename)))
 
   def writer: Throwable \/ IncrementalPartitionedWriter[T] =
     wrapper.pucket.map(IncrementalPartitionedWriter(_, maxWrites))
