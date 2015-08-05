@@ -1,9 +1,10 @@
 import com.github.bigtoast.sbtthrift.ThriftPlugin
 import sbt.ExclusionRule
+import com.typesafe.sbt.SbtGit.{GitKeys => git}
 
-val specs2Ver = "3.6.3"
+val specs2Ver = "3.6.4"
 val parquetVer = "1.8.1"
-val hadoopVer = "2.7.0"
+val hadoopVer = "2.7.1"
 val sparkVer = "1.4.1"
 
 val pomInfo = (
@@ -117,6 +118,7 @@ lazy val avro = (project in file("avro")).
     name := "pucket-avro",
     libraryDependencies ++= excludeServlet(Seq(
       "org.apache.avro" % "avro" % "1.7.7",
+      "org.apache.avro" % "avro-compiler" % "1.7.7",
       "org.apache.parquet" % "parquet-avro" % parquetVer,
       "com.twitter" %% "chill-avro" % "0.7.0" % "test"
       ))
@@ -148,8 +150,12 @@ lazy val spark = (project in file("spark")).
 
 lazy val pucket = (project in file(".")).
   settings(commonSettings: _*).
+  settings(unidocSettings: _*).
+  settings(site.settings ++ ghpages.settings: _*).
   settings(
     name := "pucket",
     publishArtifact := false,
-    publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo")))
+    publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
+    site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "latest/api"),
+    git.gitRemoteRepo := "git@github.com:intenthq/pucket.git"
   ).aggregate(core, test, thrift, avro, mapreduce, spark)
