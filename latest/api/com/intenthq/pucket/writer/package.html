@@ -1,0 +1,376 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>writer - com.intenthq.pucket.writer</title>
+          <meta name="description" content="writer - com.intenthq.pucket.writer" />
+          <meta name="keywords" content="writer com.intenthq.pucket.writer" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../index.html';
+            var hash = 'com.intenthq.pucket.writer.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.intenthq">intenthq</a>.<a href="../package.html" class="extype" name="com.intenthq.pucket">pucket</a></p>
+        <h1>writer</h1><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">writer</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="com.intenthq.pucket.writer.IncrementalPartitionedWriter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="IncrementalPartitionedWriter[T]extendsWriter[T,(Long,Throwable)]withPartitionedWriterFunctions[T,(Long,Throwable),com.intenthq.pucket.writer.IncrementalPartitionedWriter[T]]withProductwithSerializable"></a>
+      <a id="IncrementalPartitionedWriter[T]:IncrementalPartitionedWriter[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="IncrementalPartitionedWriter.html"><span class="name">IncrementalPartitionedWriter</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="Writer.html" class="extype" name="com.intenthq.pucket.writer.Writer">Writer</a>[<span class="extype" name="com.intenthq.pucket.writer.IncrementalPartitionedWriter.T">T</span>, (<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a>, <span class="extype" name="scala.Throwable">Throwable</span>)] with <a href="PartitionedWriterFunctions.html" class="extype" name="com.intenthq.pucket.writer.PartitionedWriterFunctions">PartitionedWriterFunctions</a>[<span class="extype" name="com.intenthq.pucket.writer.IncrementalPartitionedWriter.T">T</span>, (<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a>, <span class="extype" name="scala.Throwable">Throwable</span>), <a href="IncrementalPartitionedWriter.html" class="extype" name="com.intenthq.pucket.writer.IncrementalPartitionedWriter">IncrementalPartitionedWriter</a>[<span class="extype" name="com.intenthq.pucket.writer.IncrementalPartitionedWriter.T">T</span>]] with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalPartitionedWriter[T]extendsWriter[T,(Long,Throwable)]withPartitionedWriterFunctions[T,(Long,Throwable),com.intenthq.pucket.writer.IncrementalPartitionedWriter[T]]withProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Incremental partitioned parquet writer
+Provides incremental writing for partitioned puckets
+Any error will return with the minimum checkpoint of the current set of writers
+</p>
+    </li><li name="com.intenthq.pucket.writer.IncrementalPartitionedWriterSpec" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="IncrementalPartitionedWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging"></a>
+      <a id="IncrementalPartitionedWriterSpec[T]:IncrementalPartitionedWriterSpec[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="IncrementalPartitionedWriterSpec.html"><span class="name">IncrementalPartitionedWriterSpec</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <span class="extype" name="org.specs2.Specification">Specification</span> with <span class="extype" name="org.specs2.matcher.DisjunctionMatchers">DisjunctionMatchers</span> with <a href="../TestLogging.html" class="extype" name="com.intenthq.pucket.TestLogging">TestLogging</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalPartitionedWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.intenthq.pucket.writer.IncrementalWriter" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="IncrementalWriter[T]extendsWriter[T,(Long,Throwable)]withProductwithSerializable"></a>
+      <a id="IncrementalWriter[T]:IncrementalWriter[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="IncrementalWriter.html"><span class="name">IncrementalWriter</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="Writer.html" class="extype" name="com.intenthq.pucket.writer.Writer">Writer</a>[<span class="extype" name="com.intenthq.pucket.writer.IncrementalWriter.T">T</span>, (<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a>, <span class="extype" name="scala.Throwable">Throwable</span>)] with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalWriter[T]extendsWriter[T,(Long,Throwable)]withProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Incremental functional writer class for parquet</p><div class="fullcomment"><div class="comment cmt"><p>Incremental functional writer class for parquet</p><h4>Overview</h4><p>Allows large files to be written to parquet in smaller incements.
+Closes the underlying writer and creates a new file at a defined
+writer count.</p><p>Also keeps a checkpoint of when the last file was sucessfully
+flushed to the filesystem so in the event of an error processing
+can be restarted from that point.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>type of data to be written</p></dd></dl></div>
+    </li><li name="com.intenthq.pucket.writer.IncrementalWriterSpec" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="IncrementalWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging"></a>
+      <a id="IncrementalWriterSpec[T]:IncrementalWriterSpec[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="IncrementalWriterSpec.html"><span class="name">IncrementalWriterSpec</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <span class="extype" name="org.specs2.Specification">Specification</span> with <span class="extype" name="org.specs2.matcher.DisjunctionMatchers">DisjunctionMatchers</span> with <a href="../TestLogging.html" class="extype" name="com.intenthq.pucket.TestLogging">TestLogging</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.intenthq.pucket.writer.PartitionedWriter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PartitionedWriter[T]extendsWriter[T,Throwable]withPartitionedWriterFunctions[T,Throwable,com.intenthq.pucket.writer.PartitionedWriter[T]]withProductwithSerializable"></a>
+      <a id="PartitionedWriter[T]:PartitionedWriter[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="PartitionedWriter.html"><span class="name">PartitionedWriter</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="Writer.html" class="extype" name="com.intenthq.pucket.writer.Writer">Writer</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>, <span class="extype" name="scala.Throwable">Throwable</span>] with <a href="PartitionedWriterFunctions.html" class="extype" name="com.intenthq.pucket.writer.PartitionedWriterFunctions">PartitionedWriterFunctions</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>, <span class="extype" name="scala.Throwable">Throwable</span>, <a href="PartitionedWriter.html" class="extype" name="com.intenthq.pucket.writer.PartitionedWriter">PartitionedWriter</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>]] with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@PartitionedWriter[T]extendsWriter[T,Throwable]withPartitionedWriterFunctions[T,Throwable,com.intenthq.pucket.writer.PartitionedWriter[T]]withProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Partitioned parquet writer
+Allows a pucket to be written to with a partitioning scheme</p>
+    </li><li name="com.intenthq.pucket.writer.PartitionedWriterFunctions" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="PartitionedWriterFunctions[T,Ex,ImplementingType]extendsAnyRef"></a>
+      <a id="PartitionedWriterFunctions[T,Ex,ImplementingType]:PartitionedWriterFunctions[T,Ex,ImplementingType]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="PartitionedWriterFunctions.html"><span class="name">PartitionedWriterFunctions</span></a><span class="tparams">[<span name="T">T</span>, <span name="Ex">Ex</span>, <span name="ImplementingType">ImplementingType</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@PartitionedWriterFunctions[T,Ex,ImplementingType]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Partitioned writer mixin
+provides partitioning to a writer type</p><div class="fullcomment"><div class="comment cmt"><p>Partitioned writer mixin
+provides partitioning to a writer type</p><h4>Overview</h4><p>This trait provides common partitioning functions to implementing
+classes. It maintains a cache of open writer instances with a
+configurable size.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>type of data to be written</p></dd><dt class="tparam">Ex</dt><dd class="cmt"><p>type of error</p></dd><dt class="tparam">ImplementingType</dt><dd class="cmt"><p>implementing type to be used when
+                         creating new instances</p></dd></dl></div>
+    </li><li name="com.intenthq.pucket.writer.PartitionedWriterSpec" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="PartitionedWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging"></a>
+      <a id="PartitionedWriterSpec[T]:PartitionedWriterSpec[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="PartitionedWriterSpec.html"><span class="name">PartitionedWriterSpec</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <span class="extype" name="org.specs2.Specification">Specification</span> with <span class="extype" name="org.specs2.matcher.DisjunctionMatchers">DisjunctionMatchers</span> with <a href="../TestLogging.html" class="extype" name="com.intenthq.pucket.TestLogging">TestLogging</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@PartitionedWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.intenthq.pucket.writer.Writer" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="Writer[T,Ex]extendsAnyRef"></a>
+      <a id="Writer[T,Ex]:Writer[T,Ex]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Writer.html"><span class="name">Writer</span></a><span class="tparams">[<span name="T">T</span>, <span name="Ex">Ex</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@Writer[T,Ex]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Trait for functional wrappers of parquet writers
+</p><div class="fullcomment"><div class="comment cmt"><p>Trait for functional wrappers of parquet writers
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>type of data to be written</p></dd><dt class="tparam">Ex</dt><dd class="cmt"><p>type of error returned if write fails</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="com.intenthq.pucket.writer.IncrementalPartitionedWriter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="IncrementalPartitionedWriter"></a>
+      <a id="IncrementalPartitionedWriter:IncrementalPartitionedWriter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="IncrementalPartitionedWriter$.html"><span class="name">IncrementalPartitionedWriter</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalPartitionedWriter" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Factory object for <a href="IncrementalPartitionedWriter.html" class="extype" name="com.intenthq.pucket.writer.IncrementalPartitionedWriter">com.intenthq.pucket.writer.IncrementalPartitionedWriter</a></p>
+    </li><li name="com.intenthq.pucket.writer.IncrementalPartitionedWriterSpec" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="IncrementalPartitionedWriterSpec"></a>
+      <a id="IncrementalPartitionedWriterSpec:IncrementalPartitionedWriterSpec"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="IncrementalPartitionedWriterSpec$.html"><span class="name">IncrementalPartitionedWriterSpec</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalPartitionedWriterSpec" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.intenthq.pucket.writer.IncrementalWriter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="IncrementalWriter"></a>
+      <a id="IncrementalWriter:IncrementalWriter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="IncrementalWriter$.html"><span class="name">IncrementalWriter</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalWriter" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Factory object for <a href="IncrementalWriter.html" class="extype" name="com.intenthq.pucket.writer.IncrementalWriter">com.intenthq.pucket.writer.IncrementalWriter</a></p>
+    </li><li name="com.intenthq.pucket.writer.IncrementalWriterSpec" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="IncrementalWriterSpec"></a>
+      <a id="IncrementalWriterSpec:IncrementalWriterSpec"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="IncrementalWriterSpec$.html"><span class="name">IncrementalWriterSpec</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalWriterSpec" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.intenthq.pucket.writer.PartitionedWriter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PartitionedWriter"></a>
+      <a id="PartitionedWriter:PartitionedWriter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="PartitionedWriter$.html"><span class="name">PartitionedWriter</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@PartitionedWriter" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Factory object for <a href="PartitionedWriter.html" class="extype" name="com.intenthq.pucket.writer.PartitionedWriter">com.intenthq.pucket.writer.PartitionedWriter</a></p>
+    </li><li name="com.intenthq.pucket.writer.PartitionedWriterFunctions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PartitionedWriterFunctions"></a>
+      <a id="PartitionedWriterFunctions:PartitionedWriterFunctions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="PartitionedWriterFunctions$.html"><span class="name">PartitionedWriterFunctions</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@PartitionedWriterFunctions" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.intenthq.pucket.writer.PartitionedWriterSpec" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PartitionedWriterSpec"></a>
+      <a id="PartitionedWriterSpec:PartitionedWriterSpec"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="PartitionedWriterSpec$.html"><span class="name">PartitionedWriterSpec</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.package@PartitionedWriterSpec" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
