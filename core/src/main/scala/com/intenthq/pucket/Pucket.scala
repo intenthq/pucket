@@ -3,13 +3,12 @@ package com.intenthq.pucket
 import java.util.UUID
 
 import com.intenthq.pucket.reader.Reader
+import com.intenthq.pucket.util.HadoopUtil
 import com.intenthq.pucket.writer.Writer
 import org.apache.commons.io.IOUtils
-import org.apache.hadoop.fs.{FileStatus, FileSystem, Path}
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.parquet.filter2.compat.FilterCompat.Filter
-import org.apache.parquet.hadoop.api.ReadSupport
 import org.json4s.JsonAST.JValue
-import com.intenthq.pucket.util.HadoopUtil
 
 import scalaz.\/
 import scalaz.syntax.either._
