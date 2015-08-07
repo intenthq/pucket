@@ -20,7 +20,7 @@ class PucketOutputFormat[T] extends FileOutputFormat[Void, T] {
   import PucketOutputFormat._
 
   case class PucketRecordWriter(writer: Writer[T, Throwable]) extends RecordWriter[Void, T] {
-    var mutableWriter = writer
+    private var mutableWriter = writer
 
     override def write(key: Void, value: T): Unit =
       mutableWriter = mutableWriter.write(value).throwException
