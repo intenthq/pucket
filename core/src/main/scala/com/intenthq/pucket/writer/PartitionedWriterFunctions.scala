@@ -1,6 +1,7 @@
 package com.intenthq.pucket.writer
 
 import com.intenthq.pucket.Pucket
+import org.apache.hadoop.fs.Path
 
 import scalaz.\/
 import scalaz.syntax.either._
@@ -22,6 +23,7 @@ trait PartitionedWriterFunctions[T, Ex, ImplementingType] { self: Writer[T, Ex] 
   import PartitionedWriterFunctions._
   def writers: Writers[T, Ex]
   def writerCacheSize: Int
+  def pucket: Pucket[T]
 
   /** Create a new instance of the partitioned writer
     *
@@ -38,7 +40,7 @@ trait PartitionedWriterFunctions[T, Ex, ImplementingType] { self: Writer[T, Ex] 
     * @param checkPoint the current checkpoint
     * @return a new writer for the partition or an error
     */
-  def newWriter(partition: Pucket[T], checkPoint: Long): Ex \/ Writer[T, Ex]
+  def newWriter(partition: Path, checkPoint: Long): Ex \/ Writer[T, Ex]
 
   /** Write data to a partition
     * Finds a writer in the cache or creates a new one
@@ -47,20 +49,24 @@ trait PartitionedWriterFunctions[T, Ex, ImplementingType] { self: Writer[T, Ex] 
     * @param data the data to be written
     * @param checkPoint the current checkpoint to be passed
     *                   to the underlying writer
-    * @param partition the pucket instance for the partition
     * @return a new instance of the partitioned writer
     *         complete with new state
     */
-  def writePartition(data: T,
-                     checkPoint: Long,
-                     partition: Ex \/ Pucket[T]): Ex \/ ImplementingType =
-    partition.flatMap( p =>
-     writers.partitions.
-       get(p.id).
-       map(_.write(data, checkPoint)).
-       getOrElse(newWriter(p, checkPoint).flatMap(_.write(data, checkPoint)))
-       flatMap(writer => writerCache(p.id, writer).map(newInstance))
-    )
+  override def write(data: T,
+                     checkPoint: Long): Ex \/ ImplementingType = {
+    val partitionPath = pucket.partition(data)
+    writers.partitions.
+      get(partitionPath).map(_.write(data, checkPoint)).getOrElse(newWriter(partitionPath, checkPoint).flatMap(_.write(data, checkPoint))).flatMap(writer => writerCache(partitionPath, writer).map(newInstance))
+
+
+  }
+//    partition.flatMap( p =>
+//     writers.partitions.
+//       get(p.id).
+//       map(_.write(data, checkPoint)).
+//       getOrElse(newWriter(p, checkPoint).flatMap(_.write(data, checkPoint)))
+//       flatMap(writer => writerCache(p.id, writer).map(newInstance))
+//    )
 
   /** Add a new writer to the cache
     * Will update an existing writer if one for the same
@@ -74,7 +80,7 @@ trait PartitionedWriterFunctions[T, Ex, ImplementingType] { self: Writer[T, Ex] 
     * @param writer the writer instance to be cached
     * @return
     */
-  def writerCache(partitionId: String, writer: Writer[T, Ex]): Ex \/ Writers[T, Ex] =
+  def writerCache(partitionId: Path, writer: Writer[T, Ex]): Ex \/ Writers[T, Ex] =
     if (writers.partitions.size < writerCacheSize || writers.partitions.isDefinedAt(partitionId))
       Writers(writers.partitions + (partitionId -> writer),
               writers.lastUsed + (System.currentTimeMillis() -> partitionId)).right
@@ -88,5 +94,5 @@ trait PartitionedWriterFunctions[T, Ex, ImplementingType] { self: Writer[T, Ex] 
 }
 
 object PartitionedWriterFunctions {
-  case class Writers[T, A](partitions: Map[String, Writer[T, A]], lastUsed: Map[Long, String])
+  case class Writers[T, A](partitions: Map[Path, Writer[T, A]], lastUsed: Map[Long, Path])
 }

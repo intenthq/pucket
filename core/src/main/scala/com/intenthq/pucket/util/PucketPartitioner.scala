@@ -1,8 +1,6 @@
 package com.intenthq.pucket.util
 
-import com.intenthq.pucket.Pucket
-
-import scalaz.\/
+import org.apache.hadoop.fs.Path
 
 /** Trait for implementing a pucket partitioner
  *
@@ -13,8 +11,7 @@ trait PucketPartitioner[T] {
   /** Partition a pucket
    *
    * @param data data to be used for partitioning
-   * @param pucket pucket under which to store the data
-   * @return a new pucket on a new path
+   * @return a the path of the path
    */
-  def partition(data: T, pucket: Pucket[T]): Throwable \/ Pucket[T]
+  def partition(data: T): Path
 }

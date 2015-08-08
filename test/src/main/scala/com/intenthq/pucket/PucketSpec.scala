@@ -74,7 +74,7 @@ trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers w
 
   def partition = {
     def test(p: Throwable \/ Pucket[T]) = p must be_\/-.like {
-      case a => readAndWrite(a.partition(data.head))
+      case a => readAndWrite(a.subPucket(a.partition(data.head)))
     }
     createWrapper.runTest(test)
   }

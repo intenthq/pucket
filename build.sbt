@@ -49,9 +49,9 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= excludeServlet(Seq(
     "org.scalaz" %% "scalaz-core" % "7.1.3",
     "org.json4s" %% "json4s-native" % "3.2.11",
-    "org.mortbay.jetty" % "servlet-api" % "3.0.20100224" % "provided",
-    "org.apache.hadoop" % "hadoop-common" % hadoopVer % "provided",
-    "org.apache.hadoop" % "hadoop-mapreduce-client-core" % hadoopVer % "provided",
+    "org.mortbay.jetty" % "servlet-api" % "3.0.20100224" % "compile",
+    "org.apache.hadoop" % "hadoop-common" % hadoopVer % "compile",
+    "org.apache.hadoop" % "hadoop-mapreduce-client-core" % hadoopVer % "compile",
     "org.apache.parquet" % "parquet-column" % parquetVer,
     "org.apache.parquet" % "parquet-hadoop" % parquetVer
   )),

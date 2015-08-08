@@ -15,8 +15,6 @@ import scalaz.syntax.either._
 
 /** Trait for describing a bucket of data on a filesystem
   *
-  * ==Overview==
-  *
   *
   * @tparam T The data type the pucket will contain
  */
@@ -40,6 +38,7 @@ trait Pucket[T] {
 
   /** Writer implementation for the pucket. See [[com.intenthq.pucket.writer.Writer]] */
   def writer: Throwable \/ Writer[T, Throwable]
+
   /** Reader for the pucket. See [[com.intenthq.pucket.reader.Reader]] */
   def reader: Throwable \/ Reader[T] = reader(None)
 
@@ -55,11 +54,11 @@ trait Pucket[T] {
     *  on a calculated path
     *
     * @param data the object to inspect for partitioning
-    * @return a new pucket or error if the partitioner is present,
-    *         otherwise the current pucket
+    * @return a new path which is a subpath under the pucket,
+    *         otherwise the current path
     */
-  def partition(data: T): Throwable \/ Pucket[T] =
-    descriptor.partitioner.map(_.partition(data, this)).getOrElse(this.right)
+  def partition(data: T): Path =
+    descriptor.partitioner.map(_.partition(data)).getOrElse(new Path("."))
 
   /** Create a directory as a subpath of the pucket and
     * create a new pucket instance at the new path
@@ -109,13 +108,14 @@ trait Pucket[T] {
     *
     * @return a hadoop path to a new randomly generated filename
     */
-  def filename: Path = fs.makeQualified(new Path(path, new Path(s"${UUID.randomUUID().toString}$extension")))
+  def filename: Path =
+    fs.makeQualified(new Path(path, new Path(s"${UUID.randomUUID().toString}$extension")))
 
   /** An identifier for the pucket for use in writer cache
     *
     * @return a string identifier
     */
-  def id: String = s"${path.toString}_${descriptor.toString}"
+  val id: Int = this.hashCode()
 }
 
 /** Trait for using with Pucket implementations' companion objects

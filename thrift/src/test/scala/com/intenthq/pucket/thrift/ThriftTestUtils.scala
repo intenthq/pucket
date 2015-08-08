@@ -2,16 +2,12 @@ package com.intenthq.pucket.thrift
 
 import java.io.File
 
-import com.intenthq.pucket.{Pucket, TestUtils}
 import com.intenthq.pucket.TestUtils._
-import com.intenthq.pucket.util.PucketPartitioner
 import com.intenthq.pucket.test.model.ThriftTest
+import com.intenthq.pucket.util.PucketPartitioner
 import org.apache.hadoop.fs.Path
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 import org.scalacheck.Gen
-
-import scalaz.\/
-import scalaz.syntax.either._
 
 object ThriftTestUtils {
   val descriptor: ThriftPucketDescriptor[ThriftTest] =
@@ -32,12 +28,11 @@ object ThriftTestUtils {
 
 
   object ModPucketPartitioner extends PucketPartitioner[ThriftTest] {
-    override def partition(data: ThriftTest, pucket: Pucket[ThriftTest]): Throwable \/ Pucket[ThriftTest] =
-      pucket.subPucket(new Path((data.getTest % 20).toString))
+    override def partition(data: ThriftTest): Path = new Path((data.getTest % 20).toString)
   }
 
   object PassThroughPucketPartitioner extends PucketPartitioner[ThriftTest] {
-    override def partition(data: ThriftTest, pucket: Pucket[ThriftTest]): \/[Throwable, Pucket[ThriftTest]] = pucket.right
+    override def partition(data: ThriftTest): Path = new Path(".")
   }
 
 }

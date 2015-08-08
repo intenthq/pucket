@@ -2,6 +2,7 @@ package com.intenthq.pucket.writer
 
 import com.intenthq.pucket._
 import com.intenthq.pucket.writer.PartitionedWriterFunctions.Writers
+import org.apache.hadoop.fs.Path
 
 import scalaz.\/
 import scalaz.syntax.either._
@@ -10,21 +11,17 @@ import scalaz.syntax.either._
   * Allows a pucket to be written to with a partitioning scheme
   *
   * */
-case class PartitionedWriter[T] private (pucket: Pucket[T],
+case class PartitionedWriter[T] private (override val pucket: Pucket[T],
                                          writers: Writers[T, Throwable],
                                          override val writerCacheSize: Int) extends Writer[T, Throwable] with
                                                                                     PartitionedWriterFunctions[T, Throwable, PartitionedWriter[T]] {
-  /** @inheritdoc */
-  override def write(data: T, checkPoint: Long = 0): Throwable \/ PartitionedWriter[T] =
-    writePartition(data, checkPoint, pucket.partition(data))
-
   /** @inheritdoc */
   override def newInstance(writers: Writers[T, Throwable]): PartitionedWriter[T] =
     PartitionedWriter(pucket, writers, writerCacheSize)
 
   /** @inheritdoc */
-  override def newWriter(partition: Pucket[T], checkPoint: Long): Throwable \/ Writer[T, Throwable] =
-    partition.writer
+  override def newWriter(partition: Path, checkPoint: Long): Throwable \/ Writer[T, Throwable] =
+    pucket.subPucket(partition).flatMap(_.writer)
 
 
   /** @inheritdoc */
@@ -46,5 +43,5 @@ object PartitionedWriter {
    * @return a new partitioned writer
    */
   def apply[T](pucket: Pucket[T], writerCacheSize: Int = 100): PartitionedWriter[T] =
-    PartitionedWriter(pucket, Writers[T, Throwable](Map[String, Writer[T, Throwable]](), Map[Long, String]()), writerCacheSize)
+    PartitionedWriter(pucket, Writers[T, Throwable](Map[Path, Writer[T, Throwable]](), Map[Long, Path]()), writerCacheSize)
 }

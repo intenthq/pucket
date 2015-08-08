@@ -2,6 +2,7 @@ package com.intenthq.pucket.writer
 
 import com.intenthq.pucket._
 import com.intenthq.pucket.writer.PartitionedWriterFunctions.Writers
+import org.apache.hadoop.fs.Path
 
 import scalaz.\/
 import scalaz.syntax.either._
@@ -18,16 +19,12 @@ case class IncrementalPartitionedWriter[T] private (pucket: Pucket[T],
   type Error = (Long, Throwable)
 
   /** @inheritdoc */
-  override def write(data: T, checkPoint: Long): Error \/ IncrementalPartitionedWriter[T] =
-    writePartition(data, checkPoint, pucket.partition(data).leftMap((minCheckpoint, _)))
-
-  /** @inheritdoc */
   override def newInstance(writers: Writers[T, Error]): IncrementalPartitionedWriter[T] =
     IncrementalPartitionedWriter(pucket, writers, maxWrites, writerCacheSize)
 
   /** @inheritdoc */
-  override def newWriter(partition: Pucket[T], checkPoint: Long): Error \/ Writer[T, Error] =
-    IncrementalWriter(checkPoint, partition, maxWrites)
+  override def newWriter(partition: Path, checkPoint: Long): Error \/ Writer[T, Error] =
+    pucket.subPucket(partition).fold[Error \/ Writer[T, Error]](ex => (minCheckpoint, ex).left, IncrementalWriter(checkPoint, _, maxWrites))
 
   /** @inheritdoc */
   override def close: Error \/ Unit =
@@ -57,5 +54,5 @@ object IncrementalPartitionedWriter {
     * @return a new incremental partitioned writer
     */
   def apply[T](pucket: Pucket[T], maxWrites: Long, writerCacheSize: Int = 100): IncrementalPartitionedWriter[T] =
-    IncrementalPartitionedWriter(pucket, Writers(Map[String, IncrementalWriter[T]](), Map[Long, String]()), maxWrites, writerCacheSize)
+    IncrementalPartitionedWriter(pucket, Writers(Map[Path, IncrementalWriter[T]](), Map[Long, Path]()), maxWrites, writerCacheSize)
 }
