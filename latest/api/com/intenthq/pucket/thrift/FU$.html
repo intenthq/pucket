@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>PucketPartitioner - com.intenthq.pucket.util.PucketPartitioner</title>
-          <meta name="description" content="PucketPartitioner - com.intenthq.pucket.util.PucketPartitioner" />
-          <meta name="keywords" content="PucketPartitioner com.intenthq.pucket.util.PucketPartitioner" />
+          <title>FU - com.intenthq.pucket.thrift.FU</title>
+          <meta name="description" content="FU - com.intenthq.pucket.thrift.FU" />
+          <meta name="keywords" content="FU com.intenthq.pucket.thrift.FU" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../index.html';
-            var hash = 'com.intenthq.pucket.util.PucketPartitioner';
+            var hash = 'com.intenthq.pucket.thrift.FU$';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -26,14 +26,14 @@
    	  </script>
     
         </head>
-        <body class="type">
+        <body class="value">
       <div id="definition">
-        <img alt="Trait" src="../../../../lib/trait_big.png" />
-        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.intenthq">intenthq</a>.<a href="../package.html" class="extype" name="com.intenthq.pucket">pucket</a>.<a href="package.html" class="extype" name="com.intenthq.pucket.util">util</a></p>
-        <h1>PucketPartitioner</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="com.intenthq.pucket.util">package util</a>
+        <img alt="Object" src="../../../../lib/object_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.intenthq">intenthq</a>.<a href="../package.html" class="extype" name="com.intenthq.pucket">pucket</a>.<a href="package.html" class="extype" name="com.intenthq.pucket.thrift">thrift</a></p>
+        <h1>FU</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="com.intenthq.pucket.thrift">package thrift</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -42,21 +42,17 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">PucketPartitioner</span><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <span class="name">FU</span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trait for implementing a pucket partitioner
-</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>type of data to be partitioned</p></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
-        </div><div class="toggleContainer block">
-            <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="../thrift/FU$$Derp$.html" class="extype" name="com.intenthq.pucket.thrift.FU.Derp">Derp</a></div>
-          </div></div>
+        </div></div>
         
 
       <div id="mbrsel">
@@ -73,7 +69,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.intenthq.pucket.util.PucketPartitioner"><span>PucketPartitioner</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.intenthq.pucket.thrift.FU"><span>FU</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -94,32 +90,10 @@
 
         
 
-        <div id="values" class="values members">
-              <h3>Abstract Value Members</h3>
-              <ol><li name="com.intenthq.pucket.util.PucketPartitioner#partition" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="partition(data:T):org.apache.hadoop.fs.Path"></a>
-      <a id="partition(T):Path"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">partition</span><span class="params">(<span name="data">data: <span class="extype" name="com.intenthq.pucket.util.PucketPartitioner.T">T</span></span>)</span><span class="result">: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@partition(data:T):org.apache.hadoop.fs.Path" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Partition a pucket
-</p><div class="fullcomment"><div class="comment cmt"><p>Partition a pucket
-</p></div><dl class="paramcmts block"><dt class="param">data</dt><dd class="cmt"><p>data to be used for partitioning</p></dd><dt>returns</dt><dd class="cmt"><p>a the path of the path</p></dd></dl></div>
-    </li></ol>
-            </div>
+        
 
         <div id="values" class="values members">
-              <h3>Concrete Value Members</h3>
+              <h3>Value Members</h3>
               <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a>
       <a id="!=(Any):Boolean"></a>
@@ -132,7 +106,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -149,7 +123,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@##():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@##():Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -166,11 +140,28 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.intenthq.pucket.thrift.FU.Derp" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Derp"></a>
+      <a id="Derp:Derp"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="FU$$Derp$.html"><span class="name">Derp</span></a><span class="result"> extends <a href="../util/PucketPartitioner.html" class="extype" name="com.intenthq.pucket.util.PucketPartitioner">PucketPartitioner</a>[<a href="../test/model/ThriftTest.html" class="extype" name="com.intenthq.pucket.test.model.ThriftTest">ThriftTest</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@Derp" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -183,7 +174,7 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -200,7 +191,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@clone():Object" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@clone():Object" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -223,7 +214,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -240,7 +231,7 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -257,7 +248,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -280,7 +271,7 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -297,7 +288,7 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -314,11 +305,28 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.intenthq.pucket.thrift.FU#main" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="main(args:Array[String]):Unit"></a>
+      <a id="main(Array[String]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">main</span><span class="params">(<span name="args">args: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@main(args:Array[String]):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -331,7 +339,7 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -348,7 +356,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@notify():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -365,11 +373,28 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.intenthq.pucket.thrift.FU#rng" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="rng:util.Random.type"></a>
+      <a id="rng:Random.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rng</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.util.Random" class="extype" target="_top">Random</a>.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@rng:util.Random.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -382,7 +407,7 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -399,7 +424,7 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@toString():String" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@toString():String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -416,7 +441,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@wait():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -439,7 +464,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -462,7 +487,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.util.PucketPartitioner@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -473,6 +498,23 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.intenthq.pucket.thrift.FU#write" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="write[Ex](data:Seq[com.intenthq.pucket.test.model.ThriftTest],writer:scalaz.\/[Ex,com.intenthq.pucket.writer.Writer[com.intenthq.pucket.test.model.ThriftTest,Ex]]):scalaz.\/[Ex,com.intenthq.pucket.writer.Writer[com.intenthq.pucket.test.model.ThriftTest,Ex]]"></a>
+      <a id="write[Ex](Seq[ThriftTest],\/[Ex,Writer[ThriftTest,Ex]]):\/[Ex,Writer[ThriftTest,Ex]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">write</span><span class="tparams">[<span name="Ex">Ex</span>]</span><span class="params">(<span name="data">data: <span class="extype" name="scala.Seq">Seq</span>[<a href="../test/model/ThriftTest.html" class="extype" name="com.intenthq.pucket.test.model.ThriftTest">ThriftTest</a>]</span>, <span name="writer">writer: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="com.intenthq.pucket.thrift.FU.write.Ex">Ex</span>, <a href="../writer/Writer.html" class="extype" name="com.intenthq.pucket.writer.Writer">Writer</a>[<a href="../test/model/ThriftTest.html" class="extype" name="com.intenthq.pucket.test.model.ThriftTest">ThriftTest</a>, <span class="extype" name="com.intenthq.pucket.thrift.FU.write.Ex">Ex</span>]]</span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="com.intenthq.pucket.thrift.FU.write.Ex">Ex</span>, <a href="../writer/Writer.html" class="extype" name="com.intenthq.pucket.writer.Writer">Writer</a>[<a href="../test/model/ThriftTest.html" class="extype" name="com.intenthq.pucket.test.model.ThriftTest">ThriftTest</a>, <span class="extype" name="com.intenthq.pucket.thrift.FU.write.Ex">Ex</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.intenthq.pucket.thrift.FU$@write[Ex](data:Seq[com.intenthq.pucket.test.model.ThriftTest],writer:scalaz.\/[Ex,com.intenthq.pucket.writer.Writer[com.intenthq.pucket.test.model.ThriftTest,Ex]]):scalaz.\/[Ex,com.intenthq.pucket.writer.Writer[com.intenthq.pucket.test.model.ThriftTest,Ex]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li></ol>
             </div>
 

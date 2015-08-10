@@ -51,7 +51,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trait for describing a bucket of data on a filesystem</p><h4>Overview</h4></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>The data type the pucket will contain</p></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trait for describing a bucket of data on a filesystem</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>The data type the pucket will contain</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block">
@@ -292,6 +292,23 @@ and the descriptor is the same
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.intenthq.pucket.Pucket#blockSize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="blockSize:Int"></a>
+      <a id="blockSize:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">blockSize</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.intenthq.pucket.Pucket@blockSize:Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Default Parquet block size</p>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -332,23 +349,6 @@ and the descriptor is the same
       </a>
     </span>
       <p class="shortcomment cmt">Hadoop configuration</p>
-    </li><li name="com.intenthq.pucket.Pucket#defaultBlockSize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="defaultBlockSize:Int"></a>
-      <a id="defaultBlockSize:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">defaultBlockSize</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.intenthq.pucket.Pucket@defaultBlockSize:Int" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Default Parquet block size</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -460,18 +460,18 @@ and the descriptor is the same
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="com.intenthq.pucket.Pucket#id" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="id:String"></a>
-      <a id="id:String"></a>
+      <a id="id:Int"></a>
+      <a id="id:Int"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">id</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+        <span class="name">id</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.intenthq.pucket.Pucket@id:String" title="Permalink" target="_top">
+      <a href="../../../index.html#com.intenthq.pucket.Pucket@id:Int" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -566,18 +566,18 @@ and the descriptor is the same
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.intenthq.pucket.Pucket#partition" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="partition(data:T):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]"></a>
-      <a id="partition(T):\/[Throwable,Pucket[T]]"></a>
+      <a id="partition(data:T):org.apache.hadoop.fs.Path"></a>
+      <a id="partition(T):Path"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">partition</span><span class="params">(<span name="data">data: <span class="extype" name="com.intenthq.pucket.Pucket.T">T</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="" class="extype" name="com.intenthq.pucket.Pucket">Pucket</a>[<span class="extype" name="com.intenthq.pucket.Pucket.T">T</span>]]</span>
+        <span class="name">partition</span><span class="params">(<span name="data">data: <span class="extype" name="com.intenthq.pucket.Pucket.T">T</span></span>)</span><span class="result">: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.intenthq.pucket.Pucket@partition(data:T):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.intenthq.pucket.Pucket@partition(data:T):org.apache.hadoop.fs.Path" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -585,8 +585,8 @@ and the descriptor is the same
  on a calculated path
 </p><div class="fullcomment"><div class="comment cmt"><p>Use the partitioner specified in the descriptor to get a new pucket
  on a calculated path
-</p></div><dl class="paramcmts block"><dt class="param">data</dt><dd class="cmt"><p>the object to inspect for partitioning</p></dd><dt>returns</dt><dd class="cmt"><p>a new pucket or error if the partitioner is present,
-        otherwise the current pucket</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">data</dt><dd class="cmt"><p>the object to inspect for partitioning</p></dd><dt>returns</dt><dd class="cmt"><p>a new path which is a subpath under the pucket,
+        otherwise the current path</p></dd></dl></div>
     </li><li name="com.intenthq.pucket.Pucket#reader" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="reader:scalaz.\/[Throwable,com.intenthq.pucket.reader.Reader[T]]"></a>
       <a id="reader:\/[Throwable,Reader[T]]"></a>

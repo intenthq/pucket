@@ -350,18 +350,18 @@ Allows a pucket to be written to with a partitioning scheme</p></div><div class=
               included in the new instance</p></dd><dt>returns</dt><dd class="cmt"><p>a new instance of a partitioned writer
         with the new state</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.intenthq.pucket.writer.PartitionedWriter">PartitionedWriter</a> → <a href="PartitionedWriterFunctions.html" class="extype" name="com.intenthq.pucket.writer.PartitionedWriterFunctions">PartitionedWriterFunctions</a></dd></dl></div>
     </li><li name="com.intenthq.pucket.writer.PartitionedWriter#newWriter" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="newWriter(partition:com.intenthq.pucket.Pucket[T],checkPoint:Long):scalaz.\/[Throwable,com.intenthq.pucket.writer.Writer[T,Throwable]]"></a>
-      <a id="newWriter(Pucket[T],Long):\/[Throwable,Writer[T,Throwable]]"></a>
+      <a id="newWriter(partition:org.apache.hadoop.fs.Path,checkPoint:Long):scalaz.\/[Throwable,com.intenthq.pucket.writer.Writer[T,Throwable]]"></a>
+      <a id="newWriter(Path,Long):\/[Throwable,Writer[T,Throwable]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">newWriter</span><span class="params">(<span name="partition">partition: <a href="../Pucket.html" class="extype" name="com.intenthq.pucket.Pucket">Pucket</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>]</span>, <span name="checkPoint">checkPoint: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="Writer.html" class="extype" name="com.intenthq.pucket.writer.Writer">Writer</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>, <span class="extype" name="scala.Throwable">Throwable</span>]]</span>
+        <span class="name">newWriter</span><span class="params">(<span name="partition">partition: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>, <span name="checkPoint">checkPoint: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="Writer.html" class="extype" name="com.intenthq.pucket.writer.Writer">Writer</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>, <span class="extype" name="scala.Throwable">Throwable</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.writer.PartitionedWriter@newWriter(partition:com.intenthq.pucket.Pucket[T],checkPoint:Long):scalaz.\/[Throwable,com.intenthq.pucket.writer.Writer[T,Throwable]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.PartitionedWriter@newWriter(partition:org.apache.hadoop.fs.Path,checkPoint:Long):scalaz.\/[Throwable,com.intenthq.pucket.writer.Writer[T,Throwable]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -400,7 +400,7 @@ Allows a pucket to be written to with a partitioning scheme</p></div><div class=
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.intenthq.pucket.writer.PartitionedWriter#pucket" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.intenthq.pucket.writer.PartitionedWriter#pucket" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="pucket:com.intenthq.pucket.Pucket[T]"></a>
       <a id="pucket:Pucket[T]"></a>
       <h4 class="signature">
@@ -416,7 +416,7 @@ Allows a pucket to be written to with a partitioning scheme</p></div><div class=
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.intenthq.pucket.writer.PartitionedWriter">PartitionedWriter</a> → <a href="PartitionedWriterFunctions.html" class="extype" name="com.intenthq.pucket.writer.PartitionedWriterFunctions">PartitionedWriterFunctions</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -503,8 +503,8 @@ Allows a pucket to be written to with a partitioning scheme</p></div><div class=
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.intenthq.pucket.writer.PartitionedWriter#write" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="write(data:T,checkPoint:Long):scalaz.\/[Throwable,com.intenthq.pucket.writer.PartitionedWriter[T]]"></a>
+    </li><li name="com.intenthq.pucket.writer.PartitionedWriterFunctions#write" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="write(data:T,checkPoint:Long):scalaz.\/[Ex,ImplementingType]"></a>
       <a id="write(T,Long):\/[Throwable,PartitionedWriter[T]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -512,27 +512,10 @@ Allows a pucket to be written to with a partitioning scheme</p></div><div class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">write</span><span class="params">(<span name="data">data: <span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span></span>, <span name="checkPoint">checkPoint: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a> = <span class="symbol">0</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="" class="extype" name="com.intenthq.pucket.writer.PartitionedWriter">PartitionedWriter</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>]]</span>
+        <span class="name">write</span><span class="params">(<span name="data">data: <span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span></span>, <span name="checkPoint">checkPoint: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="" class="extype" name="com.intenthq.pucket.writer.PartitionedWriter">PartitionedWriter</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.writer.PartitionedWriter@write(data:T,checkPoint:Long):scalaz.\/[Throwable,com.intenthq.pucket.writer.PartitionedWriter[T]]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt"> Write data</p><div class="fullcomment"><div class="comment cmt"><p> Write data</p></div><dl class="paramcmts block"><dt class="param">data</dt><dd class="cmt"><p>the data to be written</p></dd><dt class="param">checkPoint</dt><dd class="cmt"><p>optional checkpoint to be maintained by the writer</p></dd><dt>returns</dt><dd class="cmt"><p>the writer instance or an error instance if the write fails</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.intenthq.pucket.writer.PartitionedWriter">PartitionedWriter</a> → <a href="Writer.html" class="extype" name="com.intenthq.pucket.writer.Writer">Writer</a></dd></dl></div>
-    </li><li name="com.intenthq.pucket.writer.PartitionedWriterFunctions#writePartition" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="writePartition(data:T,checkPoint:Long,partition:scalaz.\/[Ex,com.intenthq.pucket.Pucket[T]]):scalaz.\/[Ex,ImplementingType]"></a>
-      <a id="writePartition(T,Long,\/[Throwable,Pucket[T]]):\/[Throwable,PartitionedWriter[T]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">writePartition</span><span class="params">(<span name="data">data: <span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span></span>, <span name="checkPoint">checkPoint: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="partition">partition: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="../Pucket.html" class="extype" name="com.intenthq.pucket.Pucket">Pucket</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>]]</span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="" class="extype" name="com.intenthq.pucket.writer.PartitionedWriter">PartitionedWriter</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.writer.PartitionedWriter@writePartition(data:T,checkPoint:Long,partition:scalaz.\/[Ex,com.intenthq.pucket.Pucket[T]]):scalaz.\/[Ex,ImplementingType]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.PartitionedWriter@write(data:T,checkPoint:Long):scalaz.\/[Ex,ImplementingType]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -543,21 +526,21 @@ then submits the writer back to the cache
 Finds a writer in the cache or creates a new one
 then submits the writer back to the cache
 </p></div><dl class="paramcmts block"><dt class="param">data</dt><dd class="cmt"><p>the data to be written</p></dd><dt class="param">checkPoint</dt><dd class="cmt"><p>the current checkpoint to be passed
-                  to the underlying writer</p></dd><dt class="param">partition</dt><dd class="cmt"><p>the pucket instance for the partition</p></dd><dt>returns</dt><dd class="cmt"><p>a new instance of the partitioned writer
+                  to the underlying writer</p></dd><dt>returns</dt><dd class="cmt"><p>a new instance of the partitioned writer
         complete with new state</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PartitionedWriterFunctions.html" class="extype" name="com.intenthq.pucket.writer.PartitionedWriterFunctions">PartitionedWriterFunctions</a></dd></dl></div>
     </li><li name="com.intenthq.pucket.writer.PartitionedWriterFunctions#writerCache" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="writerCache(partitionId:String,writer:com.intenthq.pucket.writer.Writer[T,Ex]):scalaz.\/[Ex,com.intenthq.pucket.writer.PartitionedWriterFunctions.Writers[T,Ex]]"></a>
-      <a id="writerCache(String,Writer[T,Throwable]):\/[Throwable,Writers[T,Throwable]]"></a>
+      <a id="writerCache(partitionId:org.apache.hadoop.fs.Path,writer:com.intenthq.pucket.writer.Writer[T,Ex]):scalaz.\/[Ex,com.intenthq.pucket.writer.PartitionedWriterFunctions.Writers[T,Ex]]"></a>
+      <a id="writerCache(Path,Writer[T,Throwable]):\/[Throwable,Writers[T,Throwable]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">writerCache</span><span class="params">(<span name="partitionId">partitionId: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="writer">writer: <a href="Writer.html" class="extype" name="com.intenthq.pucket.writer.Writer">Writer</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>, <span class="extype" name="scala.Throwable">Throwable</span>]</span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="PartitionedWriterFunctions$$Writers.html" class="extype" name="com.intenthq.pucket.writer.PartitionedWriterFunctions.Writers">Writers</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>, <span class="extype" name="scala.Throwable">Throwable</span>]]</span>
+        <span class="name">writerCache</span><span class="params">(<span name="partitionId">partitionId: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>, <span name="writer">writer: <a href="Writer.html" class="extype" name="com.intenthq.pucket.writer.Writer">Writer</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>, <span class="extype" name="scala.Throwable">Throwable</span>]</span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="PartitionedWriterFunctions$$Writers.html" class="extype" name="com.intenthq.pucket.writer.PartitionedWriterFunctions.Writers">Writers</a>[<span class="extype" name="com.intenthq.pucket.writer.PartitionedWriter.T">T</span>, <span class="extype" name="scala.Throwable">Throwable</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.writer.PartitionedWriter@writerCache(partitionId:String,writer:com.intenthq.pucket.writer.Writer[T,Ex]):scalaz.\/[Ex,com.intenthq.pucket.writer.PartitionedWriterFunctions.Writers[T,Ex]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.intenthq.pucket.writer.PartitionedWriter@writerCache(partitionId:org.apache.hadoop.fs.Path,writer:com.intenthq.pucket.writer.Writer[T,Ex]):scalaz.\/[Ex,com.intenthq.pucket.writer.PartitionedWriterFunctions.Writers[T,Ex]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
