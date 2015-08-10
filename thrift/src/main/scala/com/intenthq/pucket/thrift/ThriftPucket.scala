@@ -21,13 +21,14 @@ import scalaz.syntax.either._
   */
 case class ThriftPucket[T <: Thrift] private (override val path: Path,
                                               override val fs: FileSystem,
-                                              override val descriptor: ThriftPucketDescriptor[T]) extends Pucket[T] {
+                                              override val descriptor: ThriftPucketDescriptor[T],
+                                              override val blockSize: Int) extends Pucket[T] {
   /** @inheritdoc */
   override def writer: Throwable \/ ThriftWriter[T] =
     ThriftWriter(descriptor.schemaClass,
                  filename,
                  descriptor.compression,
-                 defaultBlockSize,
+                 blockSize,
                  conf)
 
   /** @inheritdoc */
@@ -35,7 +36,7 @@ case class ThriftPucket[T <: Thrift] private (override val path: Path,
     Reader(fs, path, new ThriftReadSupport[T], filter)
 
   /** @inheritdoc */
-  override protected def newInstance(newPath: Path): Pucket[T] = ThriftPucket[T](newPath, fs, descriptor)
+  override protected def newInstance(newPath: Path): Pucket[T] = ThriftPucket[T](newPath, fs, descriptor, blockSize)
 }
 
 /** Factory for [[com.intenthq.pucket.thrift.ThriftPucket]] */
@@ -60,15 +61,17 @@ object ThriftPucket extends PucketCompanion {
                                     fs: FileSystem,
                                     schemaClass: Class[T],
                                     compression: CompressionCodecName,
-                                    partitioner: Option[PucketPartitioner[T]] = None): Throwable \/ Pucket[T] =
+                                    partitioner: Option[PucketPartitioner[T]]): Throwable \/ Pucket[T] =
     findOrCreate(path, fs, ThriftPucketDescriptor[T](schemaClass, compression, partitioner))
 
   /** @inheritdoc */
   def findOrCreate[T <: HigherType](path: Path,
                                     fs: FileSystem,
-                                    descriptor: DescriptorType[T]): Throwable \/ Pucket[T] =
+                                    descriptor: DescriptorType[T],
+                                    blockSize: Int = defaultBlockSize): Throwable \/ Pucket[T] =
     for {
-      pucket <- apply[T](path, fs, descriptor.schemaClass).fold(_ => create[T](path, fs, descriptor), _.right)
+      pucket <- apply[T](path, fs, descriptor.schemaClass, blockSize).
+                  fold(_ => create[T](path, fs, descriptor, blockSize), _.right)
       _ <- compareDescriptors(pucket.descriptor.json, descriptor.json)
     } yield pucket
 
@@ -86,19 +89,23 @@ object ThriftPucket extends PucketCompanion {
                               fs: FileSystem,
                               schemaClass: Class[T],
                               compression: CompressionCodecName,
-                              partitioner: Option[PucketPartitioner[T]] = None): Throwable \/ Pucket[T] =
+                              partitioner: Option[PucketPartitioner[T]]): Throwable \/ Pucket[T] =
     create(path, fs, ThriftPucketDescriptor[T](schemaClass, compression, partitioner))
 
   /** @inheritdoc */
   def create[T <: HigherType](path: Path,
                               fs: FileSystem,
-                              descriptor: DescriptorType[T]): Throwable \/ Pucket[T] =
-    writeMeta(path, fs, descriptor).map(_ => ThriftPucket[T](path, fs, descriptor))
+                              descriptor: DescriptorType[T],
+                              blockSize: Int = defaultBlockSize): Throwable \/ Pucket[T] =
+    writeMeta(path, fs, descriptor).map(_ => ThriftPucket[T](path, fs, descriptor, blockSize))
 
   /** @inheritdoc */
-  def apply[T <: HigherType](path: Path, fs: FileSystem, expectedSchemaClass: V): Throwable \/ Pucket[T] =
+  def apply[T <: HigherType](path: Path,
+                             fs: FileSystem,
+                             expectedSchemaClass: V,
+                             blockSize: Int = defaultBlockSize): Throwable \/ Pucket[T] =
     for {
       metadata <- readMeta(path, fs)
       descriptor <- ThriftPucketDescriptor[T](expectedSchemaClass.asInstanceOf[Class[T]], metadata)
-    } yield ThriftPucket(path, fs, descriptor)
+    } yield ThriftPucket(path, fs, descriptor, blockSize)
 }

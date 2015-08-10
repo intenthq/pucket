@@ -23,21 +23,23 @@ import scalaz.syntax.either._
   */
 case class AvroPucket[T <: IndexedRecord] private (override val path: Path,
                                                    override val fs: FileSystem,
-                                                   override val descriptor: AvroPucketDescriptor[T]) extends Pucket[T] {
+                                                   override val descriptor: AvroPucketDescriptor[T],
+                                                   override val blockSize: Int) extends Pucket[T] {
 
   /** @inheritdoc */
   override def writer: Throwable \/ Writer[T, Throwable] =
     AvroWriter[T](descriptor.schema,
                   filename,
                   descriptor.compression,
-                  defaultBlockSize,
+                  blockSize,
                   conf)
+
   /** @inheritdoc */
   override def reader(filter: Option[Filter]): Throwable \/ Reader[T] =
     Reader(fs, path, new AvroReadSupport[T], filter)
 
   /** @inheritdoc */
-  override protected def newInstance(newPath: Path): Pucket[T] = AvroPucket(newPath, fs, descriptor)
+  override protected def newInstance(newPath: Path): Pucket[T] = AvroPucket(newPath, fs, descriptor, blockSize)
 }
 
 /** Factory for [[com.intenthq.pucket.avro.AvroPucket]] */
@@ -62,15 +64,17 @@ object AvroPucket extends PucketCompanion {
                                     fs: FileSystem,
                                     schema: Schema,
                                     compression: CompressionCodecName,
-                                    partitioner: Option[PucketPartitioner[T]] = None): Throwable \/ Pucket[T] =
+                                    partitioner: Option[PucketPartitioner[T]]): Throwable \/ Pucket[T] =
     findOrCreate(path, fs, AvroPucketDescriptor[T](schema, compression, partitioner))
 
   /** @inheritdoc */
-  def findOrCreate[T <: HigherType](path: Path,
-                                    fs: FileSystem,
-                                    descriptor: DescriptorType[T]): Throwable \/ Pucket[T] =
+  override def findOrCreate[T <: HigherType](path: Path,
+                                             fs: FileSystem,
+                                             descriptor: DescriptorType[T],
+                                             blockSize: Int = defaultBlockSize): Throwable \/ Pucket[T] =
     for {
-      pucket <- apply[T](path, fs, descriptor.schema).fold(_ => create[T](path, fs, descriptor), _.right)
+      pucket <- apply[T](path, fs, descriptor.schema, blockSize).
+                  fold(_ => create[T](path, fs, descriptor, blockSize), _.right)
       _ <- compareDescriptors(pucket.descriptor.json, descriptor.json)
     } yield pucket
 
@@ -88,19 +92,23 @@ object AvroPucket extends PucketCompanion {
                               fs: FileSystem,
                               schema: Schema,
                               compression: CompressionCodecName,
-                              partitioner: Option[PucketPartitioner[T]] = None): Throwable \/ Pucket[T] =
+                              partitioner: Option[PucketPartitioner[T]]): Throwable \/ Pucket[T] =
     create[T](path, fs, AvroPucketDescriptor[T](schema, compression, partitioner))
 
   /** @inheritdoc */
-  def create[T <: HigherType](path: Path,
-                              fs: FileSystem,
-                              descriptor: DescriptorType[T]): Throwable \/ Pucket[T] =
-    writeMeta(path, fs, descriptor).map(_ => AvroPucket[T](path, fs, descriptor))
+  override def create[T <: HigherType](path: Path,
+                                       fs: FileSystem,
+                                       descriptor: DescriptorType[T],
+                                       blockSize: Int = defaultBlockSize): Throwable \/ Pucket[T] =
+    writeMeta(path, fs, descriptor).map(_ => AvroPucket[T](path, fs, descriptor, blockSize))
 
   /** @inheritdoc */
-  def apply[T <: HigherType](path: Path, fs: FileSystem, expectedSchema: V): Throwable \/ Pucket[T] =
+  override def apply[T <: HigherType](path: Path,
+                                      fs: FileSystem,
+                                      expectedSchema: V,
+                                      blockSize: Int = defaultBlockSize): Throwable \/ Pucket[T] =
     for {
       metadata <- readMeta(path, fs)
       descriptor <- AvroPucketDescriptor[T](expectedSchema, metadata)
-    } yield AvroPucket(path, fs, descriptor)
+    } yield AvroPucket(path, fs, descriptor, blockSize)
 }

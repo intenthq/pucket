@@ -31,7 +31,7 @@ trait Pucket[T] {
   def descriptor: PucketDescriptor[T]
 
   /** Default Parquet block size */
-  def defaultBlockSize = 50 * 1024 * 1024
+  def blockSize = 50 * 1024 * 1024
 
   /** Used when obtaining a new pucket as a subdir of an existing one */
   protected def newInstance(newPath: Path): Pucket[T]
@@ -132,10 +132,11 @@ trait PucketCompanion {
     * @param fs hadoop filesystem instance
     * @param other the implementing object's parameter for verifying
     *              the found pucket matches expect format
+    * @param blockSize the size of a parquet block before memory is flushed
     * @tparam T the expected type of the pucket data
     * @return an error if any of the validation fails or the pucket
     */
-  def apply[T <: HigherType](path: Path, fs: FileSystem, other: V): Throwable \/ Pucket[T]
+  def apply[T <: HigherType](path: Path, fs: FileSystem, other: V, blockSize: Int): Throwable \/ Pucket[T]
 
   /** Find an existing pucket or create one if it does not exist
     *
@@ -143,30 +144,35 @@ trait PucketCompanion {
     * @param fs hadoop filesystem instance
     * @param descriptor a descriptor to create a new pucket with or
     *                  validate an existing pucket against
+    * @param blockSize the size of a parquet block before memory is flushed
     * @tparam T the expected type of the pucket data
     * @return an error if any of the validation fails or the pucket
     */
   def findOrCreate[T <: HigherType](path: Path,
                                     fs: FileSystem,
-                                    descriptor: DescriptorType[T]): Throwable \/ Pucket[T]
+                                    descriptor: DescriptorType[T],
+                                    blockSize: Int): Throwable \/ Pucket[T]
 
   /** Create a new pucket
     *
     * @param path the path to the pucket
     * @param fs hadoop filesystem instance
     * @param descriptor a descriptor to create a new pucket with
+    * @param blockSize the size of a parquet block before memory is flushed
     * @tparam T the type of the pucket data
     * @return an error if any of the validation fails or the new pucket
     */
   def create[T <: HigherType](path: Path,
                               fs: FileSystem,
-                              descriptor: DescriptorType[T]): Throwable \/ Pucket[T]
+                              descriptor: DescriptorType[T],
+                              blockSize: Int): Throwable \/ Pucket[T]
 }
 
 /** Pucket companion object
  *  Provides functions for use with implementing classes and companion objects
  */
 object Pucket {
+  val defaultBlockSize = 50 * 1024 * 1024
   val extension = ".parquet"
 
   /** Validate two JSON serialised descriptors
