@@ -37,7 +37,8 @@ object TestUtils {
   def readData[T](data: Seq[T], pucket: Pucket[T]): Throwable \/ Seq[T] =
     pucket.reader.flatMap(r =>
       data.indices.foldLeft((Seq[T](), r).right[Throwable])( (acc, v) =>
-        acc.fold(_.left, x => x._2.read.fold(_.left, y => (y._1.fold(x._1)(x._1 ++ Seq(_)), y._2).right[Throwable]))
+        acc.fold(ex => return ex.left, x => x._2.read.fold(ex => return ex.left, y =>
+          (y._1.fold(return x._2.close.map(_ => x._1))(x._1 ++ Seq(_)), y._2).right[Throwable]))
       )
     ).flatMap(x => x._2.close.map(_ => x._1))
 

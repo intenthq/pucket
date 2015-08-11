@@ -56,17 +56,13 @@ trait PartitionedWriterFunctions[T, Ex, ImplementingType] { self: Writer[T, Ex] 
                      checkPoint: Long): Ex \/ ImplementingType = {
     val partitionPath = pucket.partition(data)
     writers.partitions.
-      get(partitionPath).map(_.write(data, checkPoint)).getOrElse(newWriter(partitionPath, checkPoint).flatMap(_.write(data, checkPoint))).flatMap(writer => writerCache(partitionPath, writer).map(newInstance))
-
-
+      get(partitionPath).
+      map(_.write(data, checkPoint)).
+      getOrElse(newWriter(partitionPath, checkPoint).
+                  flatMap(_.write(data, checkPoint))).
+      flatMap(writer => writerCache(partitionPath, writer).
+      map(newInstance))
   }
-//    partition.flatMap( p =>
-//     writers.partitions.
-//       get(p.id).
-//       map(_.write(data, checkPoint)).
-//       getOrElse(newWriter(p, checkPoint).flatMap(_.write(data, checkPoint)))
-//       flatMap(writer => writerCache(p.id, writer).map(newInstance))
-//    )
 
   /** Add a new writer to the cache
     * Will update an existing writer if one for the same

@@ -30,7 +30,7 @@ object AvroWriter {
    * @param schema avro schema
    * @param path path to the file for writing
    * @param compression compression codec
-   * @param blockSize parquet block siz
+   * @param blockSize parquet block size
    * @param conf hadoop configuration
    * @tparam T type of data to be written
    * @return a new avro writer or a creation error
