@@ -90,16 +90,16 @@ The Scalaz implementation of `Either`, known as disjunction[^4] (`\/`), is used 
 
 In the examples below disjunction is used with the implicit either class in Scalaz syntax package, which allows `.left` or `.right` operations to lift objects into the appropriate side of the disjunction. To use this the following imports must be included in implementing classes:
 
-{% highlight scala %}
+```scala
 import scalaz.\/
 import scalaz.syntax.either._
-{% endhighlight %}
+```
 
 ### Creating a Pucket
 
 The following examples use the imports listed below:
 
-{% highlight scala %}
+```scala
 import com.intenthq.pucket.thrift.ThriftPucket
 import com.intenthq.pucket.thrift.ThriftPucketDescriptor
 import com.intenthq.pucket.avro.AvroPucket
@@ -108,27 +108,27 @@ import org.apache.parquet.hadoop.metadata.CompressionCodecName
 import org.apache.hadoop.fs.{FileSystem, Path}
 import scalaz.\/
 import scalaz.syntax.either._
-{% endhighlight %}
+```
 
 You should also make sure you have created the following classes:
 
-{% highlight scala %}
+```scala
 import your.thrift.ThriftData
 import your.pucket.ThriftPartitioner
 import your.avro.AvroData
 import your.pucket.AvroPartitioner
-{% endhighlight %}
+```
 
 The following values have also been created:
 
-{% highlight scala %}
+```scala
 val fs = FileSystem.get()
 val path = new Path("/path/to/Pucket")
-{% endhighlight %}
+```
 
 Create or find a Thrift Pucket:
 
-{% highlight scala %}
+```scala
 
 val thriftDescriptor: ThriftPucketDescriptor[ThriftData] =
   ThriftPucketDescsriptor[ThriftData](classOf[ThriftData],
@@ -150,11 +150,11 @@ val existingThriftPucket: Throwable \/ Pucket[ThriftData] =
 val maybeExistingThriftPucket: Throwable \/ Pucket[ThriftData] =
   ThriftPucket.findOrCreate[ThriftData](path, fs, thriftDescriptor)
 
-{% endhighlight %}
+```
 
 Create or find an Avro Pucket:
 
-{% highlight scala %}
+```scala
 
 val avroDescriptor: AvroPucketDescriptor[AvroData] =
   AvroPucketDescriptor[AvroData](AvroData.getClassSchema,
@@ -171,23 +171,23 @@ val maybeExistingAvroPucket: Throwable \/ Pucket[AvroData] =
   AvroPucket.findOrCreate[AvroData](path, fs, avroDescriptor)
 
 
-{% endhighlight %}
+```
 
 ### Writing to a Pucket
 
 
-{% highlight scala %}
+```scala
 // Write function which fails fast on error
 def write[Ex](data: Seq[T],
               writer:  Ex \/ Writer[T, Ex]): Ex \/ Writer[T, Ex] =
   data.foldLeft(writer)( (w, i) =>
     w.fold(ex => return ex.left, _.write(i))
   )
-{% endhighlight %}
+```
 
 **Plain Writer**
 
-{% highlight scala %}
+```scala
 def writeMeSomeData[T](data: Seq[T],
                        Pucket: Throwable \/ Pucket[T]): Throwable \/ Unit =
   for {
@@ -196,11 +196,11 @@ def writeMeSomeData[T](data: Seq[T],
     finishedWriter <- write[Throwable](data, writer)
     _ <- finishedWriter.close
   } yield ()
-{% endhighlight %}
+```
 
 **Incremental Writer**
 
-{% highlight scala %}
+```scala
 def writeMeSomeDataIncrementally[T](data: Seq[T],
                                     Pucket: Throwable \/ Pucket[T]): (Long, Throwable) \/ Unit =
   for {
@@ -209,11 +209,11 @@ def writeMeSomeDataIncrementally[T](data: Seq[T],
     finishedWriter <- write[(Long, Throwable)](data, writer)
     _ <- finishedWriter.close
   } yield ()
-{% endhighlight %}
+```
 
 **Partitioned Writer**
 
-{% highlight scala %}
+```scala
 def writeMeSomePartitionedData[T](data: Seq[T],
                                   Pucket: Throwable \/ Pucket[T]): Throwable \/ Unit =
   for {
@@ -222,11 +222,11 @@ def writeMeSomePartitionedData[T](data: Seq[T],
     finishedWriter <- write[Throwable](data, writer)
     _ <- finishedWriter.close
   } yield ()
-{% endhighlight %}
+```
 
 **Incremental Partitioned Writer**
 
-{% highlight scala %}
+```scala
 def writeMeSomePartitionedDataIncrementally[T](data: Seq[T],
                                               Pucket: Throwable \/ Pucket[T]): (Long, Throwable) \/ Unit =
   for {
@@ -235,13 +235,13 @@ def writeMeSomePartitionedDataIncrementally[T](data: Seq[T],
     finishedWriter <- write[Throwable](data, writer)
     _ <- finishedWriter.close
   } yield ()
-{% endhighlight %}
+```
 
 ### Reading From a Pucket
 
 The reader behaves in a similar way to the writer in that each read returns a new instance of the reader with updated state, however as well as a new reader instance, an option of the data item is returned. The example below is an implementation which will read a certain number of records into a scala `Seq` or fail with a `Throwable`. If there is an error encountered in the read process then the code will fail fast and return the throwable in the left side of the disjunction. If the output from the pucket is exhausted then it will close the reader and return the result in the right side of the disjunction.
 
-{% highlight scala %}
+```scala
 def readData[T](count: Int, pucket: Pucket[T]): Throwable \/ Seq[T] =
   pucket.reader.flatMap(reader =>
     0.to(count).foldLeft((Seq[T](), reader).right[Throwable])( (acc, _) =>
@@ -257,7 +257,7 @@ def readData[T](count: Int, pucket: Pucket[T]): Throwable \/ Seq[T] =
       )
     )
   ).flatMap(dataAndReader => dataAndReader._2.close.map(_ => dataAndReader._1))
-{% endhighlight %}
+```
 
 ### More examples
 
