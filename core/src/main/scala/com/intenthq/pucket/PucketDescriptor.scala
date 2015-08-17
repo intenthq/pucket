@@ -101,7 +101,7 @@ object PucketDescriptor {
     } yield (descriptorMap, compressionCodec, partitioner)
 
   def instantiatePartitioner[T](className: String): Throwable \/ PucketPartitioner[T] =
-    \/.fromTryCatchNonFatal(Class.forName(className).newInstance().asInstanceOf[PucketPartitioner[T]])
+    \/.fromTryCatchNonFatal(Class.forName(className).getField("MODULE$").get(null).asInstanceOf[PucketPartitioner[T]])
 
   def extractValue(descriptorMap: Map[String, String], key: String): Throwable \/ String =
     descriptorMap.get(key).
