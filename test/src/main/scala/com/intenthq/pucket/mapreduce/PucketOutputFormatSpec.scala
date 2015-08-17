@@ -57,7 +57,7 @@ trait PucketOutputFormatSpec[T, Descriptor <: PucketDescriptor[T]] extends Speci
     }
   
   def runJob(outputPath: Path, descriptor: Descriptor): Throwable \/ Unit =
-    readSupport.flatMap( rs => pucket.flatMap { p =>
+    readSupport.flatMap{ rs =>
       val job = Job.getInstance()
       job.setInputFormatClass(classOf[ParquetInputFormat[T]])
       FileInputFormat.setInputPaths(job, path(dir))
@@ -80,5 +80,5 @@ trait PucketOutputFormatSpec[T, Descriptor <: PucketDescriptor[T]] extends Speci
           if (job.isSuccessful) ().right
           else new RuntimeException("Job failed!").left
         )
-    })
+    }
 }

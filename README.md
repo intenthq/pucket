@@ -4,7 +4,7 @@
 
 Pucket is Scala library which provides a simple partitioning system for Parquet.
 
-
+For the latest API documentation please click [here](https://intenthq.github.io/pucket/latest/api/)
 
 ## Pucket Design
 
@@ -87,6 +87,8 @@ TL;DR. Show Me Some Code
 * Writer
 
 The Scalaz implementation of `Either`, known as disjunction[^4] (`\/`), is used heavily within the Pucket code. This is a proper Monad which allows it to be used in a flat map or for comprehension. This enables a happy path and sad path to be accounted for when performing any side-effecting operation. Every operation requiring interaction with the Hadoop filesystem will return a disjunction.
+
+## Examples
 
 In the examples below disjunction is used with the implicit either class in Scalaz syntax package, which allows `.left` or `.right` operations to lift objects into the appropriate side of the disjunction. To use this the following imports must be included in implementing classes:
 
@@ -259,6 +261,55 @@ def readData[T](count: Int, pucket: Pucket[T]): Throwable \/ Seq[T] =
   ).flatMap(dataAndReader => dataAndReader._2.close.map(_ => dataAndReader._1))
 ```
 
-### More examples
+### Working With MapReduce
 
-For more detailed examples such as working with MapReduce and Spark please see the [Pucket GitHub repository](https://github.com/intenthq/pucket).
+Reading data into MapReduce can be done with the standard Parquet input format class, as it is able to traverse subdirectories in a similar way to the Pucket reader. Pucket does provide a MapReduce output format class for use in MapReduce workflows.
+
+To run the upcoming example you will have to import the following dependencies:
+
+```scala
+import org.apache.hadoop.fs.Path
+import org.apache.hadoop.mapreduce.Job
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat
+import org.apache.parquet.hadoop.ParquetInputFormat
+import com.intenthq.pucket.thrift.ThriftPucketDescriptor
+import com.intenthq.pucket.mapreduce.PucketOutputFormat
+import org.apache.parquet.hadoop.metadata.CompressionCodecName
+```
+
+The example code below will configure a MapReduce job with the Parquet input format class and the Pucket output format class.
+
+```scala
+def configureJob[T](dir: Path, descriptor: PucketDescriptor[T]): Job = {
+  val job = Job.getInstance()
+  job.setInputFormatClass(classOf[ParquetInputFormat[T]])
+  FileInputFormat.setInputPaths(job, dir)
+  ParquetInputFormat.setReadSupportClass(job, descriptor.readSupportClass)
+  FileOutputFormat.setOutputPath(job, outputPath)
+  job.setOutputFormatClass(classOf[PucketOutputFormat[T]])
+
+  job.setOutputKeyClass(classOf[Void])
+  job.setOutputValueClass(writeClass)
+  PucketOutputFormat.setDescriptor(job.getConfiguration, descriptor)
+  job  
+}
+```
+
+### Working With Spark
+
+Pucket also provides RDD extensions for Spark. Two implicit classes allow for a pucket to be transformed into an RDD and an RDD to be saved as a new Pucket. To access the functionality in the example below you must have the following imports in your class:
+
+```scala
+import com.intenthq.pucket.spark.PucketSparkAdapter._
+import org.apache.spark.SparkContext
+import com.intenthq.pucket.Pucket
+```
+
+The example below will import the data in the Pucket as a RDD, then coalesce the data down to 20 partitions an write it out to a new location. The output uses the same descriptor as the input, however this could be different if you want to change the Pucket's configuration such as data type or partitioning scheme.
+
+```scala
+def copyPucket[T](pucket: Pucket[T], path: String)(implicit sc: SparkContext): Unit =
+  pucket.toRDD[T].coalesce(20).saveAsPucket(path, pucket.descriptor)  
+
+```
