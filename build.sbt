@@ -32,7 +32,7 @@ def excludeServlet(deps: Seq[ModuleID]) = deps.map(_.exclude("javax.servlet", "s
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.0.1",
+  version := "1.0.2",
   scalaVersion := "2.11.7",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
@@ -48,7 +48,7 @@ lazy val commonSettings = Seq(
   autoAPIMappings := true,
   libraryDependencies ++= excludeServlet(Seq(
     "org.scalaz" %% "scalaz-core" % "7.1.3",
-    "org.json4s" %% "json4s-native" % "3.2.10",
+    "org.json4s" %% "json4s-native" % "3.2.11",
     "org.mortbay.jetty" % "servlet-api" % "3.0.20100224" % "provided",
     "org.apache.hadoop" % "hadoop-common" % hadoopVer % "provided",
     "org.apache.hadoop" % "hadoop-mapreduce-client-core" % hadoopVer % "provided",
