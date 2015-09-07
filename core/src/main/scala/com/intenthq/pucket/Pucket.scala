@@ -8,7 +8,6 @@ import com.intenthq.pucket.writer.Writer
 import org.apache.commons.io.IOUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.parquet.filter2.compat.FilterCompat.Filter
-import org.json4s.JsonAST.JValue
 
 import scalaz.\/
 import scalaz.syntax.either._
@@ -181,7 +180,7 @@ object Pucket {
    * @param expected expected descriptor provided by caller
    * @return Validation error or unit
    */
-  def compareDescriptors(found: JValue, expected: JValue): Throwable \/ Unit =
+  def compareDescriptors(found: Map[String, String], expected: Map[String, String]): Throwable \/ Unit =
     if (found.equals(expected)) ().right
     else new RuntimeException("Found metadata which does not match expected. " +
                               s"Expected: $expected, Found $found").left

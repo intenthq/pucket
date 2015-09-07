@@ -1,11 +1,11 @@
 package com.intenthq.pucket.thrift.mapreduce
 
 import com.intenthq.pucket.Pucket
+import com.intenthq.pucket.TestUtils._
 import com.intenthq.pucket.mapreduce.PucketOutputFormatSpec
 import com.intenthq.pucket.test.model.ThriftTest
-import com.intenthq.pucket.TestUtils._
 import com.intenthq.pucket.thrift.ThriftTestUtils._
-import com.intenthq.pucket.thrift.{ThriftTestUtils, ThriftPucket, ThriftPucketDescriptor}
+import com.intenthq.pucket.thrift.{ThriftPucket, ThriftPucketDescriptor, ThriftTestUtils}
 import org.apache.hadoop.fs.Path
 import org.scalacheck.Gen
 

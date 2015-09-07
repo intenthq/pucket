@@ -5,7 +5,6 @@ import com.intenthq.pucket.util.PucketPartitioner
 import com.intenthq.pucket.{PucketDescriptor, PucketDescriptorCompanion}
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 import org.apache.parquet.hadoop.thrift.ThriftReadSupport
-import org.json4s.JsonDSL._
 
 import scalaz.\/
 import scalaz.syntax.either._
@@ -23,7 +22,7 @@ case class ThriftPucketDescriptor[T <: Thrift](schemaClass: Class[T],
   import ThriftPucketDescriptor._
 
   /** @inheritdoc  */
-  override val json = (schemaClassKey -> schemaClass.getName) ~ commonJson
+  override val json: Map[String, String] = Map(schemaClassKey -> schemaClass.getName) ++ commonJson
 
   /** @inheritdoc */
   override def instantiatorClass: Class[_] = classOf[ThriftPucketInstantiator]
