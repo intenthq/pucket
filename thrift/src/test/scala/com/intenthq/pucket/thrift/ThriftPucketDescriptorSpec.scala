@@ -2,7 +2,6 @@ package com.intenthq.pucket.thrift
 
 import com.intenthq.pucket.thrift.ThriftTestUtils._
 import com.intenthq.pucket.test.model.ThriftTest
-import org.json4s.ParserUtil._
 import org.scalacheck.{Gen, Prop}
 import org.specs2.matcher.DisjunctionMatchers
 import org.specs2.{ScalaCheck, Specification}
@@ -32,7 +31,7 @@ class ThriftPucketDescriptorSpec extends Specification with DisjunctionMatchers 
   def badString =
     Prop.forAll(randomString) { s =>
       ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], s) must be_-\/[Throwable].like {
-        case a => a must beAnInstanceOf[ParseException]
+        case a => a must beAnInstanceOf[jodd.json.JsonException]
       }
     }
 

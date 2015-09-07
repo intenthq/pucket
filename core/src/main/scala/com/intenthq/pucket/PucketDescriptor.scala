@@ -1,13 +1,12 @@
 package com.intenthq.pucket
 
 import com.intenthq.pucket.util.PucketPartitioner
+import jodd.json.{JsonParser, JsonSerializer}
 import org.apache.hadoop.fs.Path
 import org.apache.parquet.hadoop.api.ReadSupport
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
-import org.json4s.JsonDSL._
-import org.json4s.native.JsonMethods._
-import org.json4s.{DefaultFormats, _}
 
+import scala.collection.JavaConverters._
 import scalaz.\/
 import scalaz.syntax.either._
 
@@ -17,6 +16,8 @@ import scalaz.syntax.either._
   * @tparam T the type of data being stored in the pucket
   */
 trait PucketDescriptor[T] {
+  val jsonSerializer = new JsonSerializer()
+
   import PucketDescriptor._
   /** Parquet compression codec */
   def compression: CompressionCodecName
@@ -24,7 +25,7 @@ trait PucketDescriptor[T] {
   def partitioner: Option[PucketPartitioner[T]] = None
 
   /** JSON representation of the descriptor */
-  def json: JValue
+  def json: Map[String, String]
 
   /** Reflection instantiation class used by the mapreduce module */
   def instantiatorClass: Class[_]
@@ -33,14 +34,15 @@ trait PucketDescriptor[T] {
   def readSupportClass: Class[_ <: ReadSupport[T]]
 
   /** common JSON values for all implementing descriptors */
-  def commonJson = (compressionKey -> compression.name()) ~
-                   (partitionerKey -> partitioner.map(_.getClass.getName))
+  def commonJson: Map[String, String] =
+    Map(compressionKey -> compression.name()) ++
+    partitioner.fold[Map[String, String]](Map.empty)(x => Map(partitionerKey -> x.getClass.getName))
 
   /** Serialise the descriptor as a JSON string
    *
    * @return JSON string of descriptor
    */
-  override def toString: String = compact(render(json))
+  override def toString: String = jsonSerializer.serialize(json.asJava)
 }
 
 /** Trait for implementations of the pucket descriptor companion object */
@@ -74,8 +76,6 @@ object PucketDescriptor {
 
   val descriptorFilename = ".pucket.descriptor"
 
-  implicit val formats = DefaultFormats
-
   /** Full path to a pucket descriptor
     * 
     * @param path path of the pucket
@@ -92,7 +92,7 @@ object PucketDescriptor {
    */
   def parseDescriptor[T](descriptorString: String): Throwable \/ (Map[String, String], CompressionCodecName, Option[PucketPartitioner[T]]) =
     for {
-      descriptorMap <- \/.fromTryCatchNonFatal(parse(descriptorString).extract[Map[String, String]])
+      descriptorMap <- parse(descriptorString)
       compression <- extractValue(descriptorMap, compressionKey)
       compressionCodec <- \/.fromTryCatchNonFatal(CompressionCodecName.valueOf(compression))
       partitioner <- descriptorMap.get(partitionerKey).
@@ -106,4 +106,7 @@ object PucketDescriptor {
   def extractValue(descriptorMap: Map[String, String], key: String): Throwable \/ String =
     descriptorMap.get(key).
       fold[Throwable \/ String](new RuntimeException(s"Could not find $key in descriptor").left)(_.right)
+
+  def parse(json: String): Throwable \/ Map[String, String] =
+    \/.fromTryCatchNonFatal(new JsonParser().parse(json).asInstanceOf[java.util.Map[String, String]].asScala.toMap)
 }

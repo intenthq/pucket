@@ -1,15 +1,14 @@
 package com.intenthq.pucket.avro
 
 import com.intenthq.pucket.avro.test.{AvroTest, AvroTest2}
-import org.json4s.ParserUtil.ParseException
-import org.scalacheck.{Prop, Gen}
-import org.specs2.{ScalaCheck, Specification}
+import org.scalacheck.{Gen, Prop}
 import org.specs2.matcher.DisjunctionMatchers
+import org.specs2.{ScalaCheck, Specification}
 
 
 class AvroPucketDescriptorSpec extends Specification with DisjunctionMatchers with ScalaCheck {
-  import AvroTestUtils._
   import AvroPucketDescriptorSpec._
+  import AvroTestUtils._
 
   def is =
     s2"""
@@ -33,13 +32,13 @@ class AvroPucketDescriptorSpec extends Specification with DisjunctionMatchers wi
   def badString =
     Prop.forAll(randomString) { s =>
       AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, s) must be_-\/[Throwable].like {
-        case a => a must beAnInstanceOf[ParseException]
+        case a => a must beAnInstanceOf[jodd.json.JsonException]
       }
     }
 
   def badSchema =
     AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, badSchemaString) must be_-\/.like {
-      case a => a must beAnInstanceOf[ParseException]
+      case a => a must beAnInstanceOf[jodd.json.JsonException]
     }
 
   def schemaClassIncorrect =

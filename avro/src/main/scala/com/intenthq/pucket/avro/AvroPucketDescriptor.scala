@@ -7,9 +7,6 @@ import org.apache.avro.Schema
 import org.apache.avro.generic.IndexedRecord
 import org.apache.parquet.avro.AvroReadSupport
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
-import org.json4s.JsonDSL._
-import org.json4s.native.JsonMethods._
-import org.json4s.{JValue, _}
 
 import scalaz.\/
 import scalaz.syntax.either._
@@ -30,7 +27,7 @@ case class AvroPucketDescriptor[T <: IndexedRecord](schema: Schema,
   override def instantiatorClass: Class[_] = classOf[AvroPucketInstantiator]
 
   /** @inheritdoc */
-  override def json: JValue = JField(avroSchemaKey, schema.toString) ~ commonJson
+  override def json: Map[String, String] = Map(avroSchemaKey -> schema.toString) ++ commonJson
 
   /** @inheritdoc */
   override val readSupportClass: Class[AvroReadSupport[T]] = classOf[AvroReadSupport[T]]
@@ -45,11 +42,11 @@ object AvroPucketDescriptor extends PucketDescriptorCompanion {
 
   val avroSchemaKey = "avroSchema"
 
-  private def validate[T <: HigherType](descriptorString: String): Throwable \/ (JValue, Schema, CompressionCodecName, Option[PucketPartitioner[T]]) =
+  private def validate[T <: HigherType](descriptorString: String): Throwable \/ (Map[String, String], Schema, CompressionCodecName, Option[PucketPartitioner[T]]) =
     for {
       underlying <- parseDescriptor[T](descriptorString)
       schema <- extractValue(underlying._1, avroSchemaKey)
-      parsedSchema <- \/.fromTryCatchNonFatal(parse(schema))
+      parsedSchema <- parse(schema)
       avroSchema <- \/.fromTryCatchNonFatal(new Schema.Parser().parse(schema))
     } yield (parsedSchema, avroSchema, underlying._2, underlying._3)
 
@@ -57,7 +54,7 @@ object AvroPucketDescriptor extends PucketDescriptorCompanion {
   override def apply[T <: IndexedRecord](expectedSchema: Schema, descriptorString: String): Throwable \/ AvroPucketDescriptor[T] =
     for {
       underlying <- validate[T](descriptorString)
-      expectedSchemaJson <- \/.fromTryCatchNonFatal(parse(expectedSchema.toString))
+      expectedSchemaJson <- parse(expectedSchema.toString)
       _ <- if (underlying._2 == expectedSchema) ().right
            else new RuntimeException("Found schema does not match expected").left
     } yield AvroPucketDescriptor[T](underlying._2, underlying._3, underlying._4)
