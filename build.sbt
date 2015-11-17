@@ -5,7 +5,7 @@ import com.typesafe.sbt.SbtGit.{GitKeys => git}
 val specs2Ver = "3.6.4"
 val parquetVer = "1.8.1"
 val hadoopVer = "2.7.1"
-val sparkVer = "1.4.1"
+val sparkVer = "1.5.1"
 
 val pomInfo = (
   <url>https://github.com/intenthq/pucket</url>
@@ -32,7 +32,7 @@ def excludeServlet(deps: Seq[ModuleID]) = deps.map(_.exclude("javax.servlet", "s
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.0.3",
+  version := "1.0.4",
   scalaVersion := "2.11.7",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
@@ -56,6 +56,7 @@ lazy val commonSettings = Seq(
     "org.apache.parquet" % "parquet-hadoop" % parquetVer
   )),
   dependencyOverrides += "org.slf4j" % "slf4j-log4j12" % "1.7.12",
+  dependencyOverrides += "org.slf4j" % "slf4j-api" % "1.7.12",
   resolvers ++= Seq(
     Resolver.typesafeRepo("releases"),
     Resolver.sonatypeRepo("public"),
@@ -72,6 +73,7 @@ lazy val core = (project in file("core")).
   settings(
     name := "pucket-core",
     libraryDependencies ++= Seq(
+      "org.apache.commons" % "commons-lang3" % "3.4",
       "org.specs2" %% "specs2-core" % specs2Ver % "test",
       "org.specs2" %% "specs2-scalacheck" % specs2Ver % "test"
     )

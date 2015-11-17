@@ -17,7 +17,7 @@ object TestUtils {
 
   def writeData[T, Ex](data: Seq[T], writer: Writer[T, Ex]): Ex \/ Writer[T, Ex] =
     data.foldLeft(writer.right[Ex])( (acc, d) =>
-                                              acc.fold(_.left, _.write(d))
+      acc.fold(_.left, _.write(d))
     )
 
   case class PucketWrapper[T](dir: File, path: Path, pucket: Throwable \/ Pucket[T]) {

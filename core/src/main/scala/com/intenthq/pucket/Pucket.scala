@@ -6,6 +6,7 @@ import com.intenthq.pucket.reader.Reader
 import com.intenthq.pucket.util.HadoopUtil
 import com.intenthq.pucket.writer.Writer
 import org.apache.commons.io.IOUtils
+import org.apache.commons.lang3.StringUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.parquet.filter2.compat.FilterCompat.Filter
 
@@ -99,16 +100,34 @@ trait Pucket[T] {
                         "uses a different compression codec to")
       files <- listFiles
       otherFiles <- pucket.listFiles
-      _ <- \/.fromTryCatchNonFatal(otherFiles.map(x => (x, filename)).foreach(x => fs.rename(x._1, x._2)))
+      _ <- \/.fromTryCatchNonFatal(otherFiles.map(x => (x, targetFile(pucket, x))).foreach(x => fs.rename(x._1, x._2)))
     } yield ()
   }
 
   /** Generate a fully qualified filename under the pucket
     *
-    * @return a hadoop path to a new randomly generated filename
+    * @return a fully qualified hadoop path to a new randomly generated filename under pucket
     */
-  def filename: Path =
-    fs.makeQualified(new Path(path, new Path(s"${UUID.randomUUID().toString}$extension")))
+  def filename: Path = fs.makeQualified(new Path(path, file))
+
+  /** Generate a filename
+    *
+    * @return a relative hadoop path to a new randomly generated filename
+    */
+  def file: Path = new Path(s"${UUID.randomUUID().toString}$extension")
+
+
+  /** Target location for a given path under the current pucket
+    *
+    * @param pucket
+    * @param otherPath
+    * @return a fully qualified path under the current pucket, maintaining a partitioning scheme
+    */
+  def targetFile(pucket: Pucket[T], otherPath: Path): Path = {
+    val relative = new Path(StringUtils.removePattern(otherPath.toString, s"^${pucket.path.toString}/"))
+
+    new Path(path, new Path(relative.getParent, file))
+  }
 
   /** An identifier for the pucket for use in writer cache
     *

@@ -1,6 +1,7 @@
 package com.intenthq.pucket
 
 import java.io.{File, FileNotFoundException, IOException}
+import java.util.UUID
 
 import org.apache.hadoop.fs.Path
 import org.scalacheck.{Gen, Prop}
@@ -97,27 +98,50 @@ trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers w
 
   def testAbsorb = Prop.forAll(descriptorGen) { d1 =>
     Prop.forAll(descriptorGen) { d2 =>
-      val res = absorb(createWrapper(d1), createWrapper(d2))
-      if (d1 == d2) res must be_\/-
+      val (pucket1, pucket2) = (createWrapper(d1), createWrapper(d2))
+      val randomSubpath = UUID.randomUUID().toString
+      val (res, files) = absorb(pucket1, pucket2, Some(randomSubpath))
+      if (d1 == d2) (res must be_\/-) and (files must be_\/-.like {
+        // test that moved files contain the subpath
+        case a => a.count(_.toString.contains(s"/$randomSubpath/")) === a.size
+      })
       else res must be_-\/
     }
   }
 
   def absorbSame = {
     val pucket = createWrapper
-    absorb(pucket, pucket) must be_-\/
+    absorb(pucket, pucket)._1 must be_-\/
   }
 
-  def absorb(pucket1: PucketWrapper[T], pucket2: PucketWrapper[T]) = {
-    readAndWrite(pucket1.pucket)
+  def pucketFiles(pucket1: Throwable \/ Pucket[T], pucket2: Throwable \/Pucket[T]) =
+    (for {
+      p1 <- pucket1
+      p2 <- pucket2
+      files1 <- p1.listFiles
+      files2 <- p2.listFiles
+    } yield (files1, files2)) must be_\/-.like {
+      case (a, b) => true
+    }
+
+
+  def absorb(pucket1: PucketWrapper[T], pucket2: PucketWrapper[T], subPath: Option[String] = None) = {
     readAndWrite(pucket2.pucket)
 
+    // simulates pucket partitions when a subpath is set
+    subPath.foreach( sp =>
+      pucket2.pucket.flatMap(_.listFiles).map(_.foreach(path =>
+        fs.rename(path, new Path(new Path(path.getParent, new Path(sp)), path.getName))
+      ))
+    )
+
     val ret = pucket1.pucket.flatMap(x => pucket2.pucket.flatMap(x.absorb))
+    val files = pucket1.pucket.flatMap(_.listFiles)
 
     pucket1.close()
     pucket2.close()
 
-    ret
+    (ret, files)
   }
 
   def readAndWrite(pucket: Throwable \/ Pucket[T]) =
