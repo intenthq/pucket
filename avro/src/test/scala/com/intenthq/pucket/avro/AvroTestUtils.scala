@@ -28,7 +28,7 @@ object AvroTestUtils {
 
   object ModPucketPartitioner extends PucketPartitioner[AvroTest] {
     override def partition(data: AvroTest): Path =
-      new Path((data.getTest % 20).toString)
+      new Path(s"${data.getTest % 20}/")
   }
 
   object PassThroughPucketPartitioner extends PucketPartitioner[AvroTest] {
