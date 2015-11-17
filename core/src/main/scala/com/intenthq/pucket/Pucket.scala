@@ -124,7 +124,12 @@ trait Pucket[T] {
     * @return a fully qualified path under the current pucket, maintaining a partitioning scheme
     */
   def targetFile(pucket: Pucket[T], otherPath: Path): Path = {
-    val relative = new Path(StringUtils.removePattern(otherPath.toString, s"^${pucket.path.toString}/"))
+    val relative = new Path(
+      StringUtils.removePattern(
+        StringUtils.remove(otherPath.toString, fs.makeQualified(pucket.path).toString),
+        s"^/"
+      )
+    )
 
     new Path(path, new Path(relative.getParent, file))
   }
