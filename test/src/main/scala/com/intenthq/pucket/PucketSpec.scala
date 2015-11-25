@@ -99,7 +99,7 @@ trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers w
   def testAbsorb = Prop.forAll(descriptorGen) { d1 =>
     Prop.forAll(descriptorGen) { d2 =>
       val (pucket1, pucket2) = (createWrapper(d1), createWrapper(d2))
-      val randomSubpath = UUID.randomUUID().toString
+      val randomSubpath = s"${UUID.randomUUID().toString}/${UUID.randomUUID().toString}"
       val (res, files) = absorb(pucket1, pucket2, Some(randomSubpath))
       if (d1 == d2) (res must be_\/-) and (files must be_\/-.like {
         // test that moved files contain the subpath

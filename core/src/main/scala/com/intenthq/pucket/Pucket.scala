@@ -100,7 +100,10 @@ trait Pucket[T] {
                         "uses a different compression codec to")
       files <- listFiles
       otherFiles <- pucket.listFiles
-      _ <- \/.fromTryCatchNonFatal(otherFiles.map(x => (x, targetFile(pucket, x))).foreach(x => fs.rename(x._1, x._2)))
+      _ <- \/.fromTryCatchNonFatal(otherFiles.map(x => (x, targetFile(pucket, x))).foreach {x =>
+        fs.mkdirs(x._2.getParent)
+        fs.rename(x._1, x._2)
+      })
     } yield ()
   }
 
