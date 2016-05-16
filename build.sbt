@@ -5,7 +5,7 @@ import com.typesafe.sbt.SbtGit.{GitKeys => git}
 val specs2Ver = "3.6.4"
 val parquetVer = "1.8.1"
 val hadoopVer = "2.7.1"
-val sparkVer = "1.5.1"
+val sparkVer = "1.6.1"
 
 val pomInfo = (
   <url>https://github.com/intenthq/pucket</url>
@@ -32,7 +32,7 @@ def excludeServlet(deps: Seq[ModuleID]) = deps.map(_.exclude("javax.servlet", "s
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.0.5",
+  version := "1.0.6",
   scalaVersion := "2.11.7",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
@@ -48,7 +48,7 @@ lazy val commonSettings = Seq(
   autoAPIMappings := true,
   libraryDependencies ++= excludeServlet(Seq(
     "org.scalaz" %% "scalaz-core" % "7.1.3",
-    "org.jodd" % "jodd-json" % "3.6.6",
+    "org.jodd" % "jodd-json" % "3.7",
     "org.mortbay.jetty" % "servlet-api" % "3.0.20100224" % "provided",
     "org.apache.hadoop" % "hadoop-common" % hadoopVer % "provided",
     "org.apache.hadoop" % "hadoop-mapreduce-client-core" % hadoopVer % "provided",
