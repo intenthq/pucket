@@ -45,7 +45,7 @@ trait IncrementalPartitionedWriterSpec[T] extends Specification with Disjunction
       filterNot(_.getName == PucketDescriptor.descriptorFilename)))
 
   def writer: Throwable \/ IncrementalPartitionedWriter[T] =
-    wrapper.pucket.map(IncrementalPartitionedWriter(_, maxWrites))
+    wrapper.pucket.map(IncrementalPartitionedWriter(_, maxWrites, 5))
 
 }
 

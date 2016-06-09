@@ -54,5 +54,5 @@ object IncrementalPartitionedWriter {
     * @return a new incremental partitioned writer
     */
   def apply[T](pucket: Pucket[T], maxWrites: Long, writerCacheSize: Int = 100): IncrementalPartitionedWriter[T] =
-    IncrementalPartitionedWriter(pucket, Writers(Map[Path, IncrementalWriter[T]](), Map[Long, Path]()), maxWrites, writerCacheSize)
+    IncrementalPartitionedWriter(pucket, Writers(Map[String, IncrementalWriter[T]](), Map[Long, String]()), maxWrites, writerCacheSize)
 }

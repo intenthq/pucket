@@ -43,5 +43,5 @@ object PartitionedWriter {
    * @return a new partitioned writer
    */
   def apply[T](pucket: Pucket[T], writerCacheSize: Int = 100): PartitionedWriter[T] =
-    PartitionedWriter(pucket, Writers[T, Throwable](Map[Path, Writer[T, Throwable]](), Map[Long, Path]()), writerCacheSize)
+    PartitionedWriter(pucket, Writers[T, Throwable](Map[String, Writer[T, Throwable]](), Map[Long, String]()), writerCacheSize)
 }
