@@ -5,6 +5,7 @@ import org.apache.hadoop.fs.Path
 
 import scalaz.\/
 import scalaz.syntax.either._
+import scalaz.syntax.std.boolean._
 
 /** Partitioned writer mixin
   * provides partitioning to a writer type
@@ -56,7 +57,7 @@ trait PartitionedWriterFunctions[T, Ex, ImplementingType] { self: Writer[T, Ex] 
                      checkPoint: Long): Ex \/ ImplementingType = {
     val partitionPath = pucket.partition(data)
     writers.partitions.
-      get(partitionPath).
+      get(partitionPath.toString).
       map(_.write(data, checkPoint)).
       getOrElse(newWriter(partitionPath, checkPoint).
                   flatMap(_.write(data, checkPoint))).
@@ -76,19 +77,31 @@ trait PartitionedWriterFunctions[T, Ex, ImplementingType] { self: Writer[T, Ex] 
     * @param writer the writer instance to be cached
     * @return
     */
-  def writerCache(partitionId: Path, writer: Writer[T, Ex]): Ex \/ Writers[T, Ex] =
+  def writerCache(partitionId: String, writer: Writer[T, Ex]): Ex \/ Writers[T, Ex] =
     if (writers.partitions.size < writerCacheSize || writers.partitions.isDefinedAt(partitionId))
       Writers(writers.partitions + (partitionId -> writer),
               writers.lastUsed + (System.currentTimeMillis() -> partitionId)).right
+
     else {
-      val oldestWriter = writers.lastUsed.toList.sortBy(_._1).head
-      writers.partitions(oldestWriter._2).close.map( _ =>
-        Writers((writers.partitions - oldestWriter._2) + (partitionId -> writer),
-                (writers.lastUsed - oldestWriter._1) + (System.currentTimeMillis() -> partitionId))
+      val oldestWriter = writers.lastUsed.toList.sortBy(_._1).headOption
+
+      def updatedState = oldestWriter.fold(
+        Writers(writers.partitions + (partitionId -> writer),
+                writers.lastUsed + (System.currentTimeMillis() -> partitionId)))(
+        ow => Writers((writers.partitions - ow._2) + (partitionId -> writer),
+                      (writers.lastUsed - ow._1) + (System.currentTimeMillis() -> partitionId))
       )
+
+      oldestWriter.
+        flatMap(ow => writers.partitions.get(ow._2)).
+        fold(updatedState.right[Ex])(_.close.map(_ => updatedState))
     }
+
+  /** @inheritdoc */
+  def writerCache(partitionId: Path, writer: Writer[T, Ex]): Ex \/ Writers[T, Ex] =
+    writerCache(partitionId.toString, writer)
 }
 
 object PartitionedWriterFunctions {
-  case class Writers[T, A](partitions: Map[Path, Writer[T, A]], lastUsed: Map[Long, Path])
+  case class Writers[T, A](partitions: Map[String, Writer[T, A]], lastUsed: Map[Long, String])
 }

@@ -40,7 +40,7 @@ trait PartitionedWriterSpec[T] extends Specification with DisjunctionMatchers wi
       map(_.getPath.getName).
       filterNot(_ == PucketDescriptor.descriptorFilename)))
 
-  def writer: Throwable \/ PartitionedWriter[T] = wrapper.pucket.map(PartitionedWriter(_))
+  def writer: Throwable \/ PartitionedWriter[T] = wrapper.pucket.map(PartitionedWriter(_, 5))
 }
 
 object PartitionedWriterSpec {
