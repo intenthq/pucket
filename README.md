@@ -12,29 +12,29 @@ The following top level dependencies are published in Maven central:
 
 **Thrift support**:
 ```
-"com.intenthq.pucket" %% "pucket-thrift" % "1.1.0"
+"com.intenthq.pucket" %% "pucket-thrift" % "1.2.0"
 ```
 
 **Avro support**:
 ```
-"com.intenthq.pucket" %% "pucket-avro" % "1.1.0"
+"com.intenthq.pucket" %% "pucket-avro" % "1.2.0"
 ```
 
 **Spark connectors**:
 ```
-"com.intenthq.pucket" %% "pucket-spark" % "1.1.0"
+"com.intenthq.pucket" %% "pucket-spark" % "1.2.0"
 ```
 
 **MapReduce integration**:
 ```
-"com.intenthq.pucket" %% "pucket-mapreduce" % "1.1.0"
+"com.intenthq.pucket" %% "pucket-mapreduce" % "1.2.0"
 ```
 
 These dependencies should be combined depending on your usages; for example if you use Thrift and Spark then use the following:
 
 ```
-"com.intenthq.pucket" %% "pucket-thrift" % "1.1.0"
-"com.intenthq.pucket" %% "pucket-spark" % "1.1.0"
+"com.intenthq.pucket" %% "pucket-thrift" % "1.2.0"
+"com.intenthq.pucket" %% "pucket-spark" % "1.2.0"
 ```
 
 

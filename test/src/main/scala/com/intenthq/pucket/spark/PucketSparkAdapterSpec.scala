@@ -42,7 +42,7 @@ abstract class PucketSparkAdapterSpec[T, Descriptor](registrator: Option[String]
     case a => a must containAllOf(data)
   }
 
-  def writeOut = pucket.map(x => x.toRDD.saveAsPucket(outputPath, x.descriptor)) must be_\/-.like {
+  def writeOut = pucket.map(x => x.toRDD.saveAsPucket(outputPath, x.descriptor, Some(x.conf))) must be_\/-.like {
     case _ => findPucket(outputPath) must be_\/-.like {
       case p => readData(data, p) must be_\/-.like {
         case a => a must containAllOf(data)
