@@ -9,6 +9,8 @@ import org.apache.parquet.hadoop.ParquetInputFormat
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 
+import scala.collection.JavaConversions._
+
 import scala.reflect.ClassTag
 /** Provides classes to extend Spark's RDD so that puckets can be read and written with spark */
 object PucketSparkAdapter {
@@ -29,7 +31,7 @@ object PucketSparkAdapter {
                           classOf[ParquetInputFormat[T]],
                           classOf[Void],
                           ev0.runtimeClass.asInstanceOf[Class[T]],
-                          job.getConfiguration
+                          mergeConfig(job.getConfiguration, pucket.conf)
       ).map(_._2)
     }
 
@@ -48,14 +50,17 @@ object PucketSparkAdapter {
      *
      * @param path path to the new pucket
      * @param descriptor pucket descriptor
+     * @param configuration optional hadoop configuration
      */
-    def saveAsPucket(path: String, descriptor: PucketDescriptor[T]): Unit =
+    def saveAsPucket(path: String,
+                     descriptor: PucketDescriptor[T],
+                     configuration: Option[Configuration] = None): Unit =
       rdd.map((null, _)).saveAsNewAPIHadoopFile(
         path,
         classOf[Void],
         ev0.runtimeClass.asInstanceOf[Class[T]],
         classOf[PucketOutputFormat[T]],
-        pucketConf(descriptor)
+        configuration.fold(pucketConf(descriptor))(conf => mergeConfig(pucketConf(descriptor), conf))
       )
 
     private def pucketConf(descriptor: PucketDescriptor[T]): Configuration = {
@@ -63,7 +68,12 @@ object PucketSparkAdapter {
       PucketOutputFormat.setDescriptor[T](conf, descriptor)
       conf
     }
+  }
 
+  private def mergeConfig(one: Configuration, two: Configuration): Configuration = {
+    val conf = new Configuration(one)
+    two.iterator().foreach(entry => conf.set(entry.getKey, entry.getValue))
+    conf
   }
 }
 
