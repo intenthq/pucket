@@ -18,6 +18,8 @@ object PucketSparkAdapter {
 
     /** Convert a pucket instance to an RDD
      *
+     * Merges hadoop configuration in the spark context with that in the pucket. Note that any parameters in the provided hadoop configuration will take precedence over the hadoop config in the spark context.
+     *
      * @param subPaths paths under the pucket to be included in the RDD
      * @param sc implicit spark context
      * @return an RDD of the pucket's data type
@@ -50,7 +52,7 @@ object PucketSparkAdapter {
      *
      * @param path path to the new pucket
      * @param descriptor pucket descriptor
-     * @param configuration optional hadoop configuration
+     * @param configuration optional hadoop configuration to merge with that of the spark context. Note that any parameters in the provided hadoop configuration will take precedence over the hadoop config in the spark context.
      */
     def saveAsPucket(path: String,
                      descriptor: PucketDescriptor[T],
@@ -64,7 +66,7 @@ object PucketSparkAdapter {
       )
 
     private def pucketConf(descriptor: PucketDescriptor[T]): Configuration = {
-      val conf = rdd.context.hadoopConfiguration
+      val conf = new Configuration(rdd.context.hadoopConfiguration)
       PucketOutputFormat.setDescriptor[T](conf, descriptor)
       conf
     }

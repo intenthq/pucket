@@ -32,7 +32,7 @@ def excludeServlet(deps: Seq[ModuleID]) = deps.map(_.exclude("javax.servlet", "s
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.2.0",
+  version := "1.2.1",
   scalaVersion := "2.11.8",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
