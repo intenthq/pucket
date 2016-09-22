@@ -10,7 +10,6 @@ import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 
 import scala.collection.JavaConversions._
-
 import scala.reflect.ClassTag
 /** Provides classes to extend Spark's RDD so that puckets can be read and written with spark */
 object PucketSparkAdapter {
