@@ -30,9 +30,7 @@ class ThriftPucketDescriptorSpec extends Specification with DisjunctionMatchers 
 
   def badString =
     Prop.forAll(randomString) { s =>
-      ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], s) must be_-\/[Throwable].like {
-        case a => a must beAnInstanceOf[jodd.json.JsonException]
-      }
+      ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], s) must be_-\/[Throwable]
     }
 
   def schemaClassNotFound =

@@ -31,15 +31,11 @@ class AvroPucketDescriptorSpec extends Specification with DisjunctionMatchers wi
   
   def badString =
     Prop.forAll(randomString) { s =>
-      AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, s) must be_-\/[Throwable].like {
-        case a => a must beAnInstanceOf[jodd.json.JsonException]
-      }
+      AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, s) must be_-\/[Throwable]
     }
 
   def badSchema =
-    AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, badSchemaString) must be_-\/.like {
-      case a => a must beAnInstanceOf[jodd.json.JsonException]
-    }
+    AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, badSchemaString) must be_-\/[Throwable]
 
   def schemaClassIncorrect =
     AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, incorrectSchema) must be_-\/.like {

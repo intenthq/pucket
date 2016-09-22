@@ -4,8 +4,9 @@ import com.typesafe.sbt.SbtGit.{GitKeys => git}
 
 val specs2Ver = "3.6.4"
 val parquetVer = "1.8.1"
-val hadoopVer = "2.7.1"
-val sparkVer = "1.6.1"
+val hadoopVer = "2.7.3"
+val sparkVer = "2.0.0"
+val circeVersion = "0.5.1"
 
 val pomInfo = (
   <url>https://github.com/intenthq/pucket</url>
@@ -32,7 +33,7 @@ def excludeServlet(deps: Seq[ModuleID]) = deps.map(_.exclude("javax.servlet", "s
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.2.1",
+  version := "1.3.0",
   scalaVersion := "2.11.8",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
@@ -48,13 +49,17 @@ lazy val commonSettings = Seq(
   autoAPIMappings := true,
   libraryDependencies ++= excludeServlet(Seq(
     "org.scalaz" %% "scalaz-core" % "7.1.3",
-    "org.jodd" % "jodd-json" % "3.7",
     "org.mortbay.jetty" % "servlet-api" % "3.0.20100224" % "provided",
     "org.apache.hadoop" % "hadoop-common" % hadoopVer % "provided",
     "org.apache.hadoop" % "hadoop-mapreduce-client-core" % hadoopVer % "provided",
     "org.apache.parquet" % "parquet-column" % parquetVer,
     "org.apache.parquet" % "parquet-hadoop" % parquetVer
   )),
+  libraryDependencies ++= Seq(
+    "io.circe" %% "circe-core",
+    "io.circe" %% "circe-generic",
+    "io.circe" %% "circe-parser"
+  ).map(_ % circeVersion),
   dependencyOverrides += "org.slf4j" % "slf4j-log4j12" % "1.7.12",
   dependencyOverrides += "org.slf4j" % "slf4j-api" % "1.7.12",
   resolvers ++= Seq(
@@ -145,6 +150,7 @@ lazy val spark = (project in file("spark")).
         ExclusionRule(organization = "org.slf4j"),
         ExclusionRule(organization = "log4j"),
         ExclusionRule(organization = "org.scala-lang"),
+        ExclusionRule(organization = "org.scalatest"),
         ExclusionRule(organization = "javax.servlet", name = "servlet-api")
        )
     ))

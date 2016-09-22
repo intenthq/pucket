@@ -42,26 +42,24 @@ object AvroPucketDescriptor extends PucketDescriptorCompanion {
 
   val avroSchemaKey = "avroSchema"
 
-  private def validate[T <: HigherType](descriptorString: String): Throwable \/ (Map[String, String], Schema, CompressionCodecName, Option[PucketPartitioner[T]]) =
+  private def validate[T <: HigherType](descriptorString: String): Throwable \/ (Schema, CompressionCodecName, Option[PucketPartitioner[T]]) =
     for {
       underlying <- parseDescriptor[T](descriptorString)
       schema <- extractValue(underlying._1, avroSchemaKey)
-      parsedSchema <- parse(schema)
       avroSchema <- \/.fromTryCatchNonFatal(new Schema.Parser().parse(schema))
-    } yield (parsedSchema, avroSchema, underlying._2, underlying._3)
+    } yield (avroSchema, underlying._2, underlying._3)
 
   /** @inheritdoc */
   override def apply[T <: IndexedRecord](expectedSchema: Schema, descriptorString: String): Throwable \/ AvroPucketDescriptor[T] =
     for {
       underlying <- validate[T](descriptorString)
-      expectedSchemaJson <- parse(expectedSchema.toString)
-      _ <- if (underlying._2 == expectedSchema) ().right
+      _ <- if (underlying._1 == expectedSchema) ().right
            else new RuntimeException("Found schema does not match expected").left
-    } yield AvroPucketDescriptor[T](underlying._2, underlying._3, underlying._4)
+    } yield AvroPucketDescriptor[T](underlying._1, underlying._2, underlying._3)
 
   /** @inheritdoc */
   override def apply[T <: HigherType](descriptorString: String): Throwable \/ AvroPucketDescriptor[T] =
-    validate[T](descriptorString).map(underlying => AvroPucketDescriptor[T](underlying._2, underlying._3, underlying._4))
+    validate[T](descriptorString).map(underlying => AvroPucketDescriptor[T](underlying._1, underlying._2, underlying._3))
 }
 
 

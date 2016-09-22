@@ -1,12 +1,12 @@
 package com.intenthq.pucket
 
 import com.intenthq.pucket.util.PucketPartitioner
-import jodd.json.{JsonParser, JsonSerializer}
+import io.circe.parser._
+import io.circe.syntax._
 import org.apache.hadoop.fs.Path
 import org.apache.parquet.hadoop.api.ReadSupport
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 
-import scala.collection.JavaConverters._
 import scalaz.\/
 import scalaz.syntax.either._
 
@@ -16,8 +16,6 @@ import scalaz.syntax.either._
   * @tparam T the type of data being stored in the pucket
   */
 trait PucketDescriptor[T] {
-  val jsonSerializer = new JsonSerializer()
-
   import PucketDescriptor._
   /** Parquet compression codec */
   def compression: CompressionCodecName
@@ -42,7 +40,7 @@ trait PucketDescriptor[T] {
    *
    * @return JSON string of descriptor
    */
-  override def toString: String = jsonSerializer.serialize(json.asJava)
+  override def toString: String = json.asJson.spaces2
 }
 
 /** Trait for implementations of the pucket descriptor companion object */
@@ -108,5 +106,5 @@ object PucketDescriptor {
       fold[Throwable \/ String](new RuntimeException(s"Could not find $key in descriptor").left)(_.right)
 
   def parse(json: String): Throwable \/ Map[String, String] =
-    \/.fromTryCatchNonFatal(new JsonParser().parse(json).asInstanceOf[java.util.Map[String, String]].asScala.toMap)
+    decode[Map[String, String]](json).fold(_.getCause.left, _.right)
 }
