@@ -2,7 +2,7 @@ package com.intenthq.pucket.mapreduce
 
 import java.util.UUID
 
-import com.intenthq.pucket.{TestLogging, Pucket, PucketDescriptor}
+import com.intenthq.pucket.{Pucket, PucketDescriptor}
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.mapreduce.Job
@@ -18,8 +18,7 @@ import scalaz.syntax.either._
 
 trait PucketOutputFormatSpec[T, Descriptor <: PucketDescriptor[T]] extends Specification
                                                                            with ScalaCheck
-                                                                           with DisjunctionMatchers
-                                                                           with TestLogging {
+                                                                           with DisjunctionMatchers {
   import com.intenthq.pucket.TestUtils._
 
   val pucket: Throwable \/ Pucket[T]
@@ -55,7 +54,7 @@ trait PucketOutputFormatSpec[T, Descriptor <: PucketDescriptor[T]] extends Speci
         case a => a must containAllOf(data)
       }
     }
-  
+
   def runJob(outputPath: Path, descriptor: Descriptor): Throwable \/ Unit =
     readSupport.flatMap{ rs =>
       val job = Job.getInstance()

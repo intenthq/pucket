@@ -1,12 +1,13 @@
 import com.github.bigtoast.sbtthrift.ThriftPlugin
 import sbt.ExclusionRule
-import com.typesafe.sbt.SbtGit.{GitKeys => git}
+import com.typesafe.sbt.SbtGit.GitKeys._
 
-val specs2Ver = "3.6.4"
+val specs2Ver = "3.8.6"
 val parquetVer = "1.8.1"
 val hadoopVer = "2.7.3"
-val sparkVer = "2.0.0"
-val circeVersion = "0.5.1"
+val sparkVer = "2.1.0"
+val circeVersion = "0.7.0"
+val scalazVersion = "7.2.9"
 
 val pomInfo = (
   <url>https://github.com/intenthq/pucket</url>
@@ -29,11 +30,9 @@ val pomInfo = (
   </developers>
 )
 
-def excludeServlet(deps: Seq[ModuleID]) = deps.map(_.exclude("javax.servlet", "servlet-api"))
-
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.3.0",
+  version := "1.4.0",
   scalaVersion := "2.11.8",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
@@ -47,21 +46,9 @@ lazy val commonSettings = Seq(
   pomExtra := pomInfo,
   resolvers += Opts.resolver.mavenLocalFile,
   autoAPIMappings := true,
-  libraryDependencies ++= excludeServlet(Seq(
-    "org.scalaz" %% "scalaz-core" % "7.1.3",
-    "org.mortbay.jetty" % "servlet-api" % "3.0.20100224" % "provided",
-    "org.apache.hadoop" % "hadoop-common" % hadoopVer % "provided",
-    "org.apache.hadoop" % "hadoop-mapreduce-client-core" % hadoopVer % "provided",
-    "org.apache.parquet" % "parquet-column" % parquetVer,
-    "org.apache.parquet" % "parquet-hadoop" % parquetVer
-  )),
   libraryDependencies ++= Seq(
-    "io.circe" %% "circe-core",
-    "io.circe" %% "circe-generic",
-    "io.circe" %% "circe-parser"
-  ).map(_ % circeVersion),
-  dependencyOverrides += "org.slf4j" % "slf4j-log4j12" % "1.7.12",
-  dependencyOverrides += "org.slf4j" % "slf4j-api" % "1.7.12",
+    "org.apache.hadoop" % "hadoop-common" % hadoopVer % "provided,test"
+  ),
   resolvers ++= Seq(
     Resolver.typesafeRepo("releases"),
     Resolver.sonatypeRepo("public"),
@@ -69,42 +56,48 @@ lazy val commonSettings = Seq(
     Resolver.typesafeIvyRepo("releases"),
     "Twitter" at "http://maven.twttr.com/",
     "Bintray" at "https://jcenter.bintray.com/"
-  )
+  ),
+  scalacOptions in ThisBuild ++= Seq("-language:higherKinds")
 )
-
 
 lazy val core = (project in file("core")).
   settings(commonSettings: _*).
   settings(
     name := "pucket-core",
     libraryDependencies ++= Seq(
-      "org.apache.commons" % "commons-lang3" % "3.4",
+      "org.scalaz" %% "scalaz-core" % scalazVersion,
+      "org.apache.commons" % "commons-lang3" % "3.5",
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion,
+      "org.apache.parquet" % "parquet-hadoop" % parquetVer,
+
       "org.specs2" %% "specs2-core" % specs2Ver % "test",
       "org.specs2" %% "specs2-scalacheck" % specs2Ver % "test"
     )
   )
 
-lazy val test = (project in file("test")).
+lazy val mapreduce = (project in file("mapreduce")).
   settings(commonSettings: _*).
   settings(
-    name := "pucket-test",
-    libraryDependencies ++= excludeServlet(Seq(
-      "org.slf4j" % "jul-to-slf4j" % "1.7.12",
-      "org.specs2" %% "specs2-core" % specs2Ver,
-      "org.specs2" %% "specs2-scalacheck" % specs2Ver,
-      "org.typelevel" %% "scalaz-specs2" % "0.4.0",
-      "org.scalaz" %% "scalaz-scalacheck-binding" % "7.1.3",
-      "org.apache.hadoop" % "hadoop-mapreduce-client-jobclient" % hadoopVer,
-      "org.apache.hadoop" % "hadoop-common" % hadoopVer,
-      "org.apache.hadoop" % "hadoop-mapreduce-client-core" % hadoopVer,
-      "org.apache.spark" %% "spark-core" % sparkVer excludeAll(
-        ExclusionRule(organization = "org.slf4j"),
-        ExclusionRule(organization = "log4j"),
-        ExclusionRule(organization = "org.scala-lang"),
-        ExclusionRule(organization = "javax.servlet", name = "servlet-api")
-        )
-    ))
-  ).dependsOn(core, mapreduce, spark)
+    name := "pucket-mapreduce",
+    libraryDependencies ++= Seq(
+      "org.apache.hadoop" % "hadoop-mapreduce-client-jobclient" % hadoopVer % "provided,test",
+      "org.specs2" %% "specs2-core" % specs2Ver % "test",
+      "org.specs2" %% "specs2-scalacheck" % specs2Ver % "test"
+    )
+  ).dependsOn(core % "compile->compile;test->test")
+
+lazy val spark = (project in file("spark")).
+  settings(commonSettings: _*).
+  settings(
+    name := "pucket-spark",
+    libraryDependencies ++= Seq(
+      "org.apache.spark" %% "spark-core" % sparkVer % "provided,test",
+      "org.specs2" %% "specs2-core" % specs2Ver % "test",
+      "org.typelevel" %% "scalaz-specs2" % "0.5.0" % "test"
+    )
+  ).dependsOn(core % "compile->compile;test->test", mapreduce % "compile->compile;test->test")
 
 lazy val thrift = (project in file("thrift")).
   settings(ThriftPlugin.thriftSettings: _*).
@@ -112,58 +105,34 @@ lazy val thrift = (project in file("thrift")).
   settings(
     name := "pucket-thrift",
     libraryDependencies ++= Seq(
-      "org.apache.thrift" % "libthrift" % "0.9.2",
+      "org.apache.thrift" % "libthrift" % "0.9.3",
       "org.apache.parquet" % "parquet-thrift" % parquetVer
     )
-  ).dependsOn(core, test % "test->compile")
+  ).dependsOn(core % "compile->compile;test->test", mapreduce % "test->test", spark % "test->test")
 
 
 lazy val avro = (project in file("avro")).
-  settings(sbtavro.SbtAvro.avroSettings : _*).
+  enablePlugins(SbtAvro).
   settings(commonSettings: _*).
   settings(
     name := "pucket-avro",
-    libraryDependencies ++= excludeServlet(Seq(
+    libraryDependencies ++= Seq(
       "org.apache.avro" % "avro" % "1.7.7",
       "org.apache.avro" % "avro-compiler" % "1.7.7",
       "org.apache.parquet" % "parquet-avro" % parquetVer,
-      "com.twitter" %% "chill-avro" % "0.7.0" % "test"
-      ))
-  ).dependsOn(core, test % "test->compile")
-
-
-lazy val mapreduce = (project in file("mapreduce")).
-  settings(commonSettings: _*).
-  settings(
-    name := "pucket-mapreduce",
-    libraryDependencies ++= excludeServlet(Seq(
-      "org.apache.hadoop" % "hadoop-mapreduce-client-jobclient" % hadoopVer % "provided"
-    ))
-  ).dependsOn(core)
-
-lazy val spark = (project in file("spark")).
-  settings(commonSettings: _*).
-  settings(
-    name := "pucket-spark",
-    libraryDependencies ++= excludeServlet(Seq(
-      "org.apache.spark" %% "spark-core" % sparkVer % "provided" excludeAll(
-        ExclusionRule(organization = "org.slf4j"),
-        ExclusionRule(organization = "log4j"),
-        ExclusionRule(organization = "org.scala-lang"),
-        ExclusionRule(organization = "org.scalatest"),
-        ExclusionRule(organization = "javax.servlet", name = "servlet-api")
-       )
-    ))
-  ).dependsOn(core, mapreduce)
+      "com.twitter" %% "chill-avro" % "0.8.4" % "test"
+    )
+  ).dependsOn(core % "compile->compile;test->test", mapreduce % "test->test", spark % "test->test")
 
 lazy val pucket = (project in file(".")).
   settings(commonSettings: _*).
-  settings(unidocSettings: _*).
-  settings(site.settings ++ ghpages.settings: _*).
+  enablePlugins(ScalaUnidocPlugin, GhpagesPlugin).
   settings(
     name := "pucket",
     publishArtifact := false,
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
-    site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "latest/api"),
-    git.gitRemoteRepo := "git@github.com:intenthq/pucket.git"
-  ).aggregate(core, test, thrift, avro, mapreduce, spark)
+    gitRemoteRepo := "git@github.com:intenthq/pucket.git",
+    siteSubdirName in ScalaUnidoc := "latest/api",
+    addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
+    ghpagesNoJekyll := true
+  ).aggregate(core, thrift, avro, mapreduce, spark)

@@ -1,13 +1,13 @@
 package com.intenthq.pucket.writer
 
-import com.intenthq.pucket.{TestLogging, TestUtils}
+import com.intenthq.pucket.TestUtils
 import TestUtils._
 import org.specs2.Specification
 import org.specs2.matcher.DisjunctionMatchers
 
 import scalaz.\/
 
-trait IncrementalWriterSpec[T] extends Specification with DisjunctionMatchers with TestLogging {
+trait IncrementalWriterSpec[T] extends Specification with DisjunctionMatchers {
   import IncrementalWriterSpec._
 
   val wrapper: PucketWrapper[T]
@@ -38,7 +38,7 @@ trait IncrementalWriterSpec[T] extends Specification with DisjunctionMatchers wi
     wrapper.pucket.flatMap(p => wrapper.pucket.map(x => p.fs.listStatus(x.path)
       .count(_.getPath.getName.contains(".parquet"))))
 
-  def writer: (Long, Throwable) \/ IncrementalWriter[T] = 
+  def writer: (Long, Throwable) \/ IncrementalWriter[T] =
     wrapper.pucket.leftMap((0L, _)).flatMap(IncrementalWriter(0, _, maxWrites))
 
 }
@@ -47,5 +47,3 @@ object IncrementalWriterSpec {
   val rng = scala.util.Random
   val maxWrites = 50
 }
-
-
