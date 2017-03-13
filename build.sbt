@@ -47,7 +47,23 @@ lazy val commonSettings = Seq(
   resolvers += Opts.resolver.mavenLocalFile,
   autoAPIMappings := true,
   libraryDependencies ++= Seq(
-    "org.apache.hadoop" % "hadoop-common" % hadoopVer % "provided,test"
+    "org.apache.hadoop" % "hadoop-common" % hadoopVer % "provided,test",
+    "org.slf4j" % "slf4j-api" % "1.7.24" % "test",
+    "org.slf4j" % "jcl-over-slf4j" % "1.7.24" % "test",
+    "org.slf4j" % "jul-to-slf4j" % "1.7.24" % "test",
+    "org.slf4j" % "log4j-over-slf4j" % "1.7.24" % "test",
+    "ch.qos.logback" % "logback-classic" % "1.2.1" % "test"
+  ),
+  excludeDependencies ++= Seq(
+    // Our logging strategy is to use Logback (logback-classic) which provides
+    // an SLF4J compatible API. We then import as many SLF4J bridges we can
+    // so that every logging library effectively works with our Logback based
+    // logging. Thus, anything outside of this needs to be excluded.
+    SbtExclusionRule(organization = "commons-logging"),
+    SbtExclusionRule(organization = "log4j", name = "log4j"),
+    SbtExclusionRule(organization = "org.slf4j", name = "slf4j-simple"),
+    SbtExclusionRule(organization = "org.slf4j", name = "slf4j-log4j12"),
+    SbtExclusionRule(organization = "org.slf4j", name = "slf4j-jdk14")
   ),
   resolvers ++= Seq(
     Resolver.typesafeRepo("releases"),

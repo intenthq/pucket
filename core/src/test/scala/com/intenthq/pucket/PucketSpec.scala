@@ -10,7 +10,7 @@ import org.specs2.{ScalaCheck, Specification}
 
 import scalaz.\/
 
-trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers with ScalaCheck {
+trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers with ScalaCheck with TestLogging {
   import PucketSpec._
   import TestUtils._
 
