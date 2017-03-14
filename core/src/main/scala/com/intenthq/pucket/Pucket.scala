@@ -1,5 +1,6 @@
 package com.intenthq.pucket
 
+import scala.language.higherKinds
 import java.util.UUID
 
 import com.intenthq.pucket.reader.Reader
@@ -243,4 +244,3 @@ object Pucket {
       _ <- \/.fromTryCatchNonFatal(input.close())
     } yield metadata
 }
-

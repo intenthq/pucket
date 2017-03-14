@@ -72,8 +72,7 @@ lazy val commonSettings = Seq(
     Resolver.typesafeIvyRepo("releases"),
     "Twitter" at "http://maven.twttr.com/",
     "Bintray" at "https://jcenter.bintray.com/"
-  ),
-  scalacOptions in ThisBuild ++= Seq("-language:higherKinds")
+  )
 )
 
 lazy val core = (project in file("core")).
