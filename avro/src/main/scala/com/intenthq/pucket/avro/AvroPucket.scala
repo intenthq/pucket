@@ -1,5 +1,7 @@
 package com.intenthq.pucket.avro
 
+import scala.language.higherKinds
+
 import com.intenthq.pucket.avro.writer.AvroWriter
 import com.intenthq.pucket.reader.Reader
 import com.intenthq.pucket.util.PucketPartitioner

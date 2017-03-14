@@ -1,6 +1,6 @@
 package com.intenthq.pucket.writer
 
-import com.intenthq.pucket.{TestLogging, PucketDescriptor}
+import com.intenthq.pucket.{PucketDescriptor, TestLogging}
 import com.intenthq.pucket.TestUtils._
 import org.specs2.Specification
 import org.specs2.matcher.DisjunctionMatchers
@@ -46,4 +46,3 @@ trait PartitionedWriterSpec[T] extends Specification with DisjunctionMatchers wi
 object PartitionedWriterSpec {
   val partitions = 0.to(2000)
 }
-

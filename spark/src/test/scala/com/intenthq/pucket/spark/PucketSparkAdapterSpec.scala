@@ -1,21 +1,21 @@
 package com.intenthq.pucket.spark
 
-import com.intenthq.pucket.{TestLogging, Pucket}
+import com.intenthq.pucket.{Pucket, TestLogging}
 import com.intenthq.pucket.spark.PucketSparkAdapter._
 import org.apache.commons.io.FileUtils
 import org.specs2.matcher.DisjunctionMatchers
+import org.specs2.Specification
 
 import scala.reflect.ClassTag
 import scalaz.\/
 
-abstract class PucketSparkAdapterSpec[T, Descriptor](registrator: Option[String] = None)
-                                                    (implicit ct: ClassTag[T]) extends LocalSparkSpec("PucketSparkAdapter",
-                                                                                                      registrator)
-                                                                                       with DisjunctionMatchers
-                                                                                       with TestLogging {
+abstract class PucketSparkAdapterSpec[T, Descriptor](override val registrator: Option[String] = None)
+                                                    (implicit ct: ClassTag[T]) extends Specification
+                                                                               with LocalSparkSpec
+                                                                               with DisjunctionMatchers
+                                                                               with TestLogging {
   import PucketSparkAdapterSpec._
   import com.intenthq.pucket.TestUtils._
-
 
   def descriptor: Descriptor
   def newData(i: Long): T

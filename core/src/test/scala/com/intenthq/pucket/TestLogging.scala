@@ -9,7 +9,6 @@ trait TestLogging {
   SLF4JBridgeHandler.removeHandlersForRootLogger()
   LogManager.getLogManager.reset()
   SLF4JBridgeHandler.install()
-  Logger.getLogger("global").setLevel(Level.OFF)
   Class.forName(classOf[Log].getName)
   val parquetLogger = Logger.getLogger("parquet")
   parquetLogger.getHandlers.foreach(parquetLogger.removeHandler)
