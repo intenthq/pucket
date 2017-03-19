@@ -1,5 +1,5 @@
-import com.github.bigtoast.sbtthrift.ThriftPlugin
 import sbt.ExclusionRule
+import com.intenthq.sbt.ThriftPlugin._
 import com.typesafe.sbt.SbtGit.GitKeys._
 
 val specs2Ver = "3.8.6"
@@ -32,7 +32,7 @@ val pomInfo = (
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.4.0",
+  version := "1.5.0",
   scalaVersion := "2.11.8",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
@@ -115,14 +115,16 @@ lazy val spark = (project in file("spark")).
   ).dependsOn(core % "compile->compile;test->test", mapreduce % "compile->compile;test->test")
 
 lazy val thrift = (project in file("thrift")).
-  settings(ThriftPlugin.thriftSettings: _*).
+  enablePlugins(ThriftPlugin).
   settings(commonSettings: _*).
   settings(
     name := "pucket-thrift",
     libraryDependencies ++= Seq(
-      "org.apache.thrift" % "libthrift" % "0.9.3",
+      "org.apache.thrift" % "libthrift" % "0.10.0",
       "org.apache.parquet" % "parquet-thrift" % parquetVer
-    )
+    ),
+    thriftSourceDir in Thrift <<= sourceDirectory { _ / "test" / "thrift" },
+    thriftOutputDir in Thrift <<= sourceManaged { _ / "test" }
   ).dependsOn(core % "compile->compile;test->test", mapreduce % "test->test", spark % "test->test")
 
 
