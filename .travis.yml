@@ -2,9 +2,9 @@ language: scala
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install libboost-dev libboost-test-dev libboost-program-options-dev libevent-dev automake libtool flex bison pkg-config g++ libssl-dev
-  - wget http://www.us.apache.org/dist/thrift/0.9.3/thrift-0.9.3.tar.gz
-  - tar xfz thrift-0.9.3.tar.gz && mv thrift-0.9.3 .thrift-0.9.3
-  - cd .thrift-0.9.3 && ./configure --with-java --without-c_glib --without-cpp --without-csharp --without-python --without-ruby --without-haskell --without-perl --without-php --without-erlang --without-go --without-d --without-nodejs --without-lua && make && sudo make install && cd -
+  - wget http://www.us.apache.org/dist/thrift/0.10.0/thrift-0.10.0.tar.gz
+  - tar xfz thrift-0.10.0.tar.gz && mv thrift-0.10.0 .thrift-0.10.0
+  - cd .thrift-0.10.0 && ./configure --with-java --without-c_glib --without-cpp --without-csharp --without-python --without-ruby --without-haskell --without-perl --without-php --without-erlang --without-go --without-d --without-nodejs --without-lua && make && sudo make install && cd -
 scala:
    - 2.11.7
 script:
@@ -12,6 +12,6 @@ script:
   - sbt ++2.10.6 test
 cache:
   directories:
-   - ~/.thrift-0.9.3
+   - ~/.thrift-0.10.0
    - ~/.ivy2
    - ~/.sbt
