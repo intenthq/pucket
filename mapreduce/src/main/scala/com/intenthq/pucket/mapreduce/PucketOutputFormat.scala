@@ -37,14 +37,16 @@ class PucketOutputFormat[T] extends FileOutputFormat[Void, T] {
     * @param fs hadoop filesystem instance
     * @return a new pucket or error if validation fails
     */
-  def getPucket(conf: Configuration, path: Path, fs: FileSystem): Throwable \/ Pucket[T] =
+  def getPucket(conf: Configuration, path: Path, fs: FileSystem,
+                attempts: Int = Pucket.defaultCreationAttempts,
+                retryIntervalMs: Int = Pucket.defaultRetryIntervalMs): Throwable \/ Pucket[T] =
     for {
       instantiator <- \/.fromTryCatchNonFatal(
         Class.forName(conf.get(pucketInstantiatorKey)).
-          newInstance().
-          asInstanceOf[PucketInstantiator[T]])
+            newInstance().
+            asInstanceOf[PucketInstantiator[T]])
       descriptor <- \/.fromTryCatchNonFatal(conf.get(pucketDescriptorKey))
-      pucket <- instantiator.newInstance[T](path, fs, descriptor)
+      pucket <- instantiator.newInstance[T](path, fs, descriptor, attempts, retryIntervalMs)
     } yield pucket
 
   /** Get a writer for the task
@@ -61,7 +63,9 @@ class PucketOutputFormat[T] extends FileOutputFormat[Void, T] {
     val conf = getConfiguration(context)
     conf.setInt(FileOutputCommitter.FILEOUTPUTCOMMITTER_ALGORITHM_VERSION, 2)
     val jobPath = FileOutputFormat.getOutputPath(context)
-    val pucket = getPucket(conf, jobPath, FileSystem.get(conf))
+    val attempts = conf.getInt(pucketCreateAttemptsKey, Pucket.defaultCreationAttempts)
+    val retryInterval = conf.getInt(pucketRetryIntervalKey, Pucket.defaultRetryIntervalMs)
+    val pucket = getPucket(conf, jobPath, FileSystem.get(conf), attempts, retryInterval)
     val taskPucket = pucket.flatMap(_.subPucket(FileOutputCommitter.getTaskAttemptPath(context, jobPath)))
 
     PucketRecordWriter(taskPucket.flatMap(getWriter).throwException)
@@ -75,6 +79,8 @@ class PucketOutputFormat[T] extends FileOutputFormat[Void, T] {
 object PucketOutputFormat {
   val pucketDescriptorKey = "pucket.descriptor"
   val pucketInstantiatorKey = "pucket.instantiator"
+  val pucketCreateAttemptsKey = "pucket.create.attempts"
+  val pucketRetryIntervalKey = "pucket.create.retry.interval"
 
   /** Set the pucket descriptor for the output
     *  target in the job configuration

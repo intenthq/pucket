@@ -11,6 +11,8 @@ import scalaz.\/
 /** Avro pucket instanciator for use with output format */
 class AvroPucketInstantiator extends PucketInstantiator[IndexedRecord] {
   /** @inheritdoc */
-  def newInstance[T <: IndexedRecord](path: Path, fs: FileSystem, descriptor: String): Throwable \/ Pucket[T] =
-    AvroPucketDescriptor[T](descriptor).flatMap(AvroPucket.findOrCreate[T](path, fs, _))
+  def newInstance[T <: IndexedRecord](path: Path, fs: FileSystem, descriptor: String,
+                                      attempts: Int = Pucket.defaultCreationAttempts,
+                                      retryIntervalMs: Int = Pucket.defaultRetryIntervalMs): Throwable \/ Pucket[T] =
+    AvroPucketDescriptor[T](descriptor).flatMap(AvroPucket.findOrCreateRetry[T](path, fs, _, Pucket.defaultBlockSize, attempts, retryIntervalMs))
 }

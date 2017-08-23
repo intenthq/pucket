@@ -32,7 +32,7 @@ val pomInfo = (
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.5.0",
+  version := "1.6.0",
   scalaVersion := "2.11.8",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
@@ -86,6 +86,7 @@ lazy val core = (project in file("core")).
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
       "org.apache.parquet" % "parquet-hadoop" % parquetVer,
+      "org.apache.hadoop" % "hadoop-hdfs" % hadoopVer,
 
       "org.specs2" %% "specs2-core" % specs2Ver % "test",
       "org.specs2" %% "specs2-scalacheck" % specs2Ver % "test"
@@ -123,8 +124,8 @@ lazy val thrift = (project in file("thrift")).
       "org.apache.thrift" % "libthrift" % "0.10.0",
       "org.apache.parquet" % "parquet-thrift" % parquetVer
     ),
-    thriftSourceDir in Thrift <<= sourceDirectory { _ / "test" / "thrift" },
-    thriftOutputDir in Thrift <<= sourceManaged { _ / "test" }
+    thriftSourceDir in Thrift := (sourceDirectory { _ / "test" / "thrift" }).value,
+    thriftOutputDir in Thrift := (sourceManaged { _ / "test" }).value
   ).dependsOn(core % "compile->compile;test->test", mapreduce % "test->test", spark % "test->test")
 
 

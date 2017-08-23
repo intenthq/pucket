@@ -55,17 +55,21 @@ object PucketSparkAdapter {
      */
     def saveAsPucket(path: String,
                      descriptor: PucketDescriptor[T],
-                     configuration: Option[Configuration] = None): Unit =
+                     configuration: Option[Configuration] = None,
+                     retryCount: Int = Pucket.defaultCreationAttempts,
+                     retryInterval: Int = Pucket.defaultRetryIntervalMs): Unit =
       rdd.map((null, _)).saveAsNewAPIHadoopFile(
         path,
         classOf[Void],
         ev0.runtimeClass.asInstanceOf[Class[T]],
         classOf[PucketOutputFormat[T]],
-        configuration.fold(pucketConf(descriptor))(conf => mergeConfig(pucketConf(descriptor), conf))
+        configuration.fold(pucketConf(descriptor, retryCount, retryInterval))(conf => mergeConfig(pucketConf(descriptor, retryCount, retryInterval), conf))
       )
 
-    private def pucketConf(descriptor: PucketDescriptor[T]): Configuration = {
+    private def pucketConf(descriptor: PucketDescriptor[T], retryCount: Int, retryInterval: Int): Configuration = {
       val conf = new Configuration(rdd.context.hadoopConfiguration)
+      conf.setInt(PucketOutputFormat.pucketCreateAttemptsKey, retryCount)
+      conf.setInt(PucketOutputFormat.pucketRetryIntervalKey, retryInterval)
       PucketOutputFormat.setDescriptor[T](conf, descriptor)
       conf
     }

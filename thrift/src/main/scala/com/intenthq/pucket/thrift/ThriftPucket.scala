@@ -10,7 +10,6 @@ import org.apache.parquet.hadoop.metadata.CompressionCodecName
 import org.apache.parquet.hadoop.thrift.ThriftReadSupport
 
 import scalaz.\/
-import scalaz.syntax.either._
 
 /** A Thrift type of pucket.
   *
@@ -47,50 +46,12 @@ object ThriftPucket extends PucketCompanion {
   type V = Class[_ <: Thrift]
   type DescriptorType[T <: HigherType] = ThriftPucketDescriptor[T]
 
-  /** Find an existing pucket or create one if it does not exist
-    *
-    * @param path the path to the pucket
-    * @param fs hadoop filesystem instance
-    * @param schemaClass thrift class which provides data schema
-    * @param compression parquet compression codec to use
-    * @param partitioner optional partitioning scheme
-    * @tparam T the expected type of the pucket data
-    * @return an error if any of the validation fails or the pucket
-    */
-  def findOrCreate[T <: HigherType](path: Path,
-                                    fs: FileSystem,
-                                    schemaClass: Class[T],
-                                    compression: CompressionCodecName,
-                                    partitioner: Option[PucketPartitioner[T]]): Throwable \/ Pucket[T] =
-    findOrCreate(path, fs, ThriftPucketDescriptor[T](schemaClass, compression, partitioner))
+  def getDescriptor[T <: HigherType](schemaSpec: V,
+                    compression: CompressionCodecName,
+                    partitioner: Option[PucketPartitioner[T]]) = ThriftPucketDescriptor[T](schemaSpec.asInstanceOf[Class[T]], compression, partitioner)
 
-  /** @inheritdoc */
-  def findOrCreate[T <: HigherType](path: Path,
-                                    fs: FileSystem,
-                                    descriptor: DescriptorType[T],
-                                    blockSize: Int = defaultBlockSize): Throwable \/ Pucket[T] =
-    for {
-      pucket <- apply[T](path, fs, descriptor.schemaClass, blockSize).
-                  fold(_ => create[T](path, fs, descriptor, blockSize), _.right)
-      _ <- compareDescriptors(pucket.descriptor.json, descriptor.json)
-    } yield pucket
+  override def getDescriptorSchemaSpec[T <: HigherType](descriptor: ThriftPucketDescriptor[T]) = descriptor.schemaClass
 
-  /** Create a new pucket
-    *
-    * @param path the path to the pucket
-    * @param fs hadoop filesystem instance
-    * @param schemaClass thrift class which provides data schema
-    * @param compression parquet compression codec to use
-    * @param partitioner optional partitioning scheme
-    * @tparam T the expected type of the pucket data
-    * @return an error if any of the validation fails or the new pucket
-    */
-  def create[T <: HigherType](path: Path,
-                              fs: FileSystem,
-                              schemaClass: Class[T],
-                              compression: CompressionCodecName,
-                              partitioner: Option[PucketPartitioner[T]]): Throwable \/ Pucket[T] =
-    create(path, fs, ThriftPucketDescriptor[T](schemaClass, compression, partitioner))
 
   /** @inheritdoc */
   def create[T <: HigherType](path: Path,

@@ -42,7 +42,6 @@ object TestUtils {
       )
     ).flatMap(x => x._2.close.map(_ => x._1))
 
-
   val fs: FileSystem = FileSystem.get(new Configuration())
   def path(dir: File) = fs.makeQualified(new Path(dir.getAbsolutePath + "/data/pucket"))
   def mkdir: File = Files.createTempDir()
