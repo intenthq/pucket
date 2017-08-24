@@ -45,7 +45,7 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">PucketCompanion</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <span class="name">PucketCompanion</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
       
@@ -53,7 +53,7 @@
  describes functions for creating, or finding puckets on a filesystem
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
             <div class="subClasses hiddenContent"><a href="avro/AvroPucket$.html" class="extype" name="com.intenthq.pucket.avro.AvroPucket">AvroPucket</a>, <a href="thrift/ThriftPucket$.html" class="extype" name="com.intenthq.pucket.thrift.ThriftPucket">ThriftPucket</a></div>
@@ -96,7 +96,7 @@
         <div id="types" class="types members">
               <h3>Type Members</h3>
               <ol><li name="com.intenthq.pucket.PucketCompanion.DescriptorType" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="DescriptorType[T&lt;:PucketCompanion.this.HigherType]"></a>
+      <a id="DescriptorType[T&lt;:PucketCompanion.this.HigherType]&lt;:com.intenthq.pucket.PucketDescriptor[T]"></a>
       <a id="DescriptorType[T&lt;:HigherType]:DescriptorType[T]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -104,10 +104,10 @@
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">DescriptorType</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span>
+        <span class="name">DescriptorType</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span><span class="result"> &lt;: <a href="PucketDescriptor.html" class="extype" name="com.intenthq.pucket.PucketDescriptor">PucketDescriptor</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.DescriptorType.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@DescriptorType[T&lt;:PucketCompanion.this.HigherType]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@DescriptorType[T&lt;:PucketCompanion.this.HigherType]&lt;:com.intenthq.pucket.PucketDescriptor[T]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -180,7 +180,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">create</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span><span class="params">(<span name="path">path: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>, <span name="fs">fs: <span class="extype" name="org.apache.hadoop.fs.FileSystem">FileSystem</span></span>, <span name="descriptor">descriptor: <a href="#DescriptorType[T&lt;:PucketCompanion.this.HigherType]" class="extmbr" name="com.intenthq.pucket.PucketCompanion.DescriptorType">DescriptorType</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.create.T">T</span>]</span>, <span name="blockSize">blockSize: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="Pucket.html" class="extype" name="com.intenthq.pucket.Pucket">Pucket</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.create.T">T</span>]]</span>
+        <span class="name">create</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span><span class="params">(<span name="path">path: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>, <span name="fs">fs: <span class="extype" name="org.apache.hadoop.fs.FileSystem">FileSystem</span></span>, <span name="descriptor">descriptor: <a href="#DescriptorType[T&lt;:PucketCompanion.this.HigherType]&lt;:com.intenthq.pucket.PucketDescriptor[T]" class="extmbr" name="com.intenthq.pucket.PucketCompanion.DescriptorType">DescriptorType</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.create.T">T</span>]</span>, <span name="blockSize">blockSize: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a> = <span class="symbol"><span class="name"><a href="../../package.html">defaultBlockSize</a></span></span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="Pucket.html" class="extype" name="com.intenthq.pucket.Pucket">Pucket</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.create.T">T</span>]]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@create[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,descriptor:PucketCompanion.this.DescriptorType[T],blockSize:Int):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]" title="Permalink" target="_top">
@@ -190,26 +190,40 @@
       <p class="shortcomment cmt">Create a new pucket
 </p><div class="fullcomment"><div class="comment cmt"><p>Create a new pucket
 </p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the type of the pucket data</p></dd><dt class="param">path</dt><dd class="cmt"><p>the path to the pucket</p></dd><dt class="param">fs</dt><dd class="cmt"><p>hadoop filesystem instance</p></dd><dt class="param">descriptor</dt><dd class="cmt"><p>a descriptor to create a new pucket with</p></dd><dt class="param">blockSize</dt><dd class="cmt"><p>the size of a parquet block before memory is flushed</p></dd><dt>returns</dt><dd class="cmt"><p>an error if any of the validation fails or the new pucket</p></dd></dl></div>
-    </li><li name="com.intenthq.pucket.PucketCompanion#findOrCreate" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="findOrCreate[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,descriptor:PucketCompanion.this.DescriptorType[T],blockSize:Int):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]"></a>
-      <a id="findOrCreate[T&lt;:HigherType](Path,FileSystem,DescriptorType[T],Int):\/[Throwable,Pucket[T]]"></a>
+    </li><li name="com.intenthq.pucket.PucketCompanion#getDescriptor" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="getDescriptor[T&lt;:PucketCompanion.this.HigherType](schemaSpec:PucketCompanion.this.V,compression:org.apache.parquet.hadoop.metadata.CompressionCodecName,partitioner:Option[com.intenthq.pucket.util.PucketPartitioner[T]]):PucketCompanion.this.DescriptorType[T]"></a>
+      <a id="getDescriptor[T&lt;:HigherType](V,CompressionCodecName,Option[PucketPartitioner[T]]):DescriptorType[T]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">findOrCreate</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span><span class="params">(<span name="path">path: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>, <span name="fs">fs: <span class="extype" name="org.apache.hadoop.fs.FileSystem">FileSystem</span></span>, <span name="descriptor">descriptor: <a href="#DescriptorType[T&lt;:PucketCompanion.this.HigherType]" class="extmbr" name="com.intenthq.pucket.PucketCompanion.DescriptorType">DescriptorType</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.findOrCreate.T">T</span>]</span>, <span name="blockSize">blockSize: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="Pucket.html" class="extype" name="com.intenthq.pucket.Pucket">Pucket</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.findOrCreate.T">T</span>]]</span>
+        <span class="name">getDescriptor</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span><span class="params">(<span name="schemaSpec">schemaSpec: <a href="#V" class="extmbr" name="com.intenthq.pucket.PucketCompanion.V">V</a></span>, <span name="compression">compression: <span class="extype" name="org.apache.parquet.hadoop.metadata.CompressionCodecName">CompressionCodecName</span></span>, <span name="partitioner">partitioner: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="util/PucketPartitioner.html" class="extype" name="com.intenthq.pucket.util.PucketPartitioner">PucketPartitioner</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.getDescriptor.T">T</span>]]</span>)</span><span class="result">: <a href="#DescriptorType[T&lt;:PucketCompanion.this.HigherType]&lt;:com.intenthq.pucket.PucketDescriptor[T]" class="extmbr" name="com.intenthq.pucket.PucketCompanion.DescriptorType">DescriptorType</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.getDescriptor.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@findOrCreate[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,descriptor:PucketCompanion.this.DescriptorType[T],blockSize:Int):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@getDescriptor[T&lt;:PucketCompanion.this.HigherType](schemaSpec:PucketCompanion.this.V,compression:org.apache.parquet.hadoop.metadata.CompressionCodecName,partitioner:Option[com.intenthq.pucket.util.PucketPartitioner[T]]):PucketCompanion.this.DescriptorType[T]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Find an existing pucket or create one if it does not exist
-</p><div class="fullcomment"><div class="comment cmt"><p>Find an existing pucket or create one if it does not exist
-</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the expected type of the pucket data</p></dd><dt class="param">path</dt><dd class="cmt"><p>the path to the pucket</p></dd><dt class="param">fs</dt><dd class="cmt"><p>hadoop filesystem instance</p></dd><dt class="param">descriptor</dt><dd class="cmt"><p>a descriptor to create a new pucket with or
-                 validate an existing pucket against</p></dd><dt class="param">blockSize</dt><dd class="cmt"><p>the size of a parquet block before memory is flushed</p></dd><dt>returns</dt><dd class="cmt"><p>an error if any of the validation fails or the pucket</p></dd></dl></div>
+      <p class="shortcomment cmt">Returns a descriptor of the correct type</p>
+    </li><li name="com.intenthq.pucket.PucketCompanion#getDescriptorSchemaSpec" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="getDescriptorSchemaSpec[T&lt;:PucketCompanion.this.HigherType](descriptor:PucketCompanion.this.DescriptorType[T]):PucketCompanion.this.V"></a>
+      <a id="getDescriptorSchemaSpec[T&lt;:HigherType](DescriptorType[T]):V"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDescriptorSchemaSpec</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span><span class="params">(<span name="descriptor">descriptor: <a href="#DescriptorType[T&lt;:PucketCompanion.this.HigherType]&lt;:com.intenthq.pucket.PucketDescriptor[T]" class="extmbr" name="com.intenthq.pucket.PucketCompanion.DescriptorType">DescriptorType</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.getDescriptorSchemaSpec.T">T</span>]</span>)</span><span class="result">: <a href="#V" class="extmbr" name="com.intenthq.pucket.PucketCompanion.V">V</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@getDescriptorSchemaSpec[T&lt;:PucketCompanion.this.HigherType](descriptor:PucketCompanion.this.DescriptorType[T]):PucketCompanion.this.V" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li></ol>
             </div>
 
@@ -224,7 +238,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@!=(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -258,7 +272,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@==(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -292,7 +306,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@clone():Object" title="Permalink" target="_top">
@@ -306,6 +320,25 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.intenthq.pucket.PucketCompanion#create" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="create[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,schemaSpec:PucketCompanion.this.V,compression:org.apache.parquet.hadoop.metadata.CompressionCodecName,partitioner:Option[com.intenthq.pucket.util.PucketPartitioner[T]]):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]"></a>
+      <a id="create[T&lt;:HigherType](Path,FileSystem,V,CompressionCodecName,Option[PucketPartitioner[T]]):\/[Throwable,Pucket[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">create</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span><span class="params">(<span name="path">path: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>, <span name="fs">fs: <span class="extype" name="org.apache.hadoop.fs.FileSystem">FileSystem</span></span>, <span name="schemaSpec">schemaSpec: <a href="#V" class="extmbr" name="com.intenthq.pucket.PucketCompanion.V">V</a></span>, <span name="compression">compression: <span class="extype" name="org.apache.parquet.hadoop.metadata.CompressionCodecName">CompressionCodecName</span></span>, <span name="partitioner">partitioner: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="util/PucketPartitioner.html" class="extype" name="com.intenthq.pucket.util.PucketPartitioner">PucketPartitioner</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.create.T">T</span>]]</span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="Pucket.html" class="extype" name="com.intenthq.pucket.Pucket">Pucket</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.create.T">T</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@create[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,schemaSpec:PucketCompanion.this.V,compression:org.apache.parquet.hadoop.metadata.CompressionCodecName,partitioner:Option[com.intenthq.pucket.util.PucketPartitioner[T]]):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Create a new pucket
+</p><div class="fullcomment"><div class="comment cmt"><p>Create a new pucket
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the expected type of the pucket data</p></dd><dt class="param">path</dt><dd class="cmt"><p>the path to the pucket</p></dd><dt class="param">fs</dt><dd class="cmt"><p>hadoop filesystem instance</p></dd><dt class="param">schemaSpec</dt><dd class="cmt"><p>schema for the data type</p></dd><dt class="param">compression</dt><dd class="cmt"><p>parquet compression codec to use</p></dd><dt class="param">partitioner</dt><dd class="cmt"><p>optional partitioning scheme</p></dd><dt>returns</dt><dd class="cmt"><p>an error if any of the validation fails or the new pucket</p></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -315,7 +348,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -332,7 +365,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@equals(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -363,6 +396,79 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.intenthq.pucket.PucketCompanion#findOrCreate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="findOrCreate[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,schemaSpec:PucketCompanion.this.V,compression:org.apache.parquet.hadoop.metadata.CompressionCodecName,partitioner:Option[com.intenthq.pucket.util.PucketPartitioner[T]]):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]"></a>
+      <a id="findOrCreate[T&lt;:HigherType](Path,FileSystem,V,CompressionCodecName,Option[PucketPartitioner[T]]):\/[Throwable,Pucket[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findOrCreate</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span><span class="params">(<span name="path">path: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>, <span name="fs">fs: <span class="extype" name="org.apache.hadoop.fs.FileSystem">FileSystem</span></span>, <span name="schemaSpec">schemaSpec: <a href="#V" class="extmbr" name="com.intenthq.pucket.PucketCompanion.V">V</a></span>, <span name="compression">compression: <span class="extype" name="org.apache.parquet.hadoop.metadata.CompressionCodecName">CompressionCodecName</span></span>, <span name="partitioner">partitioner: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="util/PucketPartitioner.html" class="extype" name="com.intenthq.pucket.util.PucketPartitioner">PucketPartitioner</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.findOrCreate.T">T</span>]]</span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="Pucket.html" class="extype" name="com.intenthq.pucket.Pucket">Pucket</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.findOrCreate.T">T</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@findOrCreate[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,schemaSpec:PucketCompanion.this.V,compression:org.apache.parquet.hadoop.metadata.CompressionCodecName,partitioner:Option[com.intenthq.pucket.util.PucketPartitioner[T]]):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.intenthq.pucket.PucketCompanion#findOrCreate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="findOrCreate[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,descriptor:PucketCompanion.this.DescriptorType[T],blockSize:Int):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]"></a>
+      <a id="findOrCreate[T&lt;:HigherType](Path,FileSystem,DescriptorType[T],Int):\/[Throwable,Pucket[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findOrCreate</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span><span class="params">(<span name="path">path: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>, <span name="fs">fs: <span class="extype" name="org.apache.hadoop.fs.FileSystem">FileSystem</span></span>, <span name="descriptor">descriptor: <a href="#DescriptorType[T&lt;:PucketCompanion.this.HigherType]&lt;:com.intenthq.pucket.PucketDescriptor[T]" class="extmbr" name="com.intenthq.pucket.PucketCompanion.DescriptorType">DescriptorType</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.findOrCreate.T">T</span>]</span>, <span name="blockSize">blockSize: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a> = <span class="symbol"><span class="name"><a href="../../package.html">defaultBlockSize</a></span></span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="Pucket.html" class="extype" name="com.intenthq.pucket.Pucket">Pucket</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.findOrCreate.T">T</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@findOrCreate[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,descriptor:PucketCompanion.this.DescriptorType[T],blockSize:Int):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.intenthq.pucket.PucketCompanion#findOrCreateRetry" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="findOrCreateRetry[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,schemaSpec:PucketCompanion.this.V,compression:org.apache.parquet.hadoop.metadata.CompressionCodecName,partitioner:Option[com.intenthq.pucket.util.PucketPartitioner[T]],attempts:Int,retryIntervalMs:Int):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]"></a>
+      <a id="findOrCreateRetry[T&lt;:HigherType](Path,FileSystem,V,CompressionCodecName,Option[PucketPartitioner[T]],Int,Int):\/[Throwable,Pucket[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findOrCreateRetry</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span><span class="params">(<span name="path">path: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>, <span name="fs">fs: <span class="extype" name="org.apache.hadoop.fs.FileSystem">FileSystem</span></span>, <span name="schemaSpec">schemaSpec: <a href="#V" class="extmbr" name="com.intenthq.pucket.PucketCompanion.V">V</a></span>, <span name="compression">compression: <span class="extype" name="org.apache.parquet.hadoop.metadata.CompressionCodecName">CompressionCodecName</span></span>, <span name="partitioner">partitioner: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="util/PucketPartitioner.html" class="extype" name="com.intenthq.pucket.util.PucketPartitioner">PucketPartitioner</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.findOrCreateRetry.T">T</span>]]</span>, <span name="attempts">attempts: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>, <span name="retryIntervalMs">retryIntervalMs: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="Pucket.html" class="extype" name="com.intenthq.pucket.Pucket">Pucket</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.findOrCreateRetry.T">T</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@findOrCreateRetry[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,schemaSpec:PucketCompanion.this.V,compression:org.apache.parquet.hadoop.metadata.CompressionCodecName,partitioner:Option[com.intenthq.pucket.util.PucketPartitioner[T]],attempts:Int,retryIntervalMs:Int):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Find an existing pucket or create one if it does not exist
+</p><div class="fullcomment"><div class="comment cmt"><p>Find an existing pucket or create one if it does not exist
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the expected type of the pucket data</p></dd><dt class="param">path</dt><dd class="cmt"><p>the path to the pucket</p></dd><dt class="param">fs</dt><dd class="cmt"><p>hadoop filesystem instance</p></dd><dt class="param">schemaSpec</dt><dd class="cmt"><p>schema for the data type</p></dd><dt class="param">compression</dt><dd class="cmt"><p>parquet compression codec to use</p></dd><dt class="param">partitioner</dt><dd class="cmt"><p>optional partitioning scheme</p></dd><dt>returns</dt><dd class="cmt"><p>an error if any of the validation fails or the pucket</p></dd></dl></div>
+    </li><li name="com.intenthq.pucket.PucketCompanion#findOrCreateRetry" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="findOrCreateRetry[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,descriptor:PucketCompanion.this.DescriptorType[T],blockSize:Int,attempts:Int,retryIntervalMs:Int):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]"></a>
+      <a id="findOrCreateRetry[T&lt;:HigherType](Path,FileSystem,DescriptorType[T],Int,Int,Int):\/[Throwable,Pucket[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findOrCreateRetry</span><span class="tparams">[<span name="T">T &lt;: <a href="#HigherType" class="extmbr" name="com.intenthq.pucket.PucketCompanion.HigherType">HigherType</a></span>]</span><span class="params">(<span name="path">path: <span class="extype" name="org.apache.hadoop.fs.Path">Path</span></span>, <span name="fs">fs: <span class="extype" name="org.apache.hadoop.fs.FileSystem">FileSystem</span></span>, <span name="descriptor">descriptor: <a href="#DescriptorType[T&lt;:PucketCompanion.this.HigherType]&lt;:com.intenthq.pucket.PucketDescriptor[T]" class="extmbr" name="com.intenthq.pucket.PucketCompanion.DescriptorType">DescriptorType</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.findOrCreateRetry.T">T</span>]</span>, <span name="blockSize">blockSize: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a> = <span class="symbol"><span class="name"><a href="../../package.html">defaultBlockSize</a></span></span></span>, <span name="attempts">attempts: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a> = <span class="symbol"><span class="name"><a href="Pucket$.html">Pucket.defaultCreationAttempts</a></span></span></span>, <span name="retryIntervalMs">retryIntervalMs: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a> = <span class="symbol"><span class="name"><a href="Pucket$.html">Pucket.defaultRetryIntervalMs</a></span></span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.Throwable">Throwable</span>, <a href="Pucket.html" class="extype" name="com.intenthq.pucket.Pucket">Pucket</a>[<span class="extype" name="com.intenthq.pucket.PucketCompanion.findOrCreateRetry.T">T</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@findOrCreateRetry[T&lt;:PucketCompanion.this.HigherType](path:org.apache.hadoop.fs.Path,fs:org.apache.hadoop.fs.FileSystem,descriptor:PucketCompanion.this.DescriptorType[T],blockSize:Int,attempts:Int,retryIntervalMs:Int):scalaz.\/[Throwable,com.intenthq.pucket.Pucket[T]]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Find an existing pucket or create one if it does not exist
+</p><div class="fullcomment"><div class="comment cmt"><p>Find an existing pucket or create one if it does not exist
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the expected type of the pucket data</p></dd><dt class="param">path</dt><dd class="cmt"><p>the path to the pucket</p></dd><dt class="param">fs</dt><dd class="cmt"><p>hadoop filesystem instance</p></dd><dt class="param">descriptor</dt><dd class="cmt"><p>a descriptor to create a new pucket with or
+                 validate an existing pucket against</p></dd><dt class="param">blockSize</dt><dd class="cmt"><p>the size of a parquet block before memory is flushed</p></dd><dt>returns</dt><dd class="cmt"><p>an error if any of the validation fails or the pucket</p></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -423,7 +529,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#com.intenthq.pucket.PucketCompanion@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -578,9 +684,9 @@
 
         <div id="inheritedMembers">
         <div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
             </div>
         
         </div>
