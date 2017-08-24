@@ -86,23 +86,6 @@
 Provides incremental writing for partitioned puckets
 Any error will return with the minimum checkpoint of the current set of writers
 </p>
-    </li><li name="com.intenthq.pucket.writer.IncrementalPartitionedWriterSpec" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="IncrementalPartitionedWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging"></a>
-      <a id="IncrementalPartitionedWriterSpec[T]:IncrementalPartitionedWriterSpec[T]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="IncrementalPartitionedWriterSpec.html"><span class="name">IncrementalPartitionedWriterSpec</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <span class="extype" name="org.specs2.Specification">Specification</span> with <span class="extype" name="org.specs2.matcher.DisjunctionMatchers">DisjunctionMatchers</span> with <a href="../TestLogging.html" class="extype" name="com.intenthq.pucket.TestLogging">TestLogging</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalPartitionedWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.intenthq.pucket.writer.IncrementalWriter" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="IncrementalWriter[T]extendsWriter[T,(Long,Throwable)]withProductwithSerializable"></a>
       <a id="IncrementalWriter[T]:IncrementalWriter[T]"></a>
@@ -125,23 +108,6 @@ writer count.</p><p>Also keeps a checkpoint of when the last file was sucessfull
 flushed to the filesystem so in the event of an error processing
 can be restarted from that point.
 </p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>type of data to be written</p></dd></dl></div>
-    </li><li name="com.intenthq.pucket.writer.IncrementalWriterSpec" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="IncrementalWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging"></a>
-      <a id="IncrementalWriterSpec[T]:IncrementalWriterSpec[T]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="IncrementalWriterSpec.html"><span class="name">IncrementalWriterSpec</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <span class="extype" name="org.specs2.Specification">Specification</span> with <span class="extype" name="org.specs2.matcher.DisjunctionMatchers">DisjunctionMatchers</span> with <a href="../TestLogging.html" class="extype" name="com.intenthq.pucket.TestLogging">TestLogging</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.intenthq.pucket.writer.PartitionedWriter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="PartitionedWriter[T]extendsWriter[T,Throwable]withPartitionedWriterFunctions[T,Throwable,com.intenthq.pucket.writer.PartitionedWriter[T]]withProductwithSerializable"></a>
       <a id="PartitionedWriter[T]:PartitionedWriter[T]"></a>
@@ -183,23 +149,6 @@ classes. It maintains a cache of open writer instances with a
 configurable size.
 </p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>type of data to be written</p></dd><dt class="tparam">Ex</dt><dd class="cmt"><p>type of error</p></dd><dt class="tparam">ImplementingType</dt><dd class="cmt"><p>implementing type to be used when
                          creating new instances</p></dd></dl></div>
-    </li><li name="com.intenthq.pucket.writer.PartitionedWriterSpec" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="PartitionedWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging"></a>
-      <a id="PartitionedWriterSpec[T]:PartitionedWriterSpec[T]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="PartitionedWriterSpec.html"><span class="name">PartitionedWriterSpec</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <span class="extype" name="org.specs2.Specification">Specification</span> with <span class="extype" name="org.specs2.matcher.DisjunctionMatchers">DisjunctionMatchers</span> with <a href="../TestLogging.html" class="extype" name="com.intenthq.pucket.TestLogging">TestLogging</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.writer.package@PartitionedWriterSpec[T]extendsSpecificationwithDisjunctionMatcherswithTestLogging" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.intenthq.pucket.writer.Writer" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="Writer[T,Ex]extendsAnyRef"></a>
       <a id="Writer[T,Ex]:Writer[T,Ex]"></a>
@@ -243,23 +192,6 @@ configurable size.
       </a>
     </span>
       <p class="shortcomment cmt">Factory object for <a href="IncrementalPartitionedWriter.html" class="extype" name="com.intenthq.pucket.writer.IncrementalPartitionedWriter">com.intenthq.pucket.writer.IncrementalPartitionedWriter</a></p>
-    </li><li name="com.intenthq.pucket.writer.IncrementalPartitionedWriterSpec" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="IncrementalPartitionedWriterSpec"></a>
-      <a id="IncrementalPartitionedWriterSpec:IncrementalPartitionedWriterSpec"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="IncrementalPartitionedWriterSpec$.html"><span class="name">IncrementalPartitionedWriterSpec</span></a>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalPartitionedWriterSpec" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.intenthq.pucket.writer.IncrementalWriter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="IncrementalWriter"></a>
       <a id="IncrementalWriter:IncrementalWriter"></a>
@@ -277,23 +209,6 @@ configurable size.
       </a>
     </span>
       <p class="shortcomment cmt">Factory object for <a href="IncrementalWriter.html" class="extype" name="com.intenthq.pucket.writer.IncrementalWriter">com.intenthq.pucket.writer.IncrementalWriter</a></p>
-    </li><li name="com.intenthq.pucket.writer.IncrementalWriterSpec" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="IncrementalWriterSpec"></a>
-      <a id="IncrementalWriterSpec:IncrementalWriterSpec"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="IncrementalWriterSpec$.html"><span class="name">IncrementalWriterSpec</span></a>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.writer.package@IncrementalWriterSpec" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.intenthq.pucket.writer.PartitionedWriter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="PartitionedWriter"></a>
       <a id="PartitionedWriter:PartitionedWriter"></a>
@@ -324,23 +239,6 @@ configurable size.
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.intenthq.pucket.writer.package@PartitionedWriterFunctions" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.intenthq.pucket.writer.PartitionedWriterSpec" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="PartitionedWriterSpec"></a>
-      <a id="PartitionedWriterSpec:PartitionedWriterSpec"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="PartitionedWriterSpec$.html"><span class="name">PartitionedWriterSpec</span></a>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.intenthq.pucket.writer.package@PartitionedWriterSpec" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
