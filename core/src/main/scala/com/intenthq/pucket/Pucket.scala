@@ -3,13 +3,17 @@ package com.intenthq.pucket
 import scala.language.higherKinds
 import java.util.UUID
 
+import com.intenthq.pucket.Pucket.{compareDescriptors, defaultBlockSize}
 import com.intenthq.pucket.reader.Reader
-import com.intenthq.pucket.util.HadoopUtil
+import com.intenthq.pucket.util.{HadoopUtil, PucketPartitioner}
 import com.intenthq.pucket.writer.Writer
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang3.StringUtils
-import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.hadoop.fs.{FileAlreadyExistsException, FileSystem, Path}
+import org.apache.hadoop.hdfs.protocol.AlreadyBeingCreatedException
+import org.apache.hadoop.ipc.RemoteException
 import org.apache.parquet.filter2.compat.FilterCompat.Filter
+import org.apache.parquet.hadoop.metadata.CompressionCodecName
 
 import scalaz.\/
 import scalaz.syntax.either._
@@ -151,7 +155,7 @@ trait Pucket[T] {
 trait PucketCompanion {
   type HigherType
   type V
-  type DescriptorType[T <: HigherType]
+  type DescriptorType[T <: HigherType] <: PucketDescriptor[T]
 
   /** Find an existing pucket on the filesystem
     *
@@ -165,6 +169,14 @@ trait PucketCompanion {
     */
   def apply[T <: HigherType](path: Path, fs: FileSystem, other: V, blockSize: Int): Throwable \/ Pucket[T]
 
+  /** Returns a descriptor of the correct type */
+  def getDescriptor[T <: HigherType](schemaSpec: V,
+                       compression: CompressionCodecName,
+                       partitioner: Option[PucketPartitioner[T]]): DescriptorType[T]
+
+
+  def getDescriptorSchemaSpec[T <: HigherType](descriptor: DescriptorType[T]): V
+
   /** Find an existing pucket or create one if it does not exist
     *
     * @param path the path to the pucket
@@ -175,11 +187,88 @@ trait PucketCompanion {
     * @tparam T the expected type of the pucket data
     * @return an error if any of the validation fails or the pucket
     */
+  def findOrCreateRetry[T <: HigherType](path: Path,
+                                    fs: FileSystem,
+                                    descriptor: DescriptorType[T],
+                                    blockSize: Int = defaultBlockSize,
+                                    attempts: Int = Pucket.defaultCreationAttempts,
+                                    retryIntervalMs: Int = Pucket.defaultRetryIntervalMs): Throwable \/ Pucket[T] = {
+    def tryCreate(retries: Int): \/[Throwable, Pucket[T]] = {
+      val p = apply[T](path, fs, getDescriptorSchemaSpec(descriptor), blockSize).
+          fold(_ => create[T](path, fs, descriptor, blockSize),
+                    _.right)
+      p.fold(t => {
+        t match {
+          case e @ (_: FileAlreadyExistsException | _: AlreadyBeingCreatedException | _: RemoteException)
+            if (retries > 0 &&
+                (!e.isInstanceOf[RemoteException] ||
+                 List(classOf[AlreadyBeingCreatedException].getCanonicalName,
+                      classOf[FileAlreadyExistsException].getCanonicalName
+                 ).contains(e.asInstanceOf[RemoteException].getClassName))) => {
+            Thread.sleep(retryIntervalMs)
+            tryCreate(retries - 1)
+          }
+          case _ => t.left[Pucket[T]]
+        }
+      }, r =>
+        r.right[Throwable]
+      )
+    }
+
+    for {
+      pucket <- tryCreate(attempts-1)
+      _ <- compareDescriptors(pucket.descriptor.json, descriptor.json)
+    } yield pucket
+  }
+
+  /** Find an existing pucket or create one if it does not exist
+    *
+    * @param path the path to the pucket
+    * @param fs hadoop filesystem instance
+    * @param schemaSpec schema for the data type
+    * @param compression parquet compression codec to use
+    * @param partitioner optional partitioning scheme
+    * @tparam T the expected type of the pucket data
+    * @return an error if any of the validation fails or the pucket
+    */
+  def findOrCreateRetry[T <: HigherType](path: Path,
+                                    fs: FileSystem,
+                                    schemaSpec: V,
+                                    compression: CompressionCodecName,
+                                    partitioner: Option[PucketPartitioner[T]],
+                                    attempts: Int,
+                                    retryIntervalMs: Int): Throwable \/ Pucket[T] =
+    findOrCreateRetry(path, fs, getDescriptor(schemaSpec, compression, partitioner), defaultBlockSize, attempts, retryIntervalMs)
+
   def findOrCreate[T <: HigherType](path: Path,
                                     fs: FileSystem,
                                     descriptor: DescriptorType[T],
-                                    blockSize: Int): Throwable \/ Pucket[T]
+                                    blockSize: Int = defaultBlockSize): Throwable \/ Pucket[T] =
+    findOrCreateRetry(path, fs, descriptor, blockSize, 1, Pucket.defaultRetryIntervalMs)
 
+  def findOrCreate[T <: HigherType](path: Path,
+                                         fs: FileSystem,
+                                         schemaSpec: V,
+                                         compression: CompressionCodecName,
+                                         partitioner: Option[PucketPartitioner[T]]): Throwable \/ Pucket[T] =
+    findOrCreateRetry(path, fs, schemaSpec, compression, partitioner, 1, Pucket.defaultRetryIntervalMs)
+
+  /** Create a new pucket
+    *
+    * @param path the path to the pucket
+    * @param fs hadoop filesystem instance
+    * @param schemaSpec schema for the data type
+    * @param compression parquet compression codec to use
+    * @param partitioner optional partitioning scheme
+    * @tparam T the expected type of the pucket data
+    * @return an error if any of the validation fails or the new pucket
+    */
+  def create[T <: HigherType](path: Path,
+                              fs: FileSystem,
+                              schemaSpec: V,
+                              compression: CompressionCodecName,
+                              partitioner: Option[PucketPartitioner[T]]): Throwable \/ Pucket[T] =
+    create[T](path, fs, getDescriptor(schemaSpec, compression, partitioner))
   /** Create a new pucket
     *
     * @param path the path to the pucket
@@ -192,7 +281,7 @@ trait PucketCompanion {
   def create[T <: HigherType](path: Path,
                               fs: FileSystem,
                               descriptor: DescriptorType[T],
-                              blockSize: Int): Throwable \/ Pucket[T]
+                              blockSize: Int = defaultBlockSize): Throwable \/ Pucket[T]
 }
 
 /** Pucket companion object
@@ -201,6 +290,8 @@ trait PucketCompanion {
 object Pucket {
   val defaultBlockSize = 50 * 1024 * 1024
   val extension = ".parquet"
+  val defaultCreationAttempts = 1
+  val defaultRetryIntervalMs = 250
 
   /** Validate two JSON serialised descriptors
    *
@@ -224,7 +315,7 @@ object Pucket {
   def writeMeta[T](path: Path,
                    fs: FileSystem,
                    descriptor: PucketDescriptor[T]): Throwable \/ Unit =
-    for {
+   for {
       dir <- \/.fromTryCatchNonFatal(fs.mkdirs(path))
       output <- \/.fromTryCatchNonFatal(fs.create(PucketDescriptor.descriptorFilePath(path), false))
       _ <- \/.fromTryCatchNonFatal(output.write(descriptor.toString.getBytes))

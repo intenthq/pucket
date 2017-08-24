@@ -20,5 +20,6 @@ trait PucketInstantiator[HigherType] {
    * @tparam T data type
    * @return a new pucket instance or an error
    */
-  def newInstance[T <: HigherType](path: Path, fs: FileSystem, descriptor: String): Throwable \/ Pucket[T]
+  def newInstance[T <: HigherType](path: Path, fs: FileSystem, descriptor: String,
+                                   attempts: Int, retryIntervalMs: Int): Throwable \/ Pucket[T]
 }

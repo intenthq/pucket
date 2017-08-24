@@ -10,7 +10,9 @@ import scalaz.\/
 /** Thrift pucket instanciator for use with output format */
 class ThriftPucketInstantiator extends PucketInstantiator[Thrift] {
   /** @inheritdoc */
-  def newInstance[T <: Thrift](path: Path, fs: FileSystem, descriptor: String): Throwable \/ Pucket[T] =
-    ThriftPucketDescriptor[T](descriptor).flatMap(ThriftPucket.findOrCreate[T](path, fs, _))
+  def newInstance[T <: Thrift](path: Path, fs: FileSystem, descriptor: String,
+                               attempts: Int = Pucket.defaultCreationAttempts,
+                               retryIntervalMs: Int = Pucket.defaultRetryIntervalMs): Throwable \/ Pucket[T] =
+    ThriftPucketDescriptor[T](descriptor).flatMap(ThriftPucket.findOrCreateRetry[T](path, fs, _, Pucket.defaultBlockSize, attempts, retryIntervalMs))
 }
 

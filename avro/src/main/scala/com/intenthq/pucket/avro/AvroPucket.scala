@@ -1,7 +1,5 @@
 package com.intenthq.pucket.avro
 
-import scala.language.higherKinds
-
 import com.intenthq.pucket.avro.writer.AvroWriter
 import com.intenthq.pucket.reader.Reader
 import com.intenthq.pucket.util.PucketPartitioner
@@ -14,9 +12,9 @@ import org.apache.parquet.avro.AvroReadSupport
 import org.apache.parquet.filter2.compat.FilterCompat.Filter
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 
+import scala.language.higherKinds
 import scalaz.\/
-import scalaz.syntax.either._
-/** A Avro type of pucket.
+/** An Avro type of pucket.
   *
   * @param path path to the pucket
   * @param fs hadoop filesystem instance
@@ -52,50 +50,11 @@ object AvroPucket extends PucketCompanion {
   type V = Schema
   type DescriptorType[T <: HigherType] = AvroPucketDescriptor[T]
 
-  /** Find an existing pucket or create one if it does not exist
-    *
-    * @param path the path to the pucket
-    * @param fs hadoop filesystem instance
-    * @param schema avro schema instance for the data type
-    * @param compression parquet compression codec to use
-    * @param partitioner optional partitioning scheme
-    * @tparam T the expected type of the pucket data
-    * @return an error if any of the validation fails or the pucket
-    */
-  def findOrCreate[T <: HigherType](path: Path,
-                                    fs: FileSystem,
-                                    schema: Schema,
-                                    compression: CompressionCodecName,
-                                    partitioner: Option[PucketPartitioner[T]]): Throwable \/ Pucket[T] =
-    findOrCreate(path, fs, AvroPucketDescriptor[T](schema, compression, partitioner))
+  def getDescriptor[T <: HigherType](schemaSpec: V,
+                                     compression: CompressionCodecName,
+                                     partitioner: Option[PucketPartitioner[T]]) = AvroPucketDescriptor[T](schemaSpec, compression, partitioner)
 
-  /** @inheritdoc */
-  override def findOrCreate[T <: HigherType](path: Path,
-                                             fs: FileSystem,
-                                             descriptor: DescriptorType[T],
-                                             blockSize: Int = defaultBlockSize): Throwable \/ Pucket[T] =
-    for {
-      pucket <- apply[T](path, fs, descriptor.schema, blockSize).
-                  fold(_ => create[T](path, fs, descriptor, blockSize), _.right)
-      _ <- compareDescriptors(pucket.descriptor.json, descriptor.json)
-    } yield pucket
-
-  /** Create a new pucket
-    *
-    * @param path the path to the pucket
-    * @param fs hadoop filesystem instance
-    * @param schema avro schema instance for the data type
-    * @param compression parquet compression codec to use
-    * @param partitioner optional partitioning scheme
-    * @tparam T the expected type of the pucket data
-    * @return an error if any of the validation fails or the new pucket
-    */
-  def create[T <: HigherType](path: Path,
-                              fs: FileSystem,
-                              schema: Schema,
-                              compression: CompressionCodecName,
-                              partitioner: Option[PucketPartitioner[T]]): Throwable \/ Pucket[T] =
-    create[T](path, fs, AvroPucketDescriptor[T](schema, compression, partitioner))
+  def getDescriptorSchemaSpec[T <: HigherType](descriptor: AvroPucketDescriptor[T]) = descriptor.schema
 
   /** @inheritdoc */
   override def create[T <: HigherType](path: Path,
