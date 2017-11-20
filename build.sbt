@@ -4,10 +4,10 @@ import com.typesafe.sbt.SbtGit.GitKeys._
 
 val specs2Ver = "3.8.6"
 val parquetVer = "1.8.1"
-val hadoopVer = "2.7.3"
-val sparkVer = "2.1.0"
-val circeVersion = "0.7.0"
-val scalazVersion = "7.2.9"
+val hadoopVer = "2.7.4"
+val sparkVer = "2.1.2"
+val circeVersion = "0.8.0"
+val scalazVersion = "7.2.16"
 
 val pomInfo = (
   <url>https://github.com/intenthq/pucket</url>
@@ -32,8 +32,8 @@ val pomInfo = (
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.6.0",
-  scalaVersion := "2.11.8",
+  version := "1.7.0",
+  scalaVersion := "2.11.12",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
   publishTo := {
@@ -48,10 +48,10 @@ lazy val commonSettings = Seq(
   autoAPIMappings := true,
   libraryDependencies ++= Seq(
     "org.apache.hadoop" % "hadoop-common" % hadoopVer % "provided,test",
-    "org.slf4j" % "slf4j-api" % "1.7.24" % "test",
-    "org.slf4j" % "jcl-over-slf4j" % "1.7.24" % "test",
-    "org.slf4j" % "jul-to-slf4j" % "1.7.24" % "test",
-    "org.slf4j" % "log4j-over-slf4j" % "1.7.24" % "test",
+    "org.slf4j" % "slf4j-api" % "1.7.25" % "test",
+    "org.slf4j" % "jcl-over-slf4j" % "1.7.25" % "test",
+    "org.slf4j" % "jul-to-slf4j" % "1.7.25" % "test",
+    "org.slf4j" % "log4j-over-slf4j" % "1.7.25" % "test",
     "ch.qos.logback" % "logback-classic" % "1.2.1" % "test"
   ),
   excludeDependencies ++= Seq(
