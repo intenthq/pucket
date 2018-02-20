@@ -32,7 +32,7 @@ val pomInfo = (
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.7.0",
+  version := "1.7.1",
   scalaVersion := "2.11.12",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
@@ -70,7 +70,7 @@ lazy val commonSettings = Seq(
     Resolver.sonatypeRepo("public"),
     Resolver.sonatypeRepo("releases"),
     Resolver.typesafeIvyRepo("releases"),
-    "Twitter" at "http://maven.twttr.com/",
+    "Twitter" at "https://maven.twttr.com/",
     "Bintray" at "https://jcenter.bintray.com/"
   )
 )
