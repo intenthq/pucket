@@ -59,11 +59,11 @@ lazy val commonSettings = Seq(
     // an SLF4J compatible API. We then import as many SLF4J bridges we can
     // so that every logging library effectively works with our Logback based
     // logging. Thus, anything outside of this needs to be excluded.
-    SbtExclusionRule(organization = "commons-logging"),
-    SbtExclusionRule(organization = "log4j", name = "log4j"),
-    SbtExclusionRule(organization = "org.slf4j", name = "slf4j-simple"),
-    SbtExclusionRule(organization = "org.slf4j", name = "slf4j-log4j12"),
-    SbtExclusionRule(organization = "org.slf4j", name = "slf4j-jdk14")
+    ExclusionRule(organization = "commons-logging"),
+    ExclusionRule(organization = "log4j", name = "log4j"),
+    ExclusionRule(organization = "org.slf4j", name = "slf4j-simple"),
+    ExclusionRule(organization = "org.slf4j", name = "slf4j-log4j12"),
+    ExclusionRule(organization = "org.slf4j", name = "slf4j-jdk14")
   ),
   resolvers ++= Seq(
     Resolver.typesafeRepo("releases"),
