@@ -32,7 +32,7 @@ val pomInfo = (
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.7.1",
+  version := "1.8.0",
   scalaVersion := "2.11.12",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
