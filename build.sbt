@@ -3,9 +3,9 @@ import com.intenthq.sbt.ThriftPlugin._
 import com.typesafe.sbt.SbtGit.GitKeys._
 
 val specs2Ver = "3.8.6"
-val parquetVer = "1.8.1"
+val parquetVer = "1.8.2"
 val hadoopVer = "2.7.4"
-val sparkVer = "2.1.2"
+val sparkVer = "2.3.0"
 val circeVersion = "0.8.0"
 val scalazVersion = "7.2.16"
 
@@ -128,20 +128,6 @@ lazy val thrift = (project in file("thrift")).
     thriftOutputDir in Thrift := (sourceManaged { _ / "test" }).value
   ).dependsOn(core % "compile->compile;test->test", mapreduce % "test->test", spark % "test->test")
 
-
-lazy val avro = (project in file("avro")).
-  enablePlugins(SbtAvro).
-  settings(commonSettings: _*).
-  settings(
-    name := "pucket-avro",
-    libraryDependencies ++= Seq(
-      "org.apache.avro" % "avro" % "1.7.7",
-      "org.apache.avro" % "avro-compiler" % "1.7.7",
-      "org.apache.parquet" % "parquet-avro" % parquetVer,
-      "com.twitter" %% "chill-avro" % "0.8.4" % "test"
-    )
-  ).dependsOn(core % "compile->compile;test->test", mapreduce % "test->test", spark % "test->test")
-
 lazy val pucket = (project in file(".")).
   settings(commonSettings: _*).
   enablePlugins(ScalaUnidocPlugin, GhpagesPlugin).
@@ -153,4 +139,4 @@ lazy val pucket = (project in file(".")).
     siteSubdirName in ScalaUnidoc := "latest/api",
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
     ghpagesNoJekyll := true
-  ).aggregate(core, thrift, avro, mapreduce, spark)
+  ).aggregate(core, thrift, mapreduce, spark)

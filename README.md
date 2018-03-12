@@ -15,11 +15,6 @@ The following top level dependencies are published in Maven central:
 "com.intenthq.pucket" %% "pucket-thrift" % "1.7.1"
 ```
 
-**Avro support**:
-```
-"com.intenthq.pucket" %% "pucket-avro" % "1.7.1"
-```
-
 **Spark connectors**:
 ```
 "com.intenthq.pucket" %% "pucket-spark" % "1.7.1"
@@ -56,7 +51,7 @@ With Pucket we aim to provide the following high level features, broken down int
 
 ### Pucket High Level Concepts and Usage Considerations
 
-Pucket's implementation is centered around a few key concepts described below. These may be a one time implementation in the core functionality or is partially implemented and requires specific implementation per data format. Current Pucket supports Avro and Thrift, but can be easily extended to support Protocol Buffers.
+Pucket's implementation is centered around a few key concepts described below. These may be a one time implementation in the core functionality or is partially implemented and requires specific implementation per data format. Current Pucket has built-in support for Thrift, but can be easily extended to support Protocol Buffers.
 
 #### Pucket
 
@@ -136,8 +131,6 @@ The following examples use the imports listed below:
 ```scala
 import com.intenthq.pucket.thrift.ThriftPucket
 import com.intenthq.pucket.thrift.ThriftPucketDescriptor
-import com.intenthq.pucket.avro.AvroPucket
-import com.intenthq.pucket.avro.AvroPucketDescriptor
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 import org.apache.hadoop.fs.{FileSystem, Path}
 import scalaz.\/
@@ -149,8 +142,6 @@ You should also make sure you have created the following classes:
 ```scala
 import your.thrift.ThriftData
 import your.pucket.ThriftPartitioner
-import your.avro.AvroData
-import your.pucket.AvroPartitioner
 ```
 
 The following values have also been created:
@@ -183,27 +174,6 @@ val existingThriftPucket: Throwable \/ Pucket[ThriftData] =
 // Operation will fail if the Pucket exists and the Pucket descriptor on the filesystem matches the one provided
 val maybeExistingThriftPucket: Throwable \/ Pucket[ThriftData] =
   ThriftPucket.findOrCreate[ThriftData](path, fs, thriftDescriptor)
-
-```
-
-Create or find an Avro Pucket:
-
-```scala
-
-val avroDescriptor: AvroPucketDescriptor[AvroData] =
-  AvroPucketDescriptor[AvroData](AvroData.getClassSchema,
-                                 CompressionCodecName.SNAPPY,
-                                 Some(AvroPartitioner))
-
-val newAvroPucket: Throwable \/ Pucket[AvroData] =
-  AvroPucket.create[AvroData](path, fs, avroDescriptor)
-
-val existingAvroPucket: Throwable \/ Pucket[AvroData]
-  AvroPucket[AvroData](path, fs, AvroData.getClassSchema)
-
-val maybeExistingAvroPucket: Throwable \/ Pucket[AvroData] =
-  AvroPucket.findOrCreate[AvroData](path, fs, avroDescriptor)
-
 
 ```
 
