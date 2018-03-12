@@ -3,7 +3,7 @@ package com.intenthq.pucket.writer
 import com.intenthq.pucket.{PucketDescriptor, TestLogging}
 import com.intenthq.pucket.TestUtils._
 import org.specs2.Specification
-import org.specs2.matcher.DisjunctionMatchers
+import org.specs2.scalaz.DisjunctionMatchers
 
 import scalaz.\/
 
@@ -24,12 +24,12 @@ trait PartitionedWriterSpec[T] extends Specification with DisjunctionMatchers wi
   def writeAndVerify = write and verifyDirs
 
   def write =
-    writer.flatMap(writeData(data, _)) must be_\/-.like {
+    writer.flatMap(writeData(data, _)) must beRightDisjunction.like {
       case a => a.close must be_\/-
     }
 
   def verifyDirs =
-    dirs must be_\/-.like {
+    dirs must beRightDisjunction.like {
       case a => (a must containAllOf(partitions.map(_ % 20).distinct.map(_.toString))) and
                 (a.filter(_.contains(".parquet")) must beEmpty)
     }

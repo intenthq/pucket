@@ -1,11 +1,11 @@
 package com.intenthq.pucket.writer
 
-import com.intenthq.pucket.{TestLogging, PucketDescriptor}
+import com.intenthq.pucket.{PucketDescriptor, TestLogging}
 import com.intenthq.pucket.TestUtils.PucketWrapper
 import org.apache.hadoop.fs.Path
 import org.specs2.Specification
 import com.intenthq.pucket.TestUtils._
-import org.specs2.matcher.DisjunctionMatchers
+import org.specs2.scalaz.DisjunctionMatchers
 
 import scalaz.\/
 
@@ -26,12 +26,12 @@ trait IncrementalPartitionedWriterSpec[T] extends Specification with Disjunction
   def writeAndVerify = write and verifyDirs
 
   def write =
-    writer.flatMap(writeData(data, _)) must be_\/-.like {
+    writer.flatMap(writeData(data, _)) must beRightDisjunction.like {
       case a => a.close must be_\/-
     }
 
   def verifyDirs =
-    dirs must be_\/-.like {
+    dirs must beRightDisjunction.like {
       case a =>
         (a.map(_.getName) must containAllOf(partitions.map(_ % 20).distinct.map(_.toString))) and
         (a.filter(_.getName.contains(".parquet")) must beEmpty) and

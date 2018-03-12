@@ -1,13 +1,13 @@
-import sbt.ExclusionRule
 import com.intenthq.sbt.ThriftPlugin._
 import com.typesafe.sbt.SbtGit.GitKeys._
 
-val specs2Ver = "3.8.6"
+val specs2Ver = "4.0.3"
+val specs2ScalazVersion = "0.5.2"
 val parquetVer = "1.8.2"
 val hadoopVer = "2.7.4"
 val sparkVer = "2.3.0"
-val circeVersion = "0.8.0"
-val scalazVersion = "7.2.16"
+val circeVersion = "0.9.1"
+val scalazVersion = "7.2.20"
 
 val pomInfo = (
   <url>https://github.com/intenthq/pucket</url>
@@ -81,7 +81,7 @@ lazy val core = (project in file("core")).
     name := "pucket-core",
     libraryDependencies ++= Seq(
       "org.scalaz" %% "scalaz-core" % scalazVersion,
-      "org.apache.commons" % "commons-lang3" % "3.5",
+      "org.apache.commons" % "commons-lang3" % "3.7",
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
@@ -89,7 +89,8 @@ lazy val core = (project in file("core")).
       "org.apache.hadoop" % "hadoop-hdfs" % hadoopVer,
 
       "org.specs2" %% "specs2-core" % specs2Ver % "test",
-      "org.specs2" %% "specs2-scalacheck" % specs2Ver % "test"
+      "org.specs2" %% "specs2-scalacheck" % specs2Ver % "test",
+      "org.typelevel" %% "scalaz-specs2" % specs2ScalazVersion % "test"
     )
   )
 
@@ -111,7 +112,7 @@ lazy val spark = (project in file("spark")).
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-core" % sparkVer % "provided,test",
       "org.specs2" %% "specs2-core" % specs2Ver % "test",
-      "org.typelevel" %% "scalaz-specs2" % "0.5.0" % "test"
+      "org.typelevel" %% "scalaz-specs2" % specs2ScalazVersion % "test"
     )
   ).dependsOn(core % "compile->compile;test->test", mapreduce % "compile->compile;test->test")
 
