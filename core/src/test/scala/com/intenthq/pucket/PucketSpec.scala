@@ -6,7 +6,8 @@ import java.util.UUID
 import org.apache.hadoop.fs.Path
 import org.scalacheck.{Gen, Prop}
 import org.specs2.concurrent.ExecutionEnv
-import org.specs2.matcher.{DisjunctionMatchers, FutureMatchers}
+import org.specs2.matcher.FutureMatchers
+import org.specs2.scalaz.DisjunctionMatchers
 import org.specs2.{ScalaCheck, Specification}
 
 import scala.concurrent.{Await, Future}
@@ -84,7 +85,7 @@ trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers w
     pucket.runTest(readAndWrite)
 
   def nonExisting =
-    findPucket(new Path("/")) must be_-\/.like {
+    findPucket(new Path("/")) must beLeftDisjunction.like {
       case a => a must beAnInstanceOf[FileNotFoundException]
     }
 
@@ -94,7 +95,7 @@ trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers w
   }
 
   def partition = {
-    def test(p: Throwable \/ Pucket[T]) = p must be_\/-.like {
+    def test(p: Throwable \/ Pucket[T]) = p must beRightDisjunction.like {
       case a => readAndWrite(a.subPucket(a.partition(data.head)))
     }
     createWrapper.runTest(test)
@@ -108,8 +109,8 @@ trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers w
 
   def createTwice = {
     val pucket = createWrapper
-    def test(p: Throwable \/ Pucket[T]) = p must be_\/-.like {
-      case a => createWrapper(pucket.dir).pucket must be_-\/.like {
+    def test(p: Throwable \/ Pucket[T]) = p must beRightDisjunction.like {
+      case a => createWrapper(pucket.dir).pucket must beLeftDisjunction.like {
         case b => b must beAnInstanceOf[IOException]
       }
     }
@@ -121,7 +122,7 @@ trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers w
       val (pucket1, pucket2) = (createWrapper(d1), createWrapper(d2))
       val randomSubpath = s"${UUID.randomUUID().toString}/${UUID.randomUUID().toString}"
       val (res, files) = absorb(pucket1, pucket2, Some(randomSubpath))
-      if (d1 == d2) (res must be_\/-) and (files must be_\/-.like {
+      if (d1 == d2) (res must be_\/-) and (files must beRightDisjunction.like {
         // test that moved files contain the subpath
         case a => a.count(_.toString.contains(s"/$randomSubpath/")) === a.size
       })
@@ -155,9 +156,7 @@ trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers w
       p2 <- pucket2
       files1 <- p1.listFiles
       files2 <- p2.listFiles
-    } yield (files1, files2)) must be_\/-.like {
-      case (a, b) => true
-    }
+    } yield (files1, files2)) must beRightDisjunction
 
 
   def absorb(pucket1: PucketWrapper[T], pucket2: PucketWrapper[T], subPath: Option[String] = None) = {
@@ -180,19 +179,17 @@ trait PucketSpec[T, Descriptor] extends Specification with DisjunctionMatchers w
   }
 
   def readAndWrite(pucket: Throwable \/ Pucket[T]) =
-    pucket must be_\/-[Pucket[T]].like {
-      case p =>
-        write(p) and read(p)
+    pucket must beRightDisjunction.like {
+      case p => write(p) and read(p)
     }
 
   def write(pucket: Pucket[T]) =
-    pucket.writer must be_\/-.like {
-      case a =>
-        writeData(data, a).flatMap(_.close) must be_\/-
+    pucket.writer must beRightDisjunction.like {
+      case a => writeData(data, a).flatMap(_.close) must be_\/-
     }
 
   def read(pucket: Pucket[T]) =
-    readData(data, pucket) must be_\/-.like {
+    readData(data, pucket) must beRightDisjunction.like {
       case a => a must containAllOf(data)
     }
 }

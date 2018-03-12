@@ -3,7 +3,7 @@ package com.intenthq.pucket.thrift
 import com.intenthq.pucket.thrift.ThriftTestUtils._
 import com.intenthq.pucket.test.model.ThriftTest
 import org.scalacheck.{Gen, Prop}
-import org.specs2.matcher.DisjunctionMatchers
+import org.specs2.scalaz.DisjunctionMatchers
 import org.specs2.{ScalaCheck, Specification}
 
 class ThriftPucketDescriptorSpec extends Specification with DisjunctionMatchers with ScalaCheck {
@@ -20,7 +20,7 @@ class ThriftPucketDescriptorSpec extends Specification with DisjunctionMatchers 
 
   def fromJson =
     Prop.forAll(descriptorGen) { d =>
-      ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], d.toString) must be_\/-.like {
+      ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], d.toString) must beRightDisjunction.like {
         case a =>
           (a.schemaClass === d.schemaClass) and
           (a.compression === d.compression) and
@@ -34,12 +34,12 @@ class ThriftPucketDescriptorSpec extends Specification with DisjunctionMatchers 
     }
 
   def schemaClassNotFound =
-    ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], badSchemaClass) must be_-\/.like {
+    ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], badSchemaClass) must beLeftDisjunction.like {
       case a => a must beAnInstanceOf[ClassNotFoundException]
     }
 
   def schemaClassIncorrect =
-    ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], incorrectSchemaClass) must be_-\/.like {
+    ThriftPucketDescriptor[ThriftTest](classOf[ThriftTest], incorrectSchemaClass) must beLeftDisjunction.like {
       case a => a must beAnInstanceOf[RuntimeException]
     }
 }

@@ -3,8 +3,8 @@ package com.intenthq.pucket.spark
 import com.intenthq.pucket.{Pucket, TestLogging}
 import com.intenthq.pucket.spark.PucketSparkAdapter._
 import org.apache.commons.io.FileUtils
-import org.specs2.matcher.DisjunctionMatchers
 import org.specs2.Specification
+import org.specs2.scalaz.DisjunctionMatchers
 
 import scala.reflect.ClassTag
 import scalaz.\/
@@ -38,13 +38,13 @@ abstract class PucketSparkAdapterSpec[T, Descriptor](override val registrator: O
 
   val outputPath = dir.getAbsolutePath + "/output"
 
-  def sameData = pucket.map(_.toRDD.collect().toSeq) must be_\/-.like {
+  def sameData = pucket.map(_.toRDD.collect().toSeq) must beRightDisjunction.like {
     case a => a must containAllOf(data)
   }
 
-  def writeOut = pucket.map(x => x.toRDD.saveAsPucket(outputPath, x.descriptor, Some(x.conf))) must be_\/-.like {
-    case _ => findPucket(outputPath) must be_\/-.like {
-      case p => readData(data, p) must be_\/-.like {
+  def writeOut = pucket.map(x => x.toRDD.saveAsPucket(outputPath, x.descriptor, Some(x.conf))) must beRightDisjunction.like {
+    case _ => findPucket(outputPath) must beRightDisjunction.like {
+      case p => readData(data, p) must beRightDisjunction.like {
         case a => a must containAllOf(data)
       }
     }

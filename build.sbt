@@ -1,13 +1,13 @@
-import sbt.ExclusionRule
 import com.intenthq.sbt.ThriftPlugin._
 import com.typesafe.sbt.SbtGit.GitKeys._
 
-val specs2Ver = "3.8.6"
-val parquetVer = "1.8.1"
+val specs2Ver = "4.0.3"
+val specs2ScalazVersion = "0.5.2"
+val parquetVer = "1.8.2"
 val hadoopVer = "2.7.4"
-val sparkVer = "2.1.2"
-val circeVersion = "0.8.0"
-val scalazVersion = "7.2.16"
+val sparkVer = "2.3.0"
+val circeVersion = "0.9.1"
+val scalazVersion = "7.2.20"
 
 val pomInfo = (
   <url>https://github.com/intenthq/pucket</url>
@@ -32,7 +32,7 @@ val pomInfo = (
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.7.1",
+  version := "1.8.0",
   scalaVersion := "2.11.12",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
@@ -59,11 +59,11 @@ lazy val commonSettings = Seq(
     // an SLF4J compatible API. We then import as many SLF4J bridges we can
     // so that every logging library effectively works with our Logback based
     // logging. Thus, anything outside of this needs to be excluded.
-    SbtExclusionRule(organization = "commons-logging"),
-    SbtExclusionRule(organization = "log4j", name = "log4j"),
-    SbtExclusionRule(organization = "org.slf4j", name = "slf4j-simple"),
-    SbtExclusionRule(organization = "org.slf4j", name = "slf4j-log4j12"),
-    SbtExclusionRule(organization = "org.slf4j", name = "slf4j-jdk14")
+    ExclusionRule(organization = "commons-logging"),
+    ExclusionRule(organization = "log4j", name = "log4j"),
+    ExclusionRule(organization = "org.slf4j", name = "slf4j-simple"),
+    ExclusionRule(organization = "org.slf4j", name = "slf4j-log4j12"),
+    ExclusionRule(organization = "org.slf4j", name = "slf4j-jdk14")
   ),
   resolvers ++= Seq(
     Resolver.typesafeRepo("releases"),
@@ -81,7 +81,7 @@ lazy val core = (project in file("core")).
     name := "pucket-core",
     libraryDependencies ++= Seq(
       "org.scalaz" %% "scalaz-core" % scalazVersion,
-      "org.apache.commons" % "commons-lang3" % "3.5",
+      "org.apache.commons" % "commons-lang3" % "3.7",
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
@@ -89,7 +89,8 @@ lazy val core = (project in file("core")).
       "org.apache.hadoop" % "hadoop-hdfs" % hadoopVer,
 
       "org.specs2" %% "specs2-core" % specs2Ver % "test",
-      "org.specs2" %% "specs2-scalacheck" % specs2Ver % "test"
+      "org.specs2" %% "specs2-scalacheck" % specs2Ver % "test",
+      "org.typelevel" %% "scalaz-specs2" % specs2ScalazVersion % "test"
     )
   )
 
@@ -111,7 +112,7 @@ lazy val spark = (project in file("spark")).
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-core" % sparkVer % "provided,test",
       "org.specs2" %% "specs2-core" % specs2Ver % "test",
-      "org.typelevel" %% "scalaz-specs2" % "0.5.0" % "test"
+      "org.typelevel" %% "scalaz-specs2" % specs2ScalazVersion % "test"
     )
   ).dependsOn(core % "compile->compile;test->test", mapreduce % "compile->compile;test->test")
 
@@ -128,20 +129,6 @@ lazy val thrift = (project in file("thrift")).
     thriftOutputDir in Thrift := (sourceManaged { _ / "test" }).value
   ).dependsOn(core % "compile->compile;test->test", mapreduce % "test->test", spark % "test->test")
 
-
-lazy val avro = (project in file("avro")).
-  enablePlugins(SbtAvro).
-  settings(commonSettings: _*).
-  settings(
-    name := "pucket-avro",
-    libraryDependencies ++= Seq(
-      "org.apache.avro" % "avro" % "1.7.7",
-      "org.apache.avro" % "avro-compiler" % "1.7.7",
-      "org.apache.parquet" % "parquet-avro" % parquetVer,
-      "com.twitter" %% "chill-avro" % "0.8.4" % "test"
-    )
-  ).dependsOn(core % "compile->compile;test->test", mapreduce % "test->test", spark % "test->test")
-
 lazy val pucket = (project in file(".")).
   settings(commonSettings: _*).
   enablePlugins(ScalaUnidocPlugin, GhpagesPlugin).
@@ -153,4 +140,4 @@ lazy val pucket = (project in file(".")).
     siteSubdirName in ScalaUnidoc := "latest/api",
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
     ghpagesNoJekyll := true
-  ).aggregate(core, thrift, avro, mapreduce, spark)
+  ).aggregate(core, thrift, mapreduce, spark)
