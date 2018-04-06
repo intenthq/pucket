@@ -9,7 +9,6 @@ scala:
    - 2.11.7
 script:
   - sbt ++2.11.8 test
-  - sbt ++2.10.6 test
 cache:
   directories:
    - ~/.thrift-0.10.0

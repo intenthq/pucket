@@ -6,6 +6,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.parquet.filter2.compat.FilterCompat.Filter
 import org.apache.parquet.filter2.compat.{FilterCompat, RowGroupFilter}
+import org.apache.parquet.format.converter.ParquetMetadataConverter.MetadataFilter
 import org.apache.parquet.hadoop.api.ReadSupport
 import org.apache.parquet.hadoop.{Footer, InternalParquetRecordReaderWrapper, ParquetFileReader}
 
@@ -76,18 +77,12 @@ object Reader {
                             readSupport: ReadSupport[T],
                             filter: Filter,
                             conf: Configuration): Throwable \/ (List[Footer], InternalParquetRecordReaderWrapper[T]) = {
-    if (footers.nonEmpty) {
-      \/.fromTryCatchNonFatal{
+    if (footers.nonEmpty) \/.fromTryCatchNonFatal{
         val footer = footers.head
-        val blocks = footer.getParquetMetadata.getBlocks
-        val fileSchema = footer.getParquetMetadata.getFileMetaData.getSchema
-        val filteredBlocks = RowGroupFilter.filterRowGroups(filter, blocks, fileSchema)
-
-        val reader = new InternalParquetRecordReaderWrapper[T](readSupport , filter)
-        reader.initialize(fileSchema, footer.getParquetMetadata.getFileMetaData, footer.getFile, filteredBlocks, conf)
-
-        (footers.drop(1), reader)
-      }
+        val reader = new ParquetFileReader(conf, footer.getFile, footer.getParquetMetadata)
+        val wrappedReader = new InternalParquetRecordReaderWrapper[T](readSupport, filter)
+        wrappedReader.initialize(reader, conf)
+      (footers.drop(1), wrappedReader)
     } else new RuntimeException("No footers left to read from").left
   }
 }

@@ -3,7 +3,7 @@ package com.intenthq.pucket.writer
 import com.intenthq.pucket.{TestLogging, TestUtils}
 import TestUtils._
 import org.specs2.Specification
-import org.specs2.matcher.DisjunctionMatchers
+import org.specs2.scalaz.DisjunctionMatchers
 
 import scalaz.\/
 
@@ -25,12 +25,12 @@ trait IncrementalWriterSpec[T] extends Specification with DisjunctionMatchers wi
   def writeAndVerify = writeTest and verifyFiles
 
   def writeTest =
-    writer.flatMap(writeData(data, _)) must be_\/-.like {
+    writer.flatMap(writeData(data, _)) must beRightDisjunction.like {
       case a => a.close must be_\/-
     }
 
   def verifyFiles =
-    numberOfFiles must be_\/-.like {
+    numberOfFiles must beRightDisjunction.like {
       case a => a === expectedFiles
     }
 

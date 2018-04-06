@@ -2,8 +2,8 @@ package com.intenthq.pucket.avro
 
 import com.intenthq.pucket.avro.test.{AvroTest, AvroTest2}
 import org.scalacheck.{Gen, Prop}
-import org.specs2.matcher.DisjunctionMatchers
 import org.specs2.{ScalaCheck, Specification}
+import org.specs2.scalaz.DisjunctionMatchers
 
 
 class AvroPucketDescriptorSpec extends Specification with DisjunctionMatchers with ScalaCheck {
@@ -21,7 +21,7 @@ class AvroPucketDescriptorSpec extends Specification with DisjunctionMatchers wi
 
   def fromJson =
     Prop.forAll(descriptorGen) { d =>
-      AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, d.toString) must be_\/-.like {
+      AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, d.toString) must beRightDisjunction.like {
         case a =>
           (a.schema === d.schema) and
           (a.compression === d.compression) and
@@ -38,7 +38,7 @@ class AvroPucketDescriptorSpec extends Specification with DisjunctionMatchers wi
     AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, badSchemaString) must be_-\/[Throwable]
 
   def schemaClassIncorrect =
-    AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, incorrectSchema) must be_-\/.like {
+    AvroPucketDescriptor[AvroTest](AvroTest.getClassSchema, incorrectSchema) must beLeftDisjunction.like {
       case a => a must beAnInstanceOf[RuntimeException]
     }
 }
