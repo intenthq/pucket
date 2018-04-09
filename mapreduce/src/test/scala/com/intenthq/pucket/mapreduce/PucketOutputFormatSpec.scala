@@ -10,7 +10,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat
 import org.apache.parquet.hadoop.ParquetInputFormat
 import org.scalacheck.{Gen, Prop}
-import org.specs2.matcher.DisjunctionMatchers
+import org.specs2.scalaz.DisjunctionMatchers
 import org.specs2.{ScalaCheck, Specification}
 
 import scalaz.\/
@@ -50,8 +50,8 @@ trait PucketOutputFormatSpec[T, Descriptor <: PucketDescriptor[T]] extends Speci
   }
 
   def verify(path: Path) =
-    findPucket(path) must be_\/-.like {
-      case p => readData(data, p) must be_\/-.like {
+    findPucket(path) must beRightDisjunction.like {
+      case p => readData(data, p) must beRightDisjunction.like {
         case a => a must containAllOf(data)
       }
     }
