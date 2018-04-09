@@ -18,10 +18,6 @@ val pomInfo = (
       <distribution>repo</distribution>
     </license>
   </licenses>
-  <scm>
-    <url>git@github.com:intenthq/pucket.git</url>
-    <connection>scm:git:git@github.com:intenthq/pucket.git</connection>
-  </scm>
   <developers>
     <developer>
       <id>intenthq</id>
