@@ -1,0 +1,3 @@
+-mem 4096
+-J-Xmx4G
+-J-Xss2M
