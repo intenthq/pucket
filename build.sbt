@@ -2,13 +2,13 @@ import sbt.ExclusionRule
 import com.intenthq.sbt.ThriftPlugin._
 import com.typesafe.sbt.SbtGit.GitKeys._
 
-val specs2Ver = "4.0.3"
+val specs2Ver = "4.2.0"
 val specs2ScalazVersion = "0.5.2"
 val parquetVer = "1.8.2"
-val hadoopVer = "2.7.4"
+val hadoopVer = "2.7.6"
 val sparkVer = "2.1.2"
-val circeVersion = "0.9.1"
-val scalazVersion = "7.2.20"
+val circeVersion = "0.9.3"
+val scalazVersion = "7.2.23"
 
 val pomInfo = (
   <url>https://github.com/intenthq/pucket</url>
@@ -29,7 +29,7 @@ val pomInfo = (
 
 lazy val commonSettings = Seq(
   organization := "com.intenthq.pucket",
-  version := "1.7.2",
+  version := "1.7.3",
   scalaVersion := "2.11.12",
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
